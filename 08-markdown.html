@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 8: Markdown — Claude Code Prep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="hamburger" aria-label="Menu">☰</button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📘 Claude Code Prep</h2>
+        <p>Kiến thức chuẩn bị cho claude-howto</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link" href="index.html">🏠 Trang Chủ</a>
+        <div class="nav-section">BẮT BUỘC</div>
+        <a class="nav-link" href="01-terminal.html">💻 Terminal / CLI <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="02-git.html">🔀 Git Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="03-programming.html">🧩 Lập Trình Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="04-json-yaml.html">📋 JSON & YAML <span class="badge badge-required">Bắt buộc</span></a>
+        <div class="nav-section">CẦN CHO MODULE NÂNG CAO</div>
+        <a class="nav-link" href="05-shell.html">📜 Shell Scripting <span class="badge badge-later">Sau</span></a>
+        <a class="nav-link" href="06-nodejs.html">🟢 Node.js / npm <span class="badge badge-later">Sau</span></a>
+        <div class="nav-section">NÊN BIẾT</div>
+        <a class="nav-link" href="07-ai-llm.html">🤖 AI / LLM <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link active" href="08-markdown.html">📝 Markdown <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="09-cicd.html">🔄 CI/CD <span class="badge badge-optional">Nên biết</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="content">
+        <h1>📝 Markdown</h1>
+        <p class="subtitle">Ngôn ngữ đánh dấu nhẹ — cách viết tài liệu chuẩn cho Claude Code</p>
+
+        <!-- ============ 8.1 Markdown La Gi ============ -->
+        <h2 id="what">8.1 Markdown Là Gì?</h2>
+        <p>Markdown là ngôn ngữ đánh dấu (markup language) <strong>siêu nhẹ</strong> — bạn viết text thuần với một vài ký hiệu đặc biệt, và nó sẽ được chuyển thành HTML đẹp mắt. File Markdown có đuôi <code>.md</code>.</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    subgraph Input["📝 Markdown Source"]
+        A["# Tiêu đề\n**đậm** *nghiêng*\n- danh sách"]
+    end
+    subgraph Process["⚙️ Parser"]
+        B["Markdown Engine"]
+    end
+    subgraph Output["🌐 Rendered"]
+        C["&lt;h1&gt;Tiêu đề&lt;/h1&gt;\n&lt;strong&gt;đậm&lt;/strong&gt;\n&lt;ul&gt;&lt;li&gt;..."]
+    end
+    Input --> Process --> Output
+          </div>
+          <p class="caption">Markdown source → Parser → HTML rendered</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Trong Claude Code, Markdown là NGÔN NGỮ CHÍNH</strong> để giao tiếp cấu hình. Hầu hết mọi file cấu hình quan trọng đều viết bằng Markdown.</p>
+        </div>
+
+        <h3>Markdown được dùng ở đâu trong Claude Code?</h3>
+        <table>
+          <thead><tr><th>File / Tính năng</th><th>Mô tả</th><th>Vị trí</th></tr></thead>
+          <tbody>
+            <tr><td><strong>CLAUDE.md</strong></td><td>File cấu hình chính — quy tắc, lệnh, coding standards</td><td>Root dự án, <code>~/.claude/CLAUDE.md</code></td></tr>
+            <tr><td><strong>Slash Commands</strong></td><td>Lệnh tùy chỉnh viết bằng Markdown template</td><td><code>.claude/commands/*.md</code></td></tr>
+            <tr><td><strong>SKILL.md</strong></td><td>Định nghĩa kỹ năng cho Claude Code agents</td><td><code>.claude/skills/*.md</code></td></tr>
+            <tr><td><strong>README.md</strong></td><td>Tài liệu dự án — Claude đọc để hiểu project</td><td>Root dự án</td></tr>
+            <tr><td><strong>Agents / Subagents</strong></td><td>Prompt hệ thống cho agent con</td><td><code>.claude/agents/*.md</code></td></tr>
+            <tr><td><strong>GitHub Issues/PRs</strong></td><td>Claude đọc/viết issue & PR description</td><td>GitHub</td></tr>
+          </tbody>
+        </table>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph TD
+    CC["🤖 Claude Code"] --> CLAUDE["📄 CLAUDE.md<br>Quy tắc dự án"]
+    CC --> SLASH["📂 .claude/commands/<br>Slash Commands"]
+    CC --> SKILL["📂 .claude/skills/<br>SKILL.md"]
+    CC --> AGENTS["📂 .claude/agents/<br>Subagents"]
+    CC --> README["📄 README.md<br>Tài liệu dự án"]
+    CC --> GH["🐙 GitHub<br>Issues & PRs"]
+
+    CLAUDE -.->|Markdown| MD((📝))
+    SLASH -.->|Markdown| MD
+    SKILL -.->|Markdown| MD
+    AGENTS -.->|Markdown| MD
+    README -.->|Markdown| MD
+    GH -.->|Markdown| MD
+
+    style CC fill:#6c5ce733,stroke:#6c5ce7
+    style MD fill:#00cec933,stroke:#00cec9
+    style CLAUDE fill:#f39c1233,stroke:#f39c12
+    style SLASH fill:#f39c1233,stroke:#f39c12
+    style SKILL fill:#f39c1233,stroke:#f39c12
+    style AGENTS fill:#f39c1233,stroke:#f39c12
+          </div>
+          <p class="caption">Markdown là ngôn ngữ trung tâm của hệ sinh thái Claude Code</p>
+        </div>
+
+        <!-- ============ 8.2 Heading ============ -->
+        <h2 id="headings">8.2 Heading (Tiêu Đề)</h2>
+        <p>Dùng <code>#</code> để tạo tiêu đề. Số lượng <code>#</code> = cấp độ heading (1–6).</p>
+
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code># Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem;">
+              <h1 style="font-size:1.6rem;margin:0.3rem 0">Heading 1</h1>
+              <h2 style="font-size:1.3rem;margin:0.3rem 0;border:none;padding:0">Heading 2</h2>
+              <h3 style="font-size:1.1rem;margin:0.3rem 0">Heading 3</h3>
+              <h4 style="font-size:1rem;margin:0.3rem 0">Heading 4</h4>
+              <h5 style="font-size:0.9rem;margin:0.3rem 0">Heading 5</h5>
+              <h6 style="font-size:0.8rem;margin:0.3rem 0;color:#888">Heading 6</h6>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong>Quy tắc quan trọng:</strong> Luôn có dấu cách sau <code>#</code>. Viết <code># Heading</code> chứ không phải <code>#Heading</code>. Trong CLAUDE.md, dùng heading để chia các phần rõ ràng.</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Cú pháp</th><th>HTML tương đương</th><th>Dùng khi</th></tr></thead>
+          <tbody>
+            <tr><td><code># H1</code></td><td><code>&lt;h1&gt;</code></td><td>Tiêu đề chính (1 lần/file)</td></tr>
+            <tr><td><code>## H2</code></td><td><code>&lt;h2&gt;</code></td><td>Phần lớn trong CLAUDE.md</td></tr>
+            <tr><td><code>### H3</code></td><td><code>&lt;h3&gt;</code></td><td>Phần con bên trong H2</td></tr>
+            <tr><td><code>#### H4</code></td><td><code>&lt;h4&gt;</code></td><td>Chi tiết cụ thể</td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 8.3 Text Formatting ============ -->
+        <h2 id="formatting">8.3 Định Dạng Văn Bản</h2>
+
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>**Chữ đậm (bold)**
+*Chữ nghiêng (italic)*
+***Đậm và nghiêng***
+~~Gạch ngang (strikethrough)~~
+`Code inline`
+Văn bản bình thường</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem; line-height: 2;">
+              <strong>Chữ đậm (bold)</strong><br>
+              <em>Chữ nghiêng (italic)</em><br>
+              <strong><em>Đậm và nghiêng</em></strong><br>
+              <del>Gạch ngang (strikethrough)</del><br>
+              <code>Code inline</code><br>
+              Văn bản bình thường
+            </div>
+          </div>
+        </div>
+
+        <table>
+          <thead><tr><th>Cú pháp</th><th>Kết quả</th><th>Dùng trong Claude Code</th></tr></thead>
+          <tbody>
+            <tr><td><code>**text**</code></td><td><strong>text</strong></td><td>Nhấn mạnh lệnh, quy tắc quan trọng</td></tr>
+            <tr><td><code>*text*</code></td><td><em>text</em></td><td>Thuật ngữ, ghi chú phụ</td></tr>
+            <tr><td><code>~~text~~</code></td><td><del>text</del></td><td>Đánh dấu thứ không còn áp dụng</td></tr>
+            <tr><td><code>`code`</code></td><td><code>code</code></td><td>Tên lệnh, file, biến, package</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Ngắt dòng & Đoạn văn</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>Dòng 1 (xuống dòng bình thường)
+Dòng 2 — sẽ nối liền dòng 1
+
+Đoạn mới (cách 1 dòng trống)
+
+Dòng 1  (2 dấu cách cuối)
+Dòng 2 — sẽ xuống dòng thật</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem;">
+              <p>Dòng 1 (xuống dòng bình thường) Dòng 2 — sẽ nối liền dòng 1</p>
+              <p>Đoạn mới (cách 1 dòng trống)</p>
+              <p>Dòng 1<br>Dòng 2 — sẽ xuống dòng thật</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ 8.4 Lists ============ -->
+        <h2 id="lists">8.4 Danh Sách (Lists)</h2>
+
+        <h3>Unordered List (không đánh số)</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>- Item đầu tiên
+- Item thứ hai
+  - Sub-item 2a
+  - Sub-item 2b
+    - Sub-sub-item
+- Item thứ ba</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem;">
+              <ul style="margin:0">
+                <li>Item đầu tiên</li>
+                <li>Item thứ hai
+                  <ul>
+                    <li>Sub-item 2a</li>
+                    <li>Sub-item 2b
+                      <ul><li>Sub-sub-item</li></ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>Item thứ ba</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3>Ordered List (đánh số)</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>1. Bước một
+2. Bước hai
+3. Bước ba
+   1. Bước 3a
+   2. Bước 3b</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem;">
+              <ol style="margin:0">
+                <li>Bước một</li>
+                <li>Bước hai</li>
+                <li>Bước ba
+                  <ol>
+                    <li>Bước 3a</li>
+                    <li>Bước 3b</li>
+                  </ol>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <h3>Task List (danh sách với checkbox)</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>- [x] Cài đặt Node.js
+- [x] Cài đặt Claude Code
+- [ ] Tạo CLAUDE.md
+- [ ] Viết slash commands</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem;">
+              <label><input type="checkbox" checked disabled> Cài đặt Node.js</label><br>
+              <label><input type="checkbox" checked disabled> Cài đặt Claude Code</label><br>
+              <label><input type="checkbox" disabled> Tạo CLAUDE.md</label><br>
+              <label><input type="checkbox" disabled> Viết slash commands</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p>Task list rất hữu ích trong <strong>GitHub Issues</strong> và <strong>PR descriptions</strong> — Claude Code có thể đọc và cập nhật chúng khi hoàn thành task.</p>
+        </div>
+
+        <!-- ============ 8.5 Links & Images ============ -->
+        <h2 id="links">8.5 Links & Images</h2>
+
+        <h3>Links</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code><span class="comment"># Link cơ bản</span>
+[Trang chủ Claude](https://claude.ai)
+
+<span class="comment"># Link với title (tooltip)</span>
+[Anthropic](https://anthropic.com "Trang Anthropic")
+
+<span class="comment"># Link tự động</span>
+https://github.com
+
+<span class="comment"># Link relative (trong cùng repo)</span>
+[Xem hướng dẫn](./docs/guide.md)
+[API docs](../api/README.md)</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem; line-height: 2.2;">
+              <a href="#">Trang chủ Claude</a><br>
+              <a href="#" title="Trang Anthropic">Anthropic</a><br>
+              <a href="#">https://github.com</a><br>
+              <a href="#">Xem hướng dẫn</a><br>
+              <a href="#">API docs</a>
+            </div>
+          </div>
+        </div>
+
+        <h3>Images</h3>
+        <pre><code><span class="comment"># Cú pháp: ![alt text](url)</span>
+![Logo dự án](./assets/logo.png)
+
+<span class="comment"># Với kích thước (HTML trong Markdown)</span>
+&lt;img src="./screenshot.png" alt="Screenshot" width="600"&gt;
+
+<span class="comment"># Image link (click vào ảnh → mở link)</span>
+[![Alt](./badge.svg)](https://example.com)</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong>Relative links rất quan trọng</strong> trong Claude Code — khi viết CLAUDE.md, luôn dùng đường dẫn tương đối (<code>./docs/api.md</code>) để Claude có thể navigate đúng file trong project.</p>
+        </div>
+
+        <!-- ============ 8.6 Code Blocks ============ -->
+        <h2 id="code">8.6 Code Blocks</h2>
+
+        <h3>Inline Code</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>Chạy lệnh `npm install` để cài đặt.
+File `package.json` chứa cấu hình.
+Biến `ANTHROPIC_API_KEY` là bắt buộc.</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem; line-height: 2;">
+              Chạy lệnh <code>npm install</code> để cài đặt.<br>
+              File <code>package.json</code> chứa cấu hình.<br>
+              Biến <code>ANTHROPIC_API_KEY</code> là bắt buộc.
+            </div>
+          </div>
+        </div>
+
+        <h3>Fenced Code Block (khối code có highlight)</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>```javascript
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+```
+
+```python
+def greet(name):
+    return f"Hello, {name}!"
+```
+
+```bash
+npm install -g @anthropic-ai/claude-code
+claude
+```</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem;">
+              <pre style="background:#1a1a2e;color:#e0e0e0;padding:0.8rem;border-radius:6px;margin:0.3rem 0;font-size:0.85rem"><code><span style="color:#81a1c1">function</span> <span style="color:#88c0d0">greet</span>(name) {
+  <span style="color:#81a1c1">return</span> <span style="color:#a3be8c">`Hello, ${name}!`</span>;
+}</code></pre>
+              <pre style="background:#1a1a2e;color:#e0e0e0;padding:0.8rem;border-radius:6px;margin:0.3rem 0;font-size:0.85rem"><code><span style="color:#81a1c1">def</span> <span style="color:#88c0d0">greet</span>(name):
+    <span style="color:#81a1c1">return</span> <span style="color:#a3be8c">f"Hello, {name}!"</span></code></pre>
+              <pre style="background:#1a1a2e;color:#e0e0e0;padding:0.8rem;border-radius:6px;margin:0.3rem 0;font-size:0.85rem"><code>npm install -g @anthropic-ai/claude-code
+claude</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <h3>Các Language Tag phổ biến</h3>
+        <table>
+          <thead><tr><th>Language Tag</th><th>Ngôn ngữ</th><th>Ví dụ dùng trong Claude Code</th></tr></thead>
+          <tbody>
+            <tr><td><code>javascript</code> / <code>js</code></td><td>JavaScript</td><td>Code ví dụ, config</td></tr>
+            <tr><td><code>typescript</code> / <code>ts</code></td><td>TypeScript</td><td>Code ví dụ, type definitions</td></tr>
+            <tr><td><code>python</code></td><td>Python</td><td>Scripts, examples</td></tr>
+            <tr><td><code>bash</code> / <code>shell</code></td><td>Bash / Shell</td><td>Lệnh terminal, scripts</td></tr>
+            <tr><td><code>json</code></td><td>JSON</td><td>Config files, API responses</td></tr>
+            <tr><td><code>yaml</code></td><td>YAML</td><td>CI/CD configs, frontmatter</td></tr>
+            <tr><td><code>html</code></td><td>HTML</td><td>Templates, markup</td></tr>
+            <tr><td><code>css</code></td><td>CSS</td><td>Stylesheets</td></tr>
+            <tr><td><code>sql</code></td><td>SQL</td><td>Database queries</td></tr>
+            <tr><td><code>markdown</code> / <code>md</code></td><td>Markdown</td><td>Ví dụ Markdown lồng nhau</td></tr>
+            <tr><td><code>diff</code></td><td>Diff</td><td>Hiển thị thay đổi code</td></tr>
+            <tr><td><code>text</code></td><td>Plain text</td><td>Output, logs</td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 8.7 Tables ============ -->
+        <h2 id="tables">8.7 Tables (Bảng)</h2>
+
+        <h3>Bảng cơ bản</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>| Lệnh | Mô tả |
+|-------|-------|
+| `claude` | Mở Claude Code |
+| `claude -p` | Chạy ở print mode |
+| `claude config` | Cấu hình settings |</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem;">
+              <table style="margin:0">
+                <thead><tr><th>Lệnh</th><th>Mô tả</th></tr></thead>
+                <tbody>
+                  <tr><td><code>claude</code></td><td>Mở Claude Code</td></tr>
+                  <tr><td><code>claude -p</code></td><td>Chạy ở print mode</td></tr>
+                  <tr><td><code>claude config</code></td><td>Cấu hình settings</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <h3>Căn lề trong bảng</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>| Trái | Giữa | Phải |
+|:-----|:-----:|-----:|
+| AAA  | BBB   | 100  |
+| CCC  | DDD   | 200  |</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem;">
+              <table style="margin:0">
+                <thead><tr><th style="text-align:left">Trái</th><th style="text-align:center">Giữa</th><th style="text-align:right">Phải</th></tr></thead>
+                <tbody>
+                  <tr><td style="text-align:left">AAA</td><td style="text-align:center">BBB</td><td style="text-align:right">100</td></tr>
+                  <tr><td style="text-align:left">CCC</td><td style="text-align:center">DDD</td><td style="text-align:right">200</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <h3>Ví dụ: Bảng API Documentation</h3>
+        <pre><code><span class="comment"># Ví dụ trong README.md — mô tả API endpoints</span>
+| Method | Endpoint | Mô tả | Auth |
+|--------|----------|-------|------|
+| `GET` | `/api/users` | Lấy danh sách users | ✅ Required |
+| `POST` | `/api/users` | Tạo user mới | ✅ Required |
+| `GET` | `/api/users/:id` | Lấy user theo ID | ✅ Required |
+| `DELETE` | `/api/users/:id` | Xóa user | ✅ Admin only |
+| `GET` | `/health` | Health check | ❌ None |</code></pre>
+
+        <!-- ============ 8.8 Blockquotes ============ -->
+        <h2 id="blockquotes">8.8 Blockquotes & Callouts</h2>
+
+        <h3>Blockquote cơ bản</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>&gt; Đây là một blockquote.
+&gt; Có thể nhiều dòng.
+&gt;
+&gt; Và nhiều đoạn.</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered</h4>
+            <div style="padding: 0.5rem;">
+              <blockquote style="border-left:4px solid #6c5ce7;padding:0.5rem 1rem;margin:0;background:#6c5ce711;border-radius:0 6px 6px 0;">
+                Đây là một blockquote. Có thể nhiều dòng.<br><br>
+                Và nhiều đoạn.
+              </blockquote>
+            </div>
+          </div>
+        </div>
+
+        <h3>GitHub Alerts (Callouts)</h3>
+        <p>GitHub hỗ trợ các blockquote đặc biệt với icon — rất hay dùng trong README và CLAUDE.md:</p>
+
+        <div class="compare">
+          <div class="compare-good">
+            <h4>📝 Markdown Source</h4>
+            <pre><code>&gt; [!NOTE]
+&gt; Thông tin bổ sung mà người đọc nên biết.
+
+&gt; [!TIP]
+&gt; Mẹo hữu ích để làm việc hiệu quả hơn.
+
+&gt; [!IMPORTANT]
+&gt; Thông tin quan trọng cần thiết để thành công.
+
+&gt; [!WARNING]
+&gt; Nội dung cần chú ý, có thể gây vấn đề.
+
+&gt; [!CAUTION]
+&gt; Hành động có rủi ro, cần cân nhắc kỹ.</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🌐 Kết Quả Rendered (GitHub)</h4>
+            <div style="padding: 0.5rem;">
+              <div style="border-left:4px solid #58a6ff;padding:0.5rem 1rem;margin:0.3rem 0;background:#58a6ff11;border-radius:0 6px 6px 0;">
+                <strong>📘 Note</strong><br>Thông tin bổ sung mà người đọc nên biết.
+              </div>
+              <div style="border-left:4px solid #3fb950;padding:0.5rem 1rem;margin:0.3rem 0;background:#3fb95011;border-radius:0 6px 6px 0;">
+                <strong>💡 Tip</strong><br>Mẹo hữu ích để làm việc hiệu quả hơn.
+              </div>
+              <div style="border-left:4px solid #a371f7;padding:0.5rem 1rem;margin:0.3rem 0;background:#a371f711;border-radius:0 6px 6px 0;">
+                <strong>❗ Important</strong><br>Thông tin quan trọng cần thiết để thành công.
+              </div>
+              <div style="border-left:4px solid #d29922;padding:0.5rem 1rem;margin:0.3rem 0;background:#d2992211;border-radius:0 6px 6px 0;">
+                <strong>⚠️ Warning</strong><br>Nội dung cần chú ý, có thể gây vấn đề.
+              </div>
+              <div style="border-left:4px solid #f85149;padding:0.5rem 1rem;margin:0.3rem 0;background:#f8514911;border-radius:0 6px 6px 0;">
+                <strong>🔴 Caution</strong><br>Hành động có rủi ro, cần cân nhắc kỹ.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ 8.9 CLAUDE.md Example ============ -->
+        <h2 id="claudemd">8.9 CLAUDE.md Hoàn Chỉnh</h2>
+        <p>Đây là ví dụ <strong>thực tế</strong> về file CLAUDE.md cho một dự án web — file quan trọng nhất khi dùng Claude Code:</p>
+
+        <pre><code><span class="comment"># CLAUDE.md — Ví dụ hoàn chỉnh cho dự án e-commerce</span>
+
+# E-Commerce Platform — Claude Code Guidelines
+
+## Tech Stack
+- **Frontend**: React 18 + TypeScript + Vite
+- **Backend**: Node.js + Express + TypeScript
+- **Database**: PostgreSQL + Prisma ORM
+- **Cache**: Redis
+- **Testing**: Vitest (unit), Playwright (e2e)
+- **Deployment**: Docker + AWS ECS
+
+## Project Structure
+```
+src/
+├── client/          # React frontend
+│   ├── components/  # Reusable UI components
+│   ├── pages/       # Route pages
+│   ├── hooks/       # Custom React hooks
+│   └── utils/       # Client utilities
+├── server/          # Express backend
+│   ├── routes/      # API endpoints
+│   ├── services/    # Business logic
+│   ├── middleware/   # Express middleware
+│   └── models/      # Prisma models
+└── shared/          # Shared types & constants
+```
+
+## Commands
+- `npm run dev` — Start dev server (frontend + backend)
+- `npm run build` — Build for production
+- `npm test` — Run unit tests (Vitest)
+- `npm run test:e2e` — Run e2e tests (Playwright)
+- `npm run lint` — ESLint + Prettier check
+- `npm run db:migrate` — Run Prisma migrations
+- `npm run db:seed` — Seed database
+
+## Coding Standards
+- **Language**: Always use TypeScript, never plain JS
+- **Components**: Functional components + hooks only
+- **Naming**:
+  - Components: `PascalCase` (e.g., `ProductCard.tsx`)
+  - Utilities: `camelCase` (e.g., `formatPrice.ts`)
+  - Constants: `UPPER_SNAKE_CASE`
+  - Database tables: `snake_case`
+- **Imports**: Use `@/` path alias for `src/`
+- **Error handling**: Always use custom `AppError` class
+- **API responses**: Follow `{ success, data, error }` format
+
+## Rules
+- NEVER commit `.env` files or secrets
+- ALWAYS write tests for new features
+- ALWAYS run `npm run lint` before committing
+- Use Prisma for ALL database operations — no raw SQL
+- API endpoints MUST have input validation (Zod)
+- Components MUST be accessible (aria attributes)
+- Max file length: 300 lines — split if longer
+
+## Git Conventions
+- Branch: `feature/xxx`, `fix/xxx`, `chore/xxx`
+- Commit: `type(scope): message` (conventional commits)
+- Examples:
+  - `feat(cart): add coupon code support`
+  - `fix(auth): handle expired tokens`
+  - `chore(deps): update React to v18.3`</code></pre>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>CLAUDE.md là "bộ não" của Claude Code trong dự án</strong>. Claude sẽ đọc file này ĐẦU TIÊN khi bắt đầu — càng chi tiết và rõ ràng, Claude càng viết code đúng chuẩn dự án.</p>
+        </div>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong>Vị trí CLAUDE.md:</strong> Đặt ở root dự án cho quy tắc chung. Tạo thêm <code>~/.claude/CLAUDE.md</code> cho quy tắc cá nhân áp dụng mọi dự án. Có thể đặt thêm CLAUDE.md trong thư mục con để override.</p>
+        </div>
+
+        <!-- ============ 8.10 Slash Command ============ -->
+        <h2 id="slash">8.10 Slash Command Example</h2>
+        <p>Slash commands là file <code>.md</code> trong <code>.claude/commands/</code> — Claude Code đọc như template prompt:</p>
+
+        <pre><code><span class="comment"># File: .claude/commands/review.md</span>
+
+Hãy review code theo các tiêu chí sau:
+
+## Checklist
+1. **Security** — Kiểm tra SQL injection, XSS, CSRF
+2. **Performance** — N+1 queries, memory leaks, unnecessary re-renders
+3. **Types** — TypeScript types đầy đủ, không dùng `any`
+4. **Error Handling** — Try-catch đúng chỗ, error messages rõ ràng
+5. **Tests** — Unit test cover happy path + edge cases
+6. **Naming** — Biến/hàm có tên rõ nghĩa, theo convention
+
+## Output Format
+Trả về kết quả theo format:
+
+### ✅ Tốt
+- (liệt kê điểm tốt)
+
+### ⚠️ Cần Sửa
+- (liệt kê vấn đề + gợi ý fix)
+
+### 📊 Điểm
+- Security: X/10
+- Performance: X/10
+- Code Quality: X/10</code></pre>
+
+        <pre><code><span class="comment"># File: .claude/commands/create-api.md</span>
+<span class="comment"># Slash command có tham số dùng $ARGUMENTS</span>
+
+Tạo API endpoint mới cho resource: $ARGUMENTS
+
+## Yêu cầu
+- Route file trong `src/server/routes/`
+- Service file trong `src/server/services/`
+- Zod validation schema
+- Unit tests
+- CRUD operations: GET (list), GET (by id), POST, PUT, DELETE
+
+## Template
+Tham khảo `src/server/routes/products.ts` làm mẫu.
+Đảm bảo follow coding standards trong CLAUDE.md.</code></pre>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p>Dùng slash command bằng cách gõ <code>/review</code> hoặc <code>/create-api users</code> trong Claude Code. <code>$ARGUMENTS</code> sẽ được thay bằng text sau tên command.</p>
+        </div>
+
+        <!-- ============ 8.11 SKILL.md Example ============ -->
+        <h2 id="skill">8.11 SKILL.md Example</h2>
+        <p>SKILL.md định nghĩa một "kỹ năng" cho Claude Code agents, có YAML frontmatter ở đầu file:</p>
+
+        <pre><code><span class="comment"># File: .claude/skills/database-migration.md</span>
+
+---
+name: database-migration
+description: Tạo và chạy database migration với Prisma
+triggers:
+  - "tạo migration"
+  - "thay đổi database"
+  - "thêm column"
+  - "thêm table"
+---
+
+# Database Migration Skill
+
+## Bước thực hiện
+
+1. **Phân tích yêu cầu** — Xác định thay đổi cần thiết
+2. **Sửa Prisma schema** — Edit `prisma/schema.prisma`
+3. **Tạo migration** — Chạy `npx prisma migrate dev --name &lt;name&gt;`
+4. **Verify** — Kiểm tra migration SQL đã generate
+5. **Update types** — Chạy `npx prisma generate`
+6. **Update seed** — Cập nhật `prisma/seed.ts` nếu cần
+
+## Quy tắc
+
+- Migration name: `snake_case`, mô tả ngắn gọn
+  - Ví dụ: `add_coupon_codes_table`, `add_email_to_orders`
+- KHÔNG BAO GIỜ sửa migration đã chạy
+- Luôn thêm default value cho column mới trên table có data
+- Dùng `@map` và `@@map` để giữ snake_case trong DB
+
+## Prisma Schema Conventions
+
+```prisma
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  price       Decimal  @db.Decimal(10, 2)
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  String   @map("category_id")
+
+  @@map("products")
+}
+```</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong>YAML Frontmatter</strong> nằm giữa hai dấu <code>---</code> ở đầu file. Chứa metadata: tên, mô tả, triggers. Phần còn lại là nội dung Markdown bình thường mô tả kỹ năng.</p>
+        </div>
+
+        <!-- ============ 8.12 Summary ============ -->
+        <h2 id="summary">📋 Tóm Tắt Cú Pháp Markdown</h2>
+        <table>
+          <thead><tr><th>Cú pháp</th><th>Kết quả</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td><code># Heading 1</code></td><td>Tiêu đề cấp 1</td><td>1 lần mỗi file</td></tr>
+            <tr><td><code>## Heading 2</code></td><td>Tiêu đề cấp 2</td><td>Phần chính trong CLAUDE.md</td></tr>
+            <tr><td><code>**bold**</code></td><td><strong>bold</strong></td><td>Nhấn mạnh</td></tr>
+            <tr><td><code>*italic*</code></td><td><em>italic</em></td><td>Phụ chú</td></tr>
+            <tr><td><code>~~strike~~</code></td><td><del>strike</del></td><td>Gạch bỏ</td></tr>
+            <tr><td><code>`code`</code></td><td><code>code</code></td><td>Tên lệnh, file, biến</td></tr>
+            <tr><td><code>```lang ... ```</code></td><td>Code block</td><td>Có syntax highlighting</td></tr>
+            <tr><td><code>- item</code></td><td>Bullet list</td><td>Dùng <code>-</code>, <code>*</code>, hoặc <code>+</code></td></tr>
+            <tr><td><code>1. item</code></td><td>Numbered list</td><td>Đánh số tự động</td></tr>
+            <tr><td><code>- [x] item</code></td><td>Checkbox (checked)</td><td>Task list</td></tr>
+            <tr><td><code>- [ ] item</code></td><td>Checkbox (empty)</td><td>Task list</td></tr>
+            <tr><td><code>[text](url)</code></td><td>Hyperlink</td><td>Link đến trang khác</td></tr>
+            <tr><td><code>![alt](url)</code></td><td>Image</td><td>Nhúng ảnh</td></tr>
+            <tr><td><code>| A | B |</code></td><td>Table</td><td>Cần header + separator row</td></tr>
+            <tr><td><code>&gt; text</code></td><td>Blockquote</td><td>Trích dẫn, callouts</td></tr>
+            <tr><td><code>&gt; [!NOTE]</code></td><td>GitHub Alert</td><td>NOTE, TIP, WARNING, CAUTION</td></tr>
+            <tr><td><code>---</code></td><td>Horizontal rule</td><td>Hoặc YAML frontmatter delimiter</td></tr>
+          </tbody>
+        </table>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph TD
+    MD["📝 Markdown Skills"] --> H["Headings<br># ## ###"]
+    MD --> F["Formatting<br>**bold** *italic* `code`"]
+    MD --> L["Lists<br>- unordered<br>1. ordered<br>- [x] tasks"]
+    MD --> C["Code Blocks<br>```language```"]
+    MD --> T["Tables<br>| col | col |"]
+    MD --> B["Blockquotes<br>> callouts"]
+    MD --> LK["Links & Images<br>[text](url)"]
+
+    H --> USE["🤖 Dùng trong Claude Code"]
+    F --> USE
+    L --> USE
+    C --> USE
+    T --> USE
+    B --> USE
+    LK --> USE
+
+    USE --> CLAUDE_FILE["📄 CLAUDE.md"]
+    USE --> SLASH_CMD["📂 Slash Commands"]
+    USE --> SKILL_FILE["📂 SKILL.md"]
+    USE --> README_FILE["📄 README.md"]
+
+    style MD fill:#6c5ce733,stroke:#6c5ce7
+    style USE fill:#00cec933,stroke:#00cec9
+    style CLAUDE_FILE fill:#f39c1233,stroke:#f39c12
+    style SLASH_CMD fill:#f39c1233,stroke:#f39c12
+    style SKILL_FILE fill:#f39c1233,stroke:#f39c12
+    style README_FILE fill:#f39c1233,stroke:#f39c12
+          </div>
+          <p class="caption">Tổng quan: Kỹ năng Markdown cần thiết → Ứng dụng trong Claude Code</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Luyện tập ngay:</strong> Tạo file <code>CLAUDE.md</code> cho một dự án cá nhân. Bắt đầu với Tech Stack, Commands, và Coding Standards — ba phần quan trọng nhất.</p>
+        </div>
+
+        <!-- Nav -->
+        <div class="lesson-nav">
+          <a href="07-ai-llm.html">← Bài 7: AI / LLM</a>
+          <a href="09-cicd.html">Bài 9: CI/CD →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

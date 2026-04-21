@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 5: Shell Scripting — Claude Code Prep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="hamburger" aria-label="Menu">☰</button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📘 Claude Code Prep</h2>
+        <p>Kiến thức chuẩn bị cho claude-howto</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link" href="index.html">🏠 Trang Chủ</a>
+        <div class="nav-section">BẮT BUỘC</div>
+        <a class="nav-link" href="01-terminal.html">💻 Terminal / CLI <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="02-git.html">🔀 Git Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="03-programming.html">🧩 Lập Trình Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="04-json-yaml.html">📋 JSON & YAML <span class="badge badge-required">Bắt buộc</span></a>
+        <div class="nav-section">CẦN CHO MODULE NÂNG CAO</div>
+        <a class="nav-link active" href="05-shell.html">📜 Shell Scripting <span class="badge badge-later">Sau</span></a>
+        <a class="nav-link" href="06-nodejs.html">🟢 Node.js / npm <span class="badge badge-later">Sau</span></a>
+        <div class="nav-section">NÊN BIẾT</div>
+        <a class="nav-link" href="07-ai-llm.html">🤖 AI / LLM <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="08-markdown.html">📝 Markdown <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="09-cicd.html">🔄 CI/CD <span class="badge badge-optional">Nên biết</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="content">
+        <h1>📜 Shell Scripting</h1>
+        <p class="subtitle">Viết script Bash — tự động hóa mọi thứ và tạo hooks cho Claude Code</p>
+
+        <!-- ============ 5.1 Shell Script La Gi ============ -->
+        <h2 id="what">5.1 Shell Script Là Gì?</h2>
+        <p>Shell script là một <strong>file text chứa các lệnh terminal</strong>, được thực thi tuần tự bởi shell (thường là Bash). Thay vì gõ từng lệnh một, bạn gom tất cả vào file <code>.sh</code> và chạy một lần.</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    subgraph Manual["🖐️ Thủ công — Gõ từng lệnh"]
+        A["$ cd project"] --> B["$ npm install"]
+        B --> C["$ npm test"]
+        C --> D["$ npm run build"]
+        D --> E["$ scp -r dist/ server:"]
+    end
+    subgraph Script["📜 Script — Chạy 1 lệnh duy nhất"]
+        F["$ ./deploy.sh"] --> G["✅ Tự động<br>chạy tất cả"]
+    end
+    Manual -.->|Chậm, dễ quên bước| Result((Deploy))
+    Script -.->|Nhanh, nhất quán| Result
+          </div>
+          <p class="caption">Thủ công vs Script — tự động hóa giúp tiết kiệm thời gian và tránh sai sót</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Claude Code hooks</strong> chạy bằng shell script! Ví dụ: hook <code>PreToolUse</code> kiểm tra trước khi Claude thực thi lệnh, hook <code>PostToolUse</code> chạy sau khi xong. Hiểu shell = viết hooks mạnh mẽ.</p>
+        </div>
+
+        <h3>Tại sao cần Shell Scripting?</h3>
+        <table>
+          <thead><tr><th>Nhu cầu</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Tự động hóa deploy</strong></td><td>Build → test → upload trong 1 lệnh</td></tr>
+            <tr><td><strong>Claude Code hooks</strong></td><td>Kiểm tra code trước khi commit, chặn lệnh nguy hiểm</td></tr>
+            <tr><td><strong>Backup & bảo trì</strong></td><td>Backup database, xóa log cũ, rotate file</td></tr>
+            <tr><td><strong>Setup môi trường</strong></td><td>Cài đặt dependencies, tạo cấu trúc project</td></tr>
+            <tr><td><strong>CI/CD pipeline</strong></td><td>GitHub Actions, Jenkins đều dùng shell script</td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 5.2 Tao Script Dau Tien ============ -->
+        <h2 id="first-script">5.2 Tạo Script Đầu Tiên</h2>
+
+        <h3>Bước 1: Tạo file với shebang</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+<span class="comment"># File: hello.sh — Script đầu tiên</span>
+
+echo "🎉 Xin chào! Bạn đang chạy script Bash đầu tiên."
+echo "📅 Ngày hiện tại: $(date)"
+echo "📂 Thư mục hiện tại: $(pwd)"
+echo "👤 Người dùng: $USER"</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong>Shebang <code>#!/bin/bash</code></strong> — dòng đầu tiên BẮT BUỘC có. Nó cho hệ thống biết dùng <code>/bin/bash</code> để chạy file này. Không có shebang = hệ thống không biết dùng trình thông dịch nào.</p>
+        </div>
+
+        <h3>Bước 2: Cấp quyền thực thi</h3>
+        <pre><code><span class="comment"># Cấp quyền chạy (+x = executable)</span>
+$ chmod +x hello.sh
+
+<span class="comment"># Kiểm tra quyền</span>
+$ ls -l hello.sh
+-rwxr-xr-x  1 qudomanh  staff  180 Apr 14 10:30 hello.sh
+<span class="comment">#  ^ x = có quyền execute</span></code></pre>
+
+        <h3>Bước 3: Chạy script</h3>
+        <pre><code><span class="comment"># Cách 1: Dùng ./ (khuyến nghị)</span>
+$ ./hello.sh
+
+<span class="comment"># Cách 2: Gọi trực tiếp bash</span>
+$ bash hello.sh
+
+<span class="comment"># Output:</span>
+🎉 Xin chào! Bạn đang chạy script Bash đầu tiên.
+📅 Ngày hiện tại: Mon Apr 14 10:30:00 +07 2026
+📂 Thư mục hiện tại: /Users/qudomanh/project
+👤 Người dùng: qudomanh</code></pre>
+
+        <div class="compare">
+          <div class="compare-good">
+            <h4>✅ Cách đúng</h4>
+            <pre><code>#!/bin/bash
+chmod +x script.sh
+./script.sh</code></pre>
+          </div>
+          <div class="compare-bad">
+            <h4>❌ Lỗi thường gặp</h4>
+            <pre><code># Thiếu shebang
+# Quên chmod +x
+# Chạy: script.sh (thiếu ./)</code></pre>
+          </div>
+        </div>
+
+        <!-- ============ 5.3 Bien Trong Bash ============ -->
+        <h2 id="variables">5.3 Biến Trong Bash</h2>
+
+        <h3>Khai báo biến</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># KHÔNG có khoảng trắng quanh dấu =</span>
+name="Claude Code"
+version=3
+project_dir="/home/user/project"
+
+echo "Tool: $name"
+echo "Version: $version"
+echo "Dir: $project_dir"</code></pre>
+
+        <div class="info-box danger">
+          <span class="icon">⚠️</span>
+          <p><strong>KHÔNG có khoảng trắng quanh <code>=</code></strong> — đây là lỗi phổ biến nhất!  <code>name = "Claude"</code> sẽ BÁO LỖI. Phải viết <code>name="Claude"</code>.</p>
+        </div>
+
+        <div class="compare">
+          <div class="compare-good">
+            <h4>✅ Đúng</h4>
+            <pre><code>name="Claude"
+count=10
+path="/usr/bin"</code></pre>
+          </div>
+          <div class="compare-bad">
+            <h4>❌ Sai — có khoảng trắng</h4>
+            <pre><code>name = "Claude"   # Lỗi!
+count =10         # Lỗi!
+path= "/usr/bin"  # Lỗi!</code></pre>
+          </div>
+        </div>
+
+        <h3>Biến đặc biệt</h3>
+        <table>
+          <thead><tr><th>Biến</th><th>Ý nghĩa</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>$0</code></td><td>Tên script đang chạy</td><td><code>./deploy.sh</code> → <code>$0</code> = <code>./deploy.sh</code></td></tr>
+            <tr><td><code>$1, $2, ...</code></td><td>Tham số truyền vào</td><td><code>./script.sh hello</code> → <code>$1</code> = <code>hello</code></td></tr>
+            <tr><td><code>$#</code></td><td>Số lượng tham số</td><td><code>./script.sh a b c</code> → <code>$#</code> = <code>3</code></td></tr>
+            <tr><td><code>$@</code></td><td>Tất cả tham số</td><td><code>./script.sh a b</code> → <code>$@</code> = <code>a b</code></td></tr>
+            <tr><td><code>$?</code></td><td>Exit code lệnh trước</td><td><code>0</code> = thành công, khác <code>0</code> = lỗi</td></tr>
+            <tr><td><code>$$</code></td><td>PID của script hiện tại</td><td>Dùng tạo file tạm: <code>/tmp/lock.$$</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Command Substitution — <code>$(...)</code></h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+<span class="comment"># Chạy lệnh và lấy kết quả vào biến</span>
+
+current_date=$(date +%Y-%m-%d)
+file_count=$(ls src/*.js 2>/dev/null | wc -l)
+git_branch=$(git branch --show-current)
+disk_usage=$(df -h / | tail -1 | awk '{print $5}')
+
+echo "📅 Ngày: $current_date"
+echo "📁 Số file JS: $file_count"
+echo "🔀 Branch: $git_branch"
+echo "💾 Disk: $disk_usage"</code></pre>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p>Luôn dùng <code>$(...)</code> thay vì backtick <code>`...`</code>. Cú pháp <code>$(...)</code> dễ đọc hơn, hỗ trợ lồng nhau, và là chuẩn hiện đại.</p>
+        </div>
+
+        <!-- ============ 5.4 Dieu Kien if/else ============ -->
+        <h2 id="conditions">5.4 Điều Kiện if/else</h2>
+
+        <h3>Cú pháp cơ bản</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+
+if [ điều_kiện ]; then
+    <span class="comment"># Đúng → chạy đây</span>
+    echo "Điều kiện đúng"
+elif [ điều_kiện_khác ]; then
+    <span class="comment"># Điều kiện 2 đúng</span>
+    echo "Điều kiện 2"
+else
+    <span class="comment"># Sai hết → chạy đây</span>
+    echo "Điều kiện sai"
+fi</code></pre>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p><strong>BẮT BUỘC có khoảng trắng</strong> sau <code>[</code> và trước <code>]</code>. Viết <code>[ -f file ]</code> — KHÔNG phải <code>[-f file]</code>.</p>
+        </div>
+
+        <h3>Toán tử so sánh số</h3>
+        <table>
+          <thead><tr><th>Toán tử</th><th>Ý nghĩa</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>-eq</code></td><td>Bằng (equal)</td><td><code>[ $a -eq $b ]</code></td></tr>
+            <tr><td><code>-ne</code></td><td>Khác (not equal)</td><td><code>[ $a -ne 0 ]</code></td></tr>
+            <tr><td><code>-gt</code></td><td>Lớn hơn (greater than)</td><td><code>[ $a -gt 10 ]</code></td></tr>
+            <tr><td><code>-ge</code></td><td>Lớn hơn hoặc bằng</td><td><code>[ $a -ge 5 ]</code></td></tr>
+            <tr><td><code>-lt</code></td><td>Nhỏ hơn (less than)</td><td><code>[ $a -lt 100 ]</code></td></tr>
+            <tr><td><code>-le</code></td><td>Nhỏ hơn hoặc bằng</td><td><code>[ $a -le 50 ]</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Toán tử so sánh chuỗi</h3>
+        <table>
+          <thead><tr><th>Toán tử</th><th>Ý nghĩa</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>=</code></td><td>Bằng</td><td><code>[ "$str" = "hello" ]</code></td></tr>
+            <tr><td><code>!=</code></td><td>Khác</td><td><code>[ "$str" != "" ]</code></td></tr>
+            <tr><td><code>-z</code></td><td>Chuỗi rỗng</td><td><code>[ -z "$str" ]</code></td></tr>
+            <tr><td><code>-n</code></td><td>Chuỗi KHÔNG rỗng</td><td><code>[ -n "$str" ]</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Kiểm tra file & thư mục</h3>
+        <table>
+          <thead><tr><th>Toán tử</th><th>Ý nghĩa</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>-f</code></td><td>File tồn tại (regular file)</td><td><code>[ -f package.json ]</code></td></tr>
+            <tr><td><code>-d</code></td><td>Thư mục tồn tại</td><td><code>[ -d node_modules ]</code></td></tr>
+            <tr><td><code>-e</code></td><td>Tồn tại (file hoặc thư mục)</td><td><code>[ -e .env ]</code></td></tr>
+            <tr><td><code>-x</code></td><td>Có quyền thực thi</td><td><code>[ -x deploy.sh ]</code></td></tr>
+            <tr><td><code>-r</code></td><td>Có quyền đọc</td><td><code>[ -r config.yml ]</code></td></tr>
+            <tr><td><code>-s</code></td><td>File tồn tại VÀ không rỗng</td><td><code>[ -s output.log ]</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Ví dụ thực tế: Pre-build check</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+<span class="comment"># pre-build-check.sh — Kiểm tra trước khi build project</span>
+
+echo "🔍 Kiểm tra môi trường build..."
+
+<span class="comment"># Kiểm tra Node.js</span>
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js chưa cài đặt!"
+    exit 1
+fi
+
+<span class="comment"># Kiểm tra version Node.js >= 18</span>
+node_version=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
+if [ "$node_version" -lt 18 ]; then
+    echo "❌ Cần Node.js >= 18, hiện tại: v$node_version"
+    exit 1
+fi
+echo "✅ Node.js v$node_version"
+
+<span class="comment"># Kiểm tra package.json</span>
+if [ ! -f "package.json" ]; then
+    echo "❌ Không tìm thấy package.json — bạn có đang ở đúng thư mục?"
+    exit 1
+fi
+echo "✅ package.json tồn tại"
+
+<span class="comment"># Kiểm tra node_modules</span>
+if [ ! -d "node_modules" ]; then
+    echo "⚠️ Chưa cài dependencies, đang chạy npm install..."
+    npm install
+fi
+echo "✅ Dependencies đã sẵn sàng"
+
+<span class="comment"># Kiểm tra biến môi trường</span>
+if [ -z "$API_KEY" ]; then
+    echo "⚠️ Chưa set API_KEY — một số tính năng có thể không hoạt động"
+fi
+
+echo ""
+echo "🎉 Tất cả kiểm tra OK — sẵn sàng build!"
+npm run build</code></pre>
+
+        <!-- ============ 5.5 Vong Lap ============ -->
+        <h2 id="loops">5.5 Vòng Lặp</h2>
+
+        <h3>Vòng lặp <code>for</code></h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># Lặp qua danh sách</span>
+for fruit in apple banana cherry; do
+    echo "Quả: $fruit"
+done
+
+<span class="comment"># Lặp qua file</span>
+for file in src/*.js; do
+    echo "📄 File JS: $file"
+done
+
+<span class="comment"># Lặp qua số (C-style)</span>
+for ((i=1; i<=5; i++)); do
+    echo "Lần $i"
+done
+
+<span class="comment"># Lặp qua tham số script</span>
+for arg in "$@"; do
+    echo "Tham số: $arg"
+done</code></pre>
+
+        <h3>Vòng lặp <code>while</code></h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># Đếm ngược</span>
+count=5
+while [ $count -gt 0 ]; do
+    echo "⏳ Còn $count giây..."
+    sleep 1
+    count=$((count - 1))
+done
+echo "🚀 Go!"
+
+<span class="comment"># Chờ service sẵn sàng</span>
+max_retries=10
+retry=0
+while [ $retry -lt $max_retries ]; do
+    if curl -s http://localhost:3000/health > /dev/null 2>&1; then
+        echo "✅ Service đã sẵn sàng!"
+        break
+    fi
+    retry=$((retry + 1))
+    echo "⏳ Đợi service... ($retry/$max_retries)"
+    sleep 2
+done</code></pre>
+
+        <h3>Đọc file theo từng dòng</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+<span class="comment"># Đọc file line by line — rất hữu ích</span>
+
+while IFS= read -r line; do
+    echo "Dòng: $line"
+done &lt; config.txt
+
+<span class="comment"># Thực tế: Xử lý danh sách server</span>
+while IFS= read -r server; do
+    <span class="comment"># Bỏ qua dòng trống và comment</span>
+    [[ -z "$server" || "$server" == \#* ]] && continue
+    echo "🔄 Deploying to: $server"
+    ssh "$server" "cd /app && git pull && pm2 restart all"
+done &lt; servers.txt</code></pre>
+
+        <h3>Ví dụ thực tế: Backup configs</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+<span class="comment"># backup-configs.sh — Backup các file cấu hình quan trọng</span>
+
+backup_dir="$HOME/backups/$(date +%Y-%m-%d_%H%M%S)"
+mkdir -p "$backup_dir"
+
+<span class="comment"># Danh sách file cần backup</span>
+config_files=(
+    "$HOME/.bashrc"
+    "$HOME/.gitconfig"
+    "$HOME/.claude/settings.json"
+    "$HOME/.ssh/config"
+)
+
+count=0
+for file in "${config_files[@]}"; do
+    if [ -f "$file" ]; then
+        cp "$file" "$backup_dir/"
+        echo "✅ Backup: $file"
+        count=$((count + 1))
+    else
+        echo "⚠️ Không tìm thấy: $file"
+    fi
+done
+
+echo ""
+echo "📦 Đã backup $count file vào: $backup_dir"
+ls -la "$backup_dir/"</code></pre>
+
+        <!-- ============ 5.6 Exit Code ============ -->
+        <h2 id="exit-code">5.6 Exit Code</h2>
+        <p>Mỗi lệnh khi chạy xong đều trả về một <strong>exit code</strong> — con số cho biết lệnh thành công hay thất bại.</p>
+
+        <table>
+          <thead><tr><th>Exit Code</th><th>Ý nghĩa</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>0</code></td><td>✅ Thành công</td><td><code>ls</code> tìm thấy file</td></tr>
+            <tr><td><code>1</code></td><td>❌ Lỗi chung</td><td><code>grep</code> không tìm thấy</td></tr>
+            <tr><td><code>2</code></td><td>❌ Sai cú pháp lệnh</td><td>Tham số không hợp lệ</td></tr>
+            <tr><td><code>126</code></td><td>❌ Không có quyền thực thi</td><td>Quên <code>chmod +x</code></td></tr>
+            <tr><td><code>127</code></td><td>❌ Không tìm thấy lệnh</td><td>Gõ sai tên lệnh</td></tr>
+            <tr><td><code>130</code></td><td>❌ Bị Ctrl+C</td><td>Người dùng hủy</td></tr>
+          </tbody>
+        </table>
+
+        <pre><code><span class="comment"># Kiểm tra exit code bằng $?</span>
+$ ls /tmp
+$ echo $?
+0                <span class="comment"># Thành công</span>
+
+$ ls /khong-ton-tai
+$ echo $?
+2                <span class="comment"># Lỗi — không tìm thấy</span>
+
+<span class="comment"># Dùng exit trong script để trả exit code</span>
+<span class="comment">#!/bin/bash</span>
+if [ ! -f "package.json" ]; then
+    echo "❌ Thiếu package.json"
+    exit 1       <span class="comment"># Thoát với mã lỗi</span>
+fi
+echo "✅ OK"
+exit 0           <span class="comment"># Thoát thành công</span></code></pre>
+
+        <h3>Nối lệnh với <code>&&</code> và <code>||</code></h3>
+        <pre><code><span class="comment"># && — chỉ chạy lệnh sau nếu lệnh trước THÀNH CÔNG (exit 0)</span>
+$ npm test && npm run build && echo "🎉 Build OK"
+
+<span class="comment"># || — chỉ chạy lệnh sau nếu lệnh trước THẤT BẠI (exit != 0)</span>
+$ npm test || echo "❌ Test failed"
+
+<span class="comment"># Kết hợp cả hai</span>
+$ npm test && echo "✅ Pass" || echo "❌ Fail"
+
+<span class="comment"># Thực tế: nếu thư mục chưa có thì tạo</span>
+$ [ -d "dist" ] || mkdir dist</code></pre>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+flowchart TD
+    A["npm test"] --> B{Exit code?}
+    B -->|"0 (thành công)"| C["&& npm run build"]
+    B -->|"1 (thất bại)"| D["|| echo 'Test failed'"]
+    C --> E{Exit code?}
+    E -->|"0"| F["&& echo '🎉 Deploy'"]
+    E -->|"1"| G["|| echo '❌ Build failed'"]
+
+    style A fill:#6c5ce733,stroke:#6c5ce7
+    style C fill:#00cec933,stroke:#00cec9
+    style F fill:#27ae6033,stroke:#27ae60
+    style D fill:#e74c3c33,stroke:#e74c3c
+    style G fill:#e74c3c33,stroke:#e74c3c
+          </div>
+          <p class="caption">Luồng chạy lệnh với && (thành công) và || (thất bại)</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Claude Code hooks dùng exit code</strong> để quyết định hành vi. Hook trả <code>exit 0</code> = cho phép tiếp tục, <code>exit 1</code> = chặn hành động. Đây là cơ chế kiểm soát quan trọng nhất!</p>
+        </div>
+
+        <!-- ============ 5.7 Doc Input Tu Stdin ============ -->
+        <h2 id="stdin">5.7 Đọc Input Từ Stdin</h2>
+        <p>Trong shell scripting, <strong>stdin</strong> (standard input) là luồng dữ liệu đầu vào. Bạn có thể đọc input từ người dùng hoặc từ pipe.</p>
+
+        <h3>Đọc input cơ bản</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># Đọc từ người dùng</span>
+read -p "Tên bạn là gì? " name
+echo "Xin chào, $name!"
+
+<span class="comment"># Đọc toàn bộ stdin vào biến</span>
+input=$(cat)
+echo "Bạn đã nhập: $input"
+
+<span class="comment"># Đọc từ pipe</span>
+echo '{"name":"Claude"}' | ./process.sh</code></pre>
+
+        <h3>Claude Code hooks nhận JSON qua stdin</h3>
+        <p>Khi Claude Code gọi hook, nó gửi <strong>JSON qua stdin</strong> chứa thông tin về hành động. Script đọc bằng <code>input=$(cat)</code>.</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+sequenceDiagram
+    participant CC as Claude Code
+    participant Hook as Hook Script
+    participant Action as Hành Động
+
+    CC->>Hook: stdin: {"tool":"bash","input":"rm -rf /"}
+    Hook->>Hook: input=$(cat)<br>Phân tích JSON
+    Hook->>Hook: Phát hiện lệnh nguy hiểm!
+    Hook-->>CC: exit 2 + stderr: "BLOCKED"
+    Note over CC,Action: ❌ Hành động bị chặn
+
+    CC->>Hook: stdin: {"tool":"bash","input":"npm test"}
+    Hook->>Hook: input=$(cat)<br>Phân tích JSON
+    Hook->>Hook: Lệnh an toàn ✓
+    Hook-->>CC: exit 0
+    CC->>Action: ✅ Thực thi "npm test"
+          </div>
+          <p class="caption">Cách Claude Code hooks hoạt động — nhận JSON qua stdin, quyết định bằng exit code</p>
+        </div>
+
+        <h3>Ví dụ: Claude Code hook chặn lệnh nguy hiểm</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+<span class="comment"># ~/.claude/hooks/pre-tool-check.sh</span>
+<span class="comment"># Hook PreToolUse — kiểm tra trước khi Claude chạy lệnh</span>
+
+<span class="comment"># Đọc JSON từ stdin</span>
+input=$(cat)
+
+<span class="comment"># Lấy tên tool và nội dung lệnh (dùng grep đơn giản)</span>
+tool=$(echo "$input" | grep -o '"tool_name":"[^"]*"' | cut -d'"' -f4)
+command=$(echo "$input" | grep -o '"input":"[^"]*"' | cut -d'"' -f4)
+
+<span class="comment"># Danh sách lệnh nguy hiểm</span>
+dangerous_patterns=(
+    "rm -rf /"
+    "rm -rf ~"
+    "drop database"
+    "mkfs"
+    "dd if="
+    "> /dev/sda"
+)
+
+<span class="comment"># Kiểm tra từng pattern</span>
+for pattern in "${dangerous_patterns[@]}"; do
+    if echo "$command" | grep -qi "$pattern"; then
+        echo "🚫 BLOCKED: Lệnh nguy hiểm '$pattern' detected!" >&2
+        exit 2    <span class="comment"># exit 2 = chặn hành động</span>
+    fi
+done
+
+<span class="comment"># Lệnh an toàn — cho phép</span>
+exit 0</code></pre>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p>Hook dùng <code>exit 2</code> để chặn hành động và gửi lỗi qua <code>stderr</code> (dùng <code>&gt;&amp;2</code>). <code>exit 0</code> = cho phép. Đây là giao thức chuẩn của Claude Code hooks.</p>
+        </div>
+
+        <!-- ============ 5.8 Functions ============ -->
+        <h2 id="functions">5.8 Functions (Hàm)</h2>
+        <p>Hàm giúp <strong>tái sử dụng code</strong> và tổ chức script gọn gàng hơn.</p>
+
+        <h3>Cú pháp</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># Cách 1: Dùng function keyword</span>
+function greet() {
+    echo "Xin chào, $1!"
+}
+
+<span class="comment"># Cách 2: Không cần keyword (khuyến nghị — tương thích POSIX)</span>
+greet() {
+    echo "Xin chào, $1!"
+}
+
+<span class="comment"># Gọi hàm</span>
+greet "Claude"    <span class="comment"># Output: Xin chào, Claude!</span>
+greet "User"      <span class="comment"># Output: Xin chào, User!</span></code></pre>
+
+        <h3>Hàm log — in có màu và timestamp</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># Hàm log tiện ích — dùng lại trong mọi script</span>
+log_info()    { echo "[$(date '+%H:%M:%S')] ℹ️  $*"; }
+log_success() { echo "[$(date '+%H:%M:%S')] ✅ $*"; }
+log_warning() { echo "[$(date '+%H:%M:%S')] ⚠️  $*" >&2; }
+log_error()   { echo "[$(date '+%H:%M:%S')] ❌ $*" >&2; }
+
+<span class="comment"># Sử dụng</span>
+log_info "Bắt đầu deploy..."
+log_success "Build xong"
+log_warning "Cache hết hạn"
+log_error "Database không phản hồi"</code></pre>
+
+        <h3>Hàm check_dependency</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># Kiểm tra tool có cài chưa</span>
+check_dependency() {
+    local cmd="$1"
+    local name="${2:-$1}"    <span class="comment"># Tên hiển thị, mặc định = tên lệnh</span>
+
+    if command -v "$cmd" &> /dev/null; then
+        log_success "$name đã cài: $(command -v "$cmd")"
+        return 0
+    else
+        log_error "$name chưa cài! Vui lòng cài đặt trước."
+        return 1
+    fi
+}
+
+<span class="comment"># Sử dụng</span>
+check_dependency "node" "Node.js"   || exit 1
+check_dependency "git" "Git"        || exit 1
+check_dependency "npm" "npm"        || exit 1
+check_dependency "docker" "Docker"  || log_warning "Docker không có — skip container tests"</code></pre>
+
+        <h3>Ví dụ thực tế: Deploy script hoàn chỉnh</h3>
+        <pre><code><span class="comment">#!/bin/bash</span>
+<span class="comment"># deploy.sh — Script deploy hoàn chỉnh</span>
+set -euo pipefail    <span class="comment"># Dừng ngay khi có lỗi</span>
+
+<span class="comment"># ─── Config ───────────────────────────────────</span>
+PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DEPLOY_BRANCH="main"
+BUILD_DIR="dist"
+
+<span class="comment"># ─── Functions ────────────────────────────────</span>
+log_info()    { echo "[$(date '+%H:%M:%S')] ℹ️  $*"; }
+log_success() { echo "[$(date '+%H:%M:%S')] ✅ $*"; }
+log_error()   { echo "[$(date '+%H:%M:%S')] ❌ $*" >&2; }
+
+check_dependency() {
+    command -v "$1" &> /dev/null || {
+        log_error "$1 chưa cài đặt!"
+        exit 1
+    }
+}
+
+cleanup() {
+    log_info "Dọn dẹp file tạm..."
+    rm -f /tmp/deploy_lock_$$
+}
+trap cleanup EXIT    <span class="comment"># Luôn cleanup khi script kết thúc</span>
+
+<span class="comment"># ─── Main ─────────────────────────────────────</span>
+cd "$PROJECT_DIR"
+log_info "🚀 Bắt đầu deploy từ $PROJECT_DIR"
+
+<span class="comment"># 1. Kiểm tra dependencies</span>
+check_dependency "node"
+check_dependency "npm"
+check_dependency "git"
+
+<span class="comment"># 2. Kiểm tra branch</span>
+current_branch=$(git branch --show-current)
+if [ "$current_branch" != "$DEPLOY_BRANCH" ]; then
+    log_error "Phải ở branch '$DEPLOY_BRANCH', hiện tại: '$current_branch'"
+    exit 1
+fi
+log_success "Branch: $current_branch"
+
+<span class="comment"># 3. Kiểm tra uncommitted changes</span>
+if [ -n "$(git status --porcelain)" ]; then
+    log_error "Có thay đổi chưa commit! Commit trước khi deploy."
+    exit 1
+fi
+log_success "Working directory sạch"
+
+<span class="comment"># 4. Cài dependencies & build</span>
+log_info "Cài dependencies..."
+npm ci --silent
+
+log_info "Chạy tests..."
+npm test || { log_error "Tests failed!"; exit 1; }
+
+log_info "Build project..."
+npm run build || { log_error "Build failed!"; exit 1; }
+
+<span class="comment"># 5. Kiểm tra build output</span>
+if [ ! -d "$BUILD_DIR" ]; then
+    log_error "Thư mục $BUILD_DIR không tồn tại sau build!"
+    exit 1
+fi
+
+file_count=$(find "$BUILD_DIR" -type f | wc -l)
+log_success "Build xong — $file_count files trong $BUILD_DIR/"
+
+log_info ""
+log_success "🎉 Deploy hoàn tất!"</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><code>set -euo pipefail</code> — dòng "thần chú" nên có trong mọi script: <code>-e</code> dừng khi lỗi, <code>-u</code> báo lỗi biến chưa khai báo, <code>-o pipefail</code> bắt lỗi trong pipe.</p>
+        </div>
+
+        <!-- ============ Summary ============ -->
+        <h2 id="summary">📋 Tóm Tắt</h2>
+        <table>
+          <thead><tr><th>Chủ đề</th><th>Cú pháp / Lệnh</th><th>Ghi nhớ</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Shebang</strong></td><td><code>#!/bin/bash</code></td><td>Dòng đầu tiên bắt buộc</td></tr>
+            <tr><td><strong>Chạy script</strong></td><td><code>chmod +x file.sh && ./file.sh</code></td><td>Cấp quyền rồi mới chạy</td></tr>
+            <tr><td><strong>Biến</strong></td><td><code>name="value"</code></td><td>KHÔNG có khoảng trắng quanh <code>=</code></td></tr>
+            <tr><td><strong>Biến đặc biệt</strong></td><td><code>$0 $1 $? $$ $@</code></td><td>Tên script, tham số, exit code, PID</td></tr>
+            <tr><td><strong>Command sub</strong></td><td><code>result=$(command)</code></td><td>Lấy output lệnh vào biến</td></tr>
+            <tr><td><strong>if/else</strong></td><td><code>if [ điều_kiện ]; then ... fi</code></td><td>Khoảng trắng sau <code>[</code> trước <code>]</code></td></tr>
+            <tr><td><strong>So sánh số</strong></td><td><code>-eq -ne -gt -lt -ge -le</code></td><td>KHÔNG dùng <code>== > <</code> cho số</td></tr>
+            <tr><td><strong>Kiểm tra file</strong></td><td><code>-f -d -e -x -r -s</code></td><td>file, dir, exists, executable</td></tr>
+            <tr><td><strong>for loop</strong></td><td><code>for x in list; do ... done</code></td><td>Lặp qua danh sách/file</td></tr>
+            <tr><td><strong>while loop</strong></td><td><code>while [ ... ]; do ... done</code></td><td>Lặp theo điều kiện</td></tr>
+            <tr><td><strong>Đọc file</strong></td><td><code>while IFS= read -r line</code></td><td>Đọc từng dòng</td></tr>
+            <tr><td><strong>Exit code</strong></td><td><code>exit 0</code> / <code>exit 1</code></td><td>0 = OK, khác 0 = lỗi</td></tr>
+            <tr><td><strong>Chain lệnh</strong></td><td><code>&&</code> và <code>||</code></td><td>Thành công thì AND, thất bại thì OR</td></tr>
+            <tr><td><strong>Stdin</strong></td><td><code>input=$(cat)</code></td><td>Đọc toàn bộ input (hooks dùng nhiều)</td></tr>
+            <tr><td><strong>Functions</strong></td><td><code>func_name() { ... }</code></td><td>Tham số: <code>$1 $2</code>, return = exit code</td></tr>
+            <tr><td><strong>Safety</strong></td><td><code>set -euo pipefail</code></td><td>Dòng đầu tiên sau shebang</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Nav -->
+        <div class="lesson-nav">
+          <a href="04-json-yaml.html">← Bài 4: JSON & YAML</a>
+          <a href="06-nodejs.html">Bài 6: Node.js →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

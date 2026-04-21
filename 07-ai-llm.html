@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 7: AI / LLM — Claude Code Prep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="hamburger" aria-label="Menu">☰</button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📘 Claude Code Prep</h2>
+        <p>Kiến thức chuẩn bị cho claude-howto</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link" href="index.html">🏠 Trang Chủ</a>
+        <div class="nav-section">BẮT BUỘC</div>
+        <a class="nav-link" href="01-terminal.html">💻 Terminal / CLI <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="02-git.html">🔀 Git Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="03-programming.html">🧩 Lập Trình Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="04-json-yaml.html">📋 JSON & YAML <span class="badge badge-required">Bắt buộc</span></a>
+        <div class="nav-section">CẦN CHO MODULE NÂNG CAO</div>
+        <a class="nav-link" href="05-shell.html">📜 Shell Scripting <span class="badge badge-later">Sau</span></a>
+        <a class="nav-link" href="06-nodejs.html">🟢 Node.js / npm <span class="badge badge-later">Sau</span></a>
+        <div class="nav-section">NÊN BIẾT</div>
+        <a class="nav-link active" href="07-ai-llm.html">🤖 AI / LLM <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="08-markdown.html">📝 Markdown <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="09-cicd.html">🔄 CI/CD <span class="badge badge-optional">Nên biết</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="content">
+        <h1>🤖 AI / LLM — Kiến Thức Nền Tảng</h1>
+        <p class="subtitle">Hiểu cách AI hoạt động để sử dụng Claude Code hiệu quả hơn</p>
+
+        <!-- ============ 7.1 AI / ML / LLM ============ -->
+        <h2 id="relationship">7.1 AI / ML / LLM — Mối Quan Hệ</h2>
+        <p>Ba thuật ngữ này thường bị nhầm lẫn. Thực tế, chúng là các <strong>tập con lồng nhau</strong>:</p>
+
+        <div class="diagram-container">
+          <div class="diagram-img">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/10/AI-ML-DL.svg" alt="AI superset of ML superset of Deep Learning - concentric circles diagram">
+            <span class="img-source">Nguồn: Wikimedia Commons — AI / ML / Deep Learning hierarchy (CC)</span>
+          </div>
+          <p class="caption">AI ⊃ ML ⊃ Deep Learning ⊃ LLM — các tập con lồng nhau</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Thuật ngữ</th><th>Tên đầy đủ</th><th>Giải thích</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><strong>AI</strong></td><td>Artificial Intelligence</td><td>Bất kỳ hệ thống nào mô phỏng trí thông minh con người</td><td>Chatbot, xe tự lái, cờ vua máy</td></tr>
+            <tr><td><strong>ML</strong></td><td>Machine Learning</td><td>Máy <strong>tự học</strong> từ dữ liệu thay vì được lập trình cứng</td><td>Gợi ý phim Netflix, lọc spam Gmail</td></tr>
+            <tr><td><strong>Deep Learning</strong></td><td>—</td><td>ML dùng <strong>mạng neural nhiều lớp</strong> để xử lý dữ liệu phức tạp</td><td>Nhận diện khuôn mặt, dịch thuật</td></tr>
+            <tr><td><strong>LLM</strong></td><td>Large Language Model</td><td>Deep Learning chuyên về <strong>ngôn ngữ</strong>, huấn luyện trên hàng tỷ văn bản</td><td>Claude, GPT-4, Gemini, LLaMA</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Claude Code sử dụng LLM của Anthropic</strong> (Claude) — một mô hình ngôn ngữ lớn được huấn luyện để hiểu và sinh code.</p>
+        </div>
+
+        <!-- ============ 7.2 LLM Hoat Dong ============ -->
+        <h2 id="how-llm-works">7.2 LLM Hoạt Động Như Thế Nào?</h2>
+        <p>Cốt lõi của LLM rất đơn giản: <strong>dự đoán từ tiếp theo</strong> (next token prediction).</p>
+
+        <pre><code><span class="comment"># LLM dự đoán từng token một:</span>
+Input:  "Thủ đô của Việt Nam là"
+Step 1: "Thủ đô của Việt Nam là" → <strong>"Hà"</strong>      (xác suất 95%)
+Step 2: "Thủ đô của Việt Nam là Hà" → <strong>"Nội"</strong>   (xác suất 99%)
+Step 3: "Thủ đô của Việt Nam là Hà Nội" → <strong>"."</strong> (xác suất 80%)</code></pre>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+sequenceDiagram
+    participant U as 👤 Người dùng
+    participant CC as 🖥️ Claude Code
+    participant API as ☁️ Anthropic API
+    participant LLM as 🧠 Claude (LLM)
+
+    U->>CC: "Tạo hàm sort mảng"
+    CC->>API: Gửi prompt + context
+    API->>LLM: Tokenize & xử lý
+    loop Sinh từng token
+        LLM->>LLM: Dự đoán token tiếp theo
+    end
+    LLM->>API: Chuỗi tokens hoàn chỉnh
+    API->>CC: Response (code)
+    CC->>U: function sortArray(arr) { ... }
+          </div>
+          <p class="caption">Luồng xử lý: Người dùng → Claude Code → API → LLM → Kết quả</p>
+        </div>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p>LLM <strong>không "hiểu"</strong> theo nghĩa con người. Nó tìm <strong>pattern thống kê</strong> từ hàng tỷ văn bản đã huấn luyện để sinh ra câu trả lời có xác suất cao nhất.</p>
+        </div>
+
+        <!-- ============ 7.3 Token ============ -->
+        <h2 id="token">7.3 Token — Đơn Vị Xử Lý</h2>
+        <p>LLM không đọc "từ" hay "ký tự" — nó đọc <strong>token</strong>. Token là đơn vị nhỏ nhất mà model xử lý.</p>
+
+        <h3>Ví dụ tokenization</h3>
+        <pre><code><span class="comment"># Tiếng Anh — hiệu quả, ít token</span>
+"Hello world"       → ["Hello", " world"]              → <strong>2 tokens</strong>
+"programming"       → ["program", "ming"]               → <strong>2 tokens</strong>
+
+<span class="comment"># Tiếng Việt — tốn nhiều token hơn</span>
+"Xin chào thế giới" → ["X", "in", " ch", "ào", " thế", " giới"] → <strong>6 tokens</strong>
+"lập trình"         → ["l", "ập", " tr", "ình"]        → <strong>4 tokens</strong>
+
+<span class="comment"># Code — khá hiệu quả</span>
+"function main() {" → ["function", " main", "()", " {"] → <strong>4 tokens</strong>
+"console.log('hi')" → ["console", ".log", "('", "hi", "')"] → <strong>5 tokens</strong></code></pre>
+
+        <h3>Tại sao token quan trọng?</h3>
+        <table>
+          <thead><tr><th>Yếu tố</th><th>Ảnh hưởng</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td><strong>💰 Chi phí</strong></td><td>Tính tiền theo số token</td><td>Input tokens rẻ hơn output tokens</td></tr>
+            <tr><td><strong>📏 Giới hạn</strong></td><td>Mỗi model có context window cố định</td><td>Vượt giới hạn = mất thông tin đầu cuộc hội thoại</td></tr>
+            <tr><td><strong>⚡ Tốc độ</strong></td><td>Nhiều token = chậm hơn</td><td>Output sinh ~50-100 tokens/giây</td></tr>
+            <tr><td><strong>🌏 Ngôn ngữ</strong></td><td>Tiếng Việt tốn ~2-3x token so với tiếng Anh</td><td>Cùng ý nghĩa nhưng tốn nhiều token hơn</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Mẹo tiết kiệm token:</strong> Viết prompt bằng tiếng Anh khi có thể, dùng code block thay vì mô tả dài dòng, cung cấp context chính xác thay vì copy cả file.</p>
+        </div>
+
+        <!-- ============ 7.4 Context Window ============ -->
+        <h2 id="context-window">7.4 Context Window</h2>
+        <p>Context window là <strong>tổng dung lượng "bộ nhớ"</strong> mà model có thể xử lý trong một lần. Bao gồm cả input và output.</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    subgraph CW["📦 Context Window — 200K tokens"]
+        SP["🔧 System Prompt<br>~500 tokens"]
+        CLAUDE["📋 CLAUDE.md<br>~2K tokens"]
+        CONV["💬 Conversation<br>~180K tokens"]
+        RES["📝 Response<br>~16K tokens"]
+    end
+
+    SP --> CLAUDE --> CONV --> RES
+
+    style CW fill:#6c5ce711,stroke:#6c5ce7,stroke-width:2px
+    style SP fill:#e74c3c33,stroke:#e74c3c
+    style CLAUDE fill:#f39c1233,stroke:#f39c12
+    style CONV fill:#00cec933,stroke:#00cec9
+    style RES fill:#6c5ce733,stroke:#6c5ce7
+          </div>
+          <p class="caption">Context Window chia thành: System Prompt + CLAUDE.md + Cuộc hội thoại + Phản hồi</p>
+        </div>
+
+        <h3>So sánh các model Claude</h3>
+        <table>
+          <thead><tr><th>Model</th><th>Context Window</th><th>Max Output</th><th>Tốc độ</th><th>Chi phí</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Claude Haiku</strong></td><td>200K tokens</td><td>8K tokens</td><td>⚡⚡⚡ Rất nhanh</td><td>💲 Rẻ nhất</td><td>Autocomplete, task đơn giản, phân loại</td></tr>
+            <tr><td><strong>Claude Sonnet</strong></td><td>200K tokens</td><td>16K tokens</td><td>⚡⚡ Nhanh</td><td>💲💲 Trung bình</td><td>Code hàng ngày, refactor, debug</td></tr>
+            <tr><td><strong>Claude Opus</strong></td><td>200K tokens</td><td>32K tokens</td><td>⚡ Chậm hơn</td><td>💲💲💲 Đắt nhất</td><td>Kiến trúc phức tạp, phân tích sâu</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p>Khi cuộc hội thoại <strong>vượt quá context window</strong>, model sẽ "quên" những tin nhắn đầu tiên. Đây là lý do nên bắt đầu conversation mới khi chuyển task.</p>
+        </div>
+
+        <!-- ============ 7.5 Prompt ============ -->
+        <h2 id="prompt">7.5 Prompt — Cách Giao Tiếp Với AI</h2>
+        <p>Prompt là <strong>câu lệnh / yêu cầu</strong> bạn gửi cho AI. Chất lượng prompt quyết định chất lượng kết quả.</p>
+
+        <h3>Prompt tệ vs Prompt tốt</h3>
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>❌ Prompt tệ</h4>
+            <pre><code>Làm cho tôi cái web đẹp đẹp
+
+Fix bug đi
+
+Code không chạy, sửa giúp
+
+Viết hàm xử lý data</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ Prompt tốt</h4>
+            <pre><code>Tạo landing page responsive với header
+có navbar, hero section với CTA button,
+dùng Tailwind CSS, mobile-first.
+
+Hàm fetchUsers() ở src/api.js trả về
+undefined thay vì mảng users. Error ở
+console: "Cannot read property map of
+undefined". Hãy debug và fix.
+
+Viết hàm TypeScript nhận mảng Product[],
+lọc theo category, sort theo price giảm
+dần, trả về top 10 kết quả.</code></pre>
+          </div>
+        </div>
+
+        <h3>4 Nguyên tắc viết prompt hiệu quả</h3>
+        <table>
+          <thead><tr><th>#</th><th>Nguyên tắc</th><th>Giải thích</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>Cụ thể (Specific)</td><td>Nói rõ bạn muốn gì, format nào, ngôn ngữ nào</td><td>"Viết hàm Python nhận list số nguyên, trả về list các số chẵn"</td></tr>
+            <tr><td><strong>2</strong></td><td>Cung cấp Context</td><td>Cho AI biết bối cảnh: project gì, file nào, error gì</td><td>"Trong project Next.js 14, file app/page.tsx, lỗi hydration mismatch"</td></tr>
+            <tr><td><strong>3</strong></td><td>Cho ví dụ (Few-shot)</td><td>Đưa input/output mẫu để AI hiểu pattern</td><td>"Input: [3,1,2] → Output: [1,2,3]. Viết hàm tương tự cho objects"</td></tr>
+            <tr><td><strong>4</strong></td><td>Chia nhỏ (Decompose)</td><td>Task lớn → nhiều bước nhỏ</td><td>"Bước 1: Tạo schema DB. Bước 2: Viết API endpoints. Bước 3: Viết tests"</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Các Prompt Pattern hữu ích</h3>
+
+        <h4>🎭 Role Pattern — Giao vai trò</h4>
+        <pre><code><span class="comment"># Cho AI một "nhân cách" chuyên môn</span>
+Bạn là senior TypeScript developer với 10 năm kinh nghiệm.
+Review đoạn code sau và chỉ ra các vấn đề về:
+- Type safety
+- Error handling
+- Performance</code></pre>
+
+        <h4>📝 Step-by-step Pattern — Yêu cầu từng bước</h4>
+        <pre><code><span class="comment"># Buộc AI suy nghĩ có cấu trúc</span>
+Hãy thiết kế REST API cho blog platform:
+1. Liệt kê các entities cần thiết
+2. Định nghĩa relationships giữa chúng
+3. Viết API endpoints (method + path + body)
+4. Viết TypeScript interfaces cho mỗi entity</code></pre>
+
+        <h4>🚧 Constraint Pattern — Đặt ràng buộc</h4>
+        <pre><code><span class="comment"># Giới hạn phạm vi output</span>
+Viết hàm sort KHÔNG dùng Array.sort() built-in.
+Chỉ dùng vanilla JavaScript, KHÔNG dùng lodash.
+Tối đa 20 dòng code.
+Phải handle edge case: mảng rỗng, 1 phần tử.</code></pre>
+
+        <!-- ============ 7.6 Cac Model Claude ============ -->
+        <h2 id="models">7.6 Các Model Claude — So Sánh Chi Tiết</h2>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    subgraph Quality["📊 Chất lượng vs Tốc độ"]
+        direction LR
+        H["⚡ Haiku<br>Nhanh nhất"]
+        S["⚖️ Sonnet<br>Cân bằng"]
+        O["🧠 Opus<br>Thông minh nhất"]
+    end
+
+    H -->|"Tốc độ ████████░░"| S
+    S -->|"Tốc độ █████░░░░░"| O
+    O -->|"Chất lượng ██████████"| O2((🏆))
+    S -->|"Chất lượng ████████░░"| S2((⭐))
+    H -->|"Chất lượng █████░░░░░"| H2((👍))
+
+    style H fill:#00cec933,stroke:#00cec9
+    style S fill:#6c5ce733,stroke:#6c5ce7
+    style O fill:#e74c3c33,stroke:#e74c3c
+          </div>
+          <p class="caption">Trade-off: Model thông minh hơn = chậm hơn và đắt hơn</p>
+        </div>
+
+        <h3>Khi nào dùng model nào?</h3>
+        <table>
+          <thead><tr><th>Tình huống</th><th>Model khuyên dùng</th><th>Lý do</th></tr></thead>
+          <tbody>
+            <tr><td>Autocomplete, rename biến, format code</td><td><strong>Haiku</strong></td><td>Task đơn giản, cần nhanh, tiết kiệm</td></tr>
+            <tr><td>Viết function, fix bug, refactor</td><td><strong>Sonnet</strong></td><td>Cân bằng tốt giữa chất lượng và tốc độ</td></tr>
+            <tr><td>Thiết kế kiến trúc hệ thống, phân tích code phức tạp</td><td><strong>Opus</strong></td><td>Cần reasoning sâu, không cần nhanh</td></tr>
+            <tr><td>Code hàng ngày với Claude Code</td><td><strong>Sonnet</strong></td><td>Default model của Claude Code, đủ tốt cho hầu hết task</td></tr>
+            <tr><td>Debug lỗi khó, multi-file refactor</td><td><strong>Opus</strong></td><td>Cần hiểu context rộng và reasoning phức tạp</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p>Trong Claude Code, dùng <code>/model</code> để chuyển model. Mặc định là <strong>Sonnet</strong> — phù hợp cho 90% công việc.</p>
+        </div>
+
+        <!-- ============ 7.7 Khai Niem Nang Cao ============ -->
+        <h2 id="advanced">7.7 Khái Niệm Nâng Cao</h2>
+
+        <h3>🌡️ Temperature — Độ "sáng tạo"</h3>
+        <table>
+          <thead><tr><th>Temperature</th><th>Hành vi</th><th>Phù hợp cho</th></tr></thead>
+          <tbody>
+            <tr><td><code>0.0</code></td><td>Luôn chọn token có xác suất cao nhất → kết quả <strong>ổn định, nhất quán</strong></td><td>Code, math, phân tích dữ liệu</td></tr>
+            <tr><td><code>0.5</code></td><td>Cân bằng giữa chính xác và đa dạng</td><td>Viết email, tóm tắt, Q&A</td></tr>
+            <tr><td><code>1.0</code></td><td>Chọn token ngẫu nhiên hơn → kết quả <strong>sáng tạo, bất ngờ</strong></td><td>Viết truyện, brainstorm, thơ</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p>Claude Code dùng <strong>temperature thấp</strong> cho code generation để đảm bảo kết quả chính xác và nhất quán.</p>
+        </div>
+
+        <h3>🔧 System Prompt</h3>
+        <p>System prompt là <strong>chỉ thị ẩn</strong> được đặt trước cuộc hội thoại, định nghĩa "tính cách" và quy tắc của AI.</p>
+
+        <pre><code><span class="comment"># Ví dụ system prompt (người dùng không thấy)</span>
+{
+  "role": "system",
+  "content": "Bạn là trợ lý lập trình. Luôn trả lời bằng code kèm giải thích.
+              Dùng TypeScript. Follow best practices. Không giải thích dài dòng."
+}
+
+<span class="comment"># Trong Claude Code, CLAUDE.md chính là system prompt của bạn!</span>
+<span class="comment"># File CLAUDE.md ở root project → Claude đọc đầu tiên</span></code></pre>
+
+        <h3>🚨 Hallucination — "Ảo giác" của AI</h3>
+        <div class="info-box danger">
+          <span class="icon">⚠️</span>
+          <p><strong>Hallucination</strong> là khi AI <strong>tự tin nói sai</strong> — bịa ra thông tin không có thật nhưng nghe rất thuyết phục. Đây là hạn chế lớn nhất của LLM.</p>
+        </div>
+
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>⚠️ AI hay hallucinate khi</h4>
+            <pre><code>• Bịa tên package không tồn tại
+• Đưa ra API/method không có thật
+• Tạo URL/link giả
+• Trích dẫn "nguồn" không tồn tại
+• Tự tin trả lời sai về phiên bản</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ Cách phòng tránh</h4>
+            <pre><code>• Luôn verify thông tin AI đưa ra
+• Check package trên npm/pypi trước khi cài
+• Đọc official docs, không tin AI 100%
+• Chạy test sau khi AI viết code
+• Hỏi AI: "Bạn có chắc không?"</code></pre>
+          </div>
+        </div>
+
+        <h3>📚 RAG — Retrieval-Augmented Generation</h3>
+        <p>RAG giúp AI trả lời chính xác hơn bằng cách <strong>tìm kiếm thông tin thực</strong> trước khi trả lời, thay vì chỉ dựa vào "trí nhớ" (training data).</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    Q["❓ Câu hỏi"] --> R["🔍 Retrieval<br>Tìm kiếm tài liệu"]
+    R --> D["📄 Docs liên quan"]
+    D --> A["🧠 Augmented Generation<br>AI trả lời dựa trên docs"]
+    A --> ANS["✅ Câu trả lời<br>chính xác hơn"]
+
+    style Q fill:#6c5ce733,stroke:#6c5ce7
+    style R fill:#f39c1233,stroke:#f39c12
+    style D fill:#00cec933,stroke:#00cec9
+    style A fill:#e74c3c33,stroke:#e74c3c
+    style ANS fill:#2ecc7133,stroke:#2ecc71
+          </div>
+          <p class="caption">RAG: Tìm kiếm trước → Sinh câu trả lời → Giảm hallucination</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Claude Code tự động làm RAG</strong> — nó đọc file trong project, tìm kiếm code liên quan, rồi mới sinh câu trả lời. Đây là lý do Claude Code chính xác hơn ChatGPT khi code.</p>
+        </div>
+
+        <!-- ============ 7.8 Claude Code Workflow ============ -->
+        <h2 id="workflow">7.8 Claude Code — AI Ở Đâu Trong Workflow</h2>
+        <p>Claude Code không chỉ viết code — nó hỗ trợ <strong>toàn bộ quy trình phát triển</strong>:</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph TD
+    PLAN["📋 1. PLAN<br>Phân tích yêu cầu"] -->|Claude giúp phân tích,<br>đề xuất kiến trúc| CODE["💻 2. CODE<br>Viết code"]
+    CODE -->|Claude sinh code,<br>tạo file, refactor| TEST["🧪 3. TEST<br>Viết & chạy test"]
+    TEST -->|Claude viết test,<br>chạy & fix lỗi| REVIEW["🔍 4. REVIEW<br>Review code"]
+    REVIEW -->|Claude review,<br>suggest improvements| DEPLOY["🚀 5. DEPLOY<br>Triển khai"]
+    DEPLOY -->|Claude tạo PR,<br>viết commit message| DONE((✅))
+
+    style PLAN fill:#6c5ce733,stroke:#6c5ce7,stroke-width:2px
+    style CODE fill:#00cec933,stroke:#00cec9,stroke-width:2px
+    style TEST fill:#f39c1233,stroke:#f39c12,stroke-width:2px
+    style REVIEW fill:#74b9ff33,stroke:#74b9ff,stroke-width:2px
+    style DEPLOY fill:#e74c3c33,stroke:#e74c3c,stroke-width:2px
+          </div>
+          <p class="caption">Claude Code hỗ trợ mọi giai đoạn: Plan → Code → Test → Review → Deploy</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Giai đoạn</th><th>Claude Code làm gì</th><th>Ví dụ lệnh</th></tr></thead>
+          <tbody>
+            <tr><td><strong>📋 Plan</strong></td><td>Phân tích yêu cầu, đề xuất cấu trúc</td><td><code>"Phân tích requirements cho REST API quản lý todo"</code></td></tr>
+            <tr><td><strong>💻 Code</strong></td><td>Viết code, tạo file, implement features</td><td><code>"Tạo CRUD endpoints cho todo với Express + TypeScript"</code></td></tr>
+            <tr><td><strong>🧪 Test</strong></td><td>Viết unit test, chạy test, fix lỗi</td><td><code>"Viết test cho todoService, chạy và fix nếu fail"</code></td></tr>
+            <tr><td><strong>🔍 Review</strong></td><td>Review code, tìm bug, suggest cải thiện</td><td><code>"Review src/services/ — tìm security issues"</code></td></tr>
+            <tr><td><strong>🚀 Deploy</strong></td><td>Tạo PR, viết commit message, CI/CD</td><td><code>"Tạo PR với description chi tiết cho feature todo"</code></td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 7.9 Meo Su Dung ============ -->
+        <h2 id="tips">7.9 Mẹo Sử Dụng AI Hiệu Quả</h2>
+
+        <div class="compare">
+          <div class="compare-good">
+            <h4>✅ NÊN LÀM (DO)</h4>
+            <pre><code>✓ Viết CLAUDE.md chi tiết cho project
+✓ Cung cấp context đầy đủ trong prompt
+✓ Chia task lớn thành nhiều bước nhỏ
+✓ Review code AI sinh ra trước khi commit
+✓ Chạy test sau mỗi thay đổi
+✓ Bắt đầu conversation mới cho task mới
+✓ Dùng /model để chọn model phù hợp
+✓ Đọc error message và paste vào prompt
+✓ Cho AI ví dụ input/output mong muốn
+✓ Dùng tiếng Anh cho prompt kỹ thuật</code></pre>
+          </div>
+          <div class="compare-bad">
+            <h4>❌ KHÔNG NÊN (DON'T)</h4>
+            <pre><code>✗ Tin AI 100% — luôn verify
+✗ Copy-paste code mù quáng
+✗ Dùng prompt mơ hồ: "làm cho đẹp"
+✗ Bỏ qua error, nhờ AI fix mà không đọc
+✗ Dùng Opus cho task đơn giản (tốn tiền)
+✗ Conversation dài vô tận (quên context)
+✗ Delete code không hiểu mà AI suggest
+✗ Cài package AI gợi ý mà không check
+✗ Bỏ qua viết test vì "AI code chắc đúng"
+✗ Dựa hoàn toàn vào AI, không học</code></pre>
+          </div>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Quy tắc vàng:</strong> AI là <strong>cộng tác viên</strong>, không phải phép màu. Bạn vẫn cần hiểu code, review kết quả, và ra quyết định cuối cùng.</p>
+        </div>
+
+        <!-- ============ Summary ============ -->
+        <h2 id="summary">📋 Tóm Tắt</h2>
+        <table>
+          <thead><tr><th>Khái niệm</th><th>Giải thích ngắn</th><th>Liên quan Claude Code</th></tr></thead>
+          <tbody>
+            <tr><td><strong>LLM</strong></td><td>Mô hình ngôn ngữ lớn, dự đoán token tiếp theo</td><td>Claude là LLM đằng sau Claude Code</td></tr>
+            <tr><td><strong>Token</strong></td><td>Đơn vị xử lý nhỏ nhất của LLM</td><td>Ảnh hưởng chi phí và tốc độ</td></tr>
+            <tr><td><strong>Context Window</strong></td><td>"Bộ nhớ" tối đa của model (200K tokens)</td><td>Conversation dài = mất context đầu</td></tr>
+            <tr><td><strong>Prompt</strong></td><td>Câu lệnh gửi cho AI</td><td>Prompt tốt = kết quả tốt</td></tr>
+            <tr><td><strong>Temperature</strong></td><td>Độ sáng tạo (0 = chính xác, 1 = sáng tạo)</td><td>Claude Code dùng temp thấp</td></tr>
+            <tr><td><strong>System Prompt</strong></td><td>Chỉ thị ẩn định nghĩa hành vi AI</td><td>CLAUDE.md = system prompt của bạn</td></tr>
+            <tr><td><strong>Hallucination</strong></td><td>AI "bịa" thông tin sai nhưng tự tin</td><td>Luôn verify code AI sinh ra</td></tr>
+            <tr><td><strong>RAG</strong></td><td>Tìm kiếm trước → trả lời sau → chính xác hơn</td><td>Claude Code tự động đọc file project</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Nav -->
+        <div class="lesson-nav">
+          <a href="06-nodejs.html">← Bài 6: Node.js</a>
+          <a href="08-markdown.html">Bài 8: Markdown →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

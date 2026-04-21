@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 1: Terminal / Command Line — Claude Code Prep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="hamburger" aria-label="Menu">☰</button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📘 Claude Code Prep</h2>
+        <p>Kiến thức chuẩn bị cho claude-howto</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link" href="index.html">🏠 Trang Chủ</a>
+        <div class="nav-section">BẮT BUỘC</div>
+        <a class="nav-link active" href="01-terminal.html">💻 Terminal / CLI <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="02-git.html">🔀 Git Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="03-programming.html">🧩 Lập Trình Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="04-json-yaml.html">📋 JSON & YAML <span class="badge badge-required">Bắt buộc</span></a>
+        <div class="nav-section">CẦN CHO MODULE NÂNG CAO</div>
+        <a class="nav-link" href="05-shell.html">📜 Shell Scripting <span class="badge badge-later">Sau</span></a>
+        <a class="nav-link" href="06-nodejs.html">🟢 Node.js / npm <span class="badge badge-later">Sau</span></a>
+        <div class="nav-section">NÊN BIẾT</div>
+        <a class="nav-link" href="07-ai-llm.html">🤖 AI / LLM <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="08-markdown.html">📝 Markdown <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="09-cicd.html">🔄 CI/CD <span class="badge badge-optional">Nên biết</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="content">
+        <h1>💻 Terminal / Command Line</h1>
+        <p class="subtitle">Thành thạo dòng lệnh — nền tảng quan trọng nhất để dùng Claude Code</p>
+
+        <!-- ============ 1.1 Terminal La Gi ============ -->
+        <h2 id="what">1.1 Terminal Là Gì?</h2>
+        <p>Terminal (Command Line / CLI) là giao diện cho phép bạn giao tiếp với máy tính bằng cách <strong>gõ lệnh</strong> thay vì click chuột.</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    subgraph GUI["🖱️ GUI — Giao diện đồ họa"]
+        A[Click thư mục] --> B[Drag & Drop file]
+    end
+    subgraph CLI["⌨️ CLI — Dòng lệnh"]
+        C["$ mkdir project"] --> D["$ cd project"]
+        D --> E["$ code ."]
+    end
+    GUI -.->|Trực quan nhưng chậm| Result((Kết quả))
+    CLI -.->|Nhanh & tự động hóa| Result
+          </div>
+          <p class="caption">GUI vs CLI — hai cách giao tiếp với máy tính</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Claude Code chạy 100% trên terminal</strong> — không có giao diện đồ họa. Thiếu kỹ năng CLI = không dùng được Claude Code.</p>
+        </div>
+
+        <h3>Mở Terminal trên mỗi OS</h3>
+        <table>
+          <thead><tr><th>OS</th><th>Cách mở</th><th>Terminal mặc định</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Windows</strong></td><td><kbd>Win</kbd> + <kbd>R</kbd> → gõ <code>cmd</code></td><td>PowerShell / CMD</td></tr>
+            <tr><td><strong>macOS</strong></td><td><kbd>Cmd</kbd> + <kbd>Space</kbd> → "Terminal"</td><td>Terminal.app</td></tr>
+            <tr><td><strong>Linux</strong></td><td><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd></td><td>Bash</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong>Windows</strong>: Nên cài <a href="https://apps.microsoft.com/detail/9n0dx20hk701" target="_blank">Windows Terminal</a> và dùng <strong>Git Bash</strong> (cài kèm Git) để có trải nghiệm giống Linux/Mac.</p>
+        </div>
+
+        <!-- ============ 1.2 He Thong File ============ -->
+        <h2 id="filesystem">1.2 Cấu Trúc Hệ Thống File</h2>
+
+        <div class="diagram-container">
+          <div class="diagram-img">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Standard-unix-filesystem-hierarchy.svg" alt="Standard Unix Filesystem Hierarchy">
+            <span class="img-source">Nguồn: Wikimedia Commons — Standard Unix Filesystem Hierarchy (CC)</span>
+          </div>
+          <p class="caption">Cấu trúc hệ thống file chuẩn Unix/Linux — mỗi thư mục có vai trò riêng</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Thuật ngữ</th><th>Giải thích</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Absolute path</strong></td><td>Đường dẫn đầy đủ từ root</td><td><code>/Users/qudomanh/project</code></td></tr>
+            <tr><td><strong>Relative path</strong></td><td>Đường dẫn từ vị trí hiện tại</td><td><code>./src/index.js</code></td></tr>
+            <tr><td><code>.</code></td><td>Thư mục hiện tại</td><td><code>cd .</code></td></tr>
+            <tr><td><code>..</code></td><td>Thư mục cha (lên 1 cấp)</td><td><code>cd ..</code></td></tr>
+            <tr><td><code>~</code></td><td>Thư mục home</td><td><code>cd ~</code> = <code>/Users/qudomanh</code></td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 1.3 Di Chuyen ============ -->
+        <h2 id="navigate">1.3 Lệnh Di Chuyển & Xem Thư Mục</h2>
+
+        <h3><code>pwd</code> — Đang ở đâu?</h3>
+        <pre><code><span class="comment"># Print Working Directory</span>
+$ pwd
+/Users/qudomanh/Documents/project</code></pre>
+
+        <h3><code>ls</code> — Liệt kê nội dung</h3>
+        <pre><code><span class="comment"># Cơ bản</span>
+$ ls
+README.md  package.json  src/  node_modules/
+
+<span class="comment"># Chi tiết (-l) + file ẩn (-a)</span>
+$ ls -la
+drwxr-xr-x  .git/
+-rw-r--r--  .gitignore
+-rw-r--r--  README.md
+-rw-r--r--  package.json
+drwxr-xr-x  src/</code></pre>
+
+        <h3><code>cd</code> — Di chuyển</h3>
+        <pre><code>$ cd src          <span class="comment"># Vào thư mục con</span>
+$ cd ..           <span class="comment"># Lên thư mục cha</span>
+$ cd ~            <span class="comment"># Về home</span>
+$ cd -            <span class="comment"># Quay lại thư mục vừa rời</span>
+$ cd ~/Documents/project/src  <span class="comment"># Đi theo đường dẫn tuyệt đối</span></code></pre>
+
+        <!-- ============ 1.4 CRUD File ============ -->
+        <h2 id="files">1.4 Tạo, Xóa, Copy, Di Chuyển</h2>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    mkdir["mkdir<br>📁 Tạo thư mục"] --> touch["touch<br>📄 Tạo file rỗng"]
+    touch --> cp["cp<br>📋 Copy"]
+    touch --> mv["mv<br>✂️ Di chuyển/<br>Đổi tên"]
+    touch --> rm["rm<br>🗑️ Xóa"]
+    
+    style mkdir fill:#00cec933,stroke:#00cec9
+    style touch fill:#6c5ce733,stroke:#6c5ce7
+    style cp fill:#74b9ff33,stroke:#74b9ff
+    style mv fill:#fdcb6e33,stroke:#fdcb6e
+    style rm fill:#e74c3c33,stroke:#e74c3c
+          </div>
+        </div>
+
+        <pre><code><span class="comment"># Tạo thư mục (kể cả thư mục cha)</span>
+$ mkdir -p src/components/buttons
+
+<span class="comment"># Tạo file rỗng</span>
+$ touch index.js App.js
+
+<span class="comment"># Copy file / thư mục (-r = recursive)</span>
+$ cp config.js config.backup.js
+$ cp -r src/ src-backup/
+
+<span class="comment"># Di chuyển / đổi tên</span>
+$ mv old-name.js new-name.js
+$ mv config.js src/config.js
+
+<span class="comment"># Xóa (CẨN THẬN — không có thùng rác!)</span>
+$ rm temp.js
+$ rm -r old-backup/</code></pre>
+
+        <div class="info-box danger">
+          <span class="icon">⚠️</span>
+          <p><code>rm</code> xóa <strong>vĩnh viễn</strong> — KHÔNG có thùng rác! Không bao giờ chạy <code>rm -rf /</code> hay <code>rm -rf *</code> nếu không chắc chắn.</p>
+        </div>
+
+        <h3>Ví dụ: Tạo cấu trúc project mới</h3>
+        <pre><code>$ mkdir my-web-app && cd my-web-app
+$ mkdir -p src/{components,utils,styles} tests docs
+$ touch src/index.js src/App.js README.md .gitignore
+$ ls -R
+.:
+README.md  docs/  src/  tests/  .gitignore
+
+./src:
+App.js  index.js  components/  utils/  styles/</code></pre>
+
+        <!-- ============ 1.5 Doc File ============ -->
+        <h2 id="read">1.5 Đọc Nội Dung File</h2>
+
+        <table>
+          <thead><tr><th>Lệnh</th><th>Chức năng</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>cat</code></td><td>In toàn bộ nội dung</td><td><code>cat package.json</code></td></tr>
+            <tr><td><code>head -n 5</code></td><td>Xem 5 dòng đầu</td><td><code>head -n 5 server.log</code></td></tr>
+            <tr><td><code>tail -n 20</code></td><td>Xem 20 dòng cuối</td><td><code>tail -n 20 server.log</code></td></tr>
+            <tr><td><code>tail -f</code></td><td>Theo dõi realtime</td><td><code>tail -f server.log</code></td></tr>
+            <tr><td><code>less</code></td><td>Đọc file dài (cuộn)</td><td><code>less long-file.log</code></td></tr>
+            <tr><td><code>wc -l</code></td><td>Đếm số dòng</td><td><code>wc -l src/index.js</code></td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 1.6 Pipe & Redirect ============ -->
+        <h2 id="pipe">1.6 Pipe <code>|</code> và Redirect <code>&gt;</code></h2>
+        <p>Đây là tính năng <strong>cực kỳ mạnh</strong> — nối output lệnh này thành input lệnh kia.</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    A["ls src/"] -->|output| B["grep '.js'"]
+    B -->|output| C["wc -l"]
+    C -->|"kết quả: 5"| D((🖥️))
+    
+    style A fill:#6c5ce733,stroke:#6c5ce7
+    style B fill:#00cec933,stroke:#00cec9
+    style C fill:#f39c1233,stroke:#f39c12
+          </div>
+          <p class="caption">ls src/ | grep ".js" | wc -l → liệt kê → lọc .js → đếm dòng = 5</p>
+        </div>
+
+        <pre><code><span class="comment"># Pipe | — nối lệnh</span>
+$ ls src/ | grep ".js" | wc -l      <span class="comment"># Đếm file .js</span>
+$ cat log.txt | grep "ERROR"         <span class="comment"># Lọc dòng lỗi</span>
+$ ps aux | grep "node"               <span class="comment"># Tìm process node</span>
+
+<span class="comment"># Redirect > — ghi output ra file</span>
+$ echo "Hello" > greeting.txt        <span class="comment"># GHI ĐÈ</span>
+$ echo "Line 2" >> greeting.txt      <span class="comment"># THÊM vào cuối</span>
+$ ls -la > file-list.txt             <span class="comment"># Lưu danh sách file</span>
+$ npm test > results.txt 2>&1        <span class="comment"># Lưu cả output + error</span></code></pre>
+
+        <!-- ============ 1.7 Tim Kiem ============ -->
+        <h2 id="search">1.7 Tìm Kiếm File & Nội Dung</h2>
+
+        <div class="compare">
+          <div class="compare-good">
+            <h4><code>find</code> — Tìm file theo tên</h4>
+            <pre><code>$ find . -name "*.js"
+$ find . -type d -name "src"
+$ find . -mtime -2 -name "*.js"</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4><code>grep</code> — Tìm nội dung trong file</h4>
+            <pre><code>$ grep -r "TODO" src/
+$ grep -n "import" App.js
+$ grep -i "error" server.log</code></pre>
+          </div>
+        </div>
+
+        <pre><code><span class="comment"># Ví dụ: phân tích log lỗi</span>
+$ grep "ERROR" server.log | wc -l            <span class="comment"># Đếm số lỗi</span>
+$ grep "ERROR" server.log > errors-only.log   <span class="comment"># Lưu lỗi ra file</span>
+$ grep "ERROR" server.log | grep -i "database" <span class="comment"># Lỗi liên quan DB</span></code></pre>
+
+        <!-- ============ 1.8 Env Vars ============ -->
+        <h2 id="env">1.8 Biến Môi Trường</h2>
+        <p>Biến lưu ở cấp hệ thống, các chương trình có thể đọc được.</p>
+
+        <pre><code><span class="comment"># Xem biến</span>
+$ echo $HOME         <span class="comment"># /Users/qudomanh</span>
+$ echo $PATH         <span class="comment"># Danh sách thư mục chứa chương trình</span>
+
+<span class="comment"># Tạo biến</span>
+$ export API_KEY="sk-abc123"
+$ echo $API_KEY      <span class="comment"># sk-abc123</span>
+
+<span class="comment"># QUAN TRỌNG cho Claude Code:</span>
+$ export GITHUB_TOKEN="ghp_xxxxxxxxxxxx"
+$ export ANTHROPIC_API_KEY="sk-ant-xxxxx"</code></pre>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p>Biến <code>export</code> chỉ tồn tại trong session hiện tại. Để lưu vĩnh viễn, thêm vào file <code>~/.bashrc</code> hoặc <code>~/.zshrc</code>.</p>
+        </div>
+
+        <!-- ============ 1.9 Quyen File ============ -->
+        <h2 id="permissions">1.9 Quyền File (Linux/Mac)</h2>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    F["-rwxr-xr-x"] --> Owner["Owner<br>rwx = đọc+ghi+chạy"]
+    F --> Group["Group<br>r-x = đọc+chạy"]  
+    F --> Others["Others<br>r-x = đọc+chạy"]
+    
+    style Owner fill:#00cec933,stroke:#00cec9
+    style Group fill:#74b9ff33,stroke:#74b9ff
+    style Others fill:#fdcb6e33,stroke:#fdcb6e
+          </div>
+        </div>
+
+        <table>
+          <thead><tr><th>Ký hiệu</th><th>Quyền</th><th>Giá trị số</th></tr></thead>
+          <tbody>
+            <tr><td><code>r</code></td><td>Read (đọc)</td><td>4</td></tr>
+            <tr><td><code>w</code></td><td>Write (ghi)</td><td>2</td></tr>
+            <tr><td><code>x</code></td><td>Execute (chạy)</td><td>1</td></tr>
+            <tr><td><code>-</code></td><td>Không có quyền</td><td>0</td></tr>
+          </tbody>
+        </table>
+
+        <pre><code><span class="comment"># QUAN TRỌNG cho Claude Code hooks — PHẢI chmod +x để script chạy được</span>
+$ chmod +x ~/.claude/hooks/pre-tool-check.sh
+$ chmod 755 deploy.sh     <span class="comment"># rwxr-xr-x</span>
+$ chmod 600 .env          <span class="comment"># rw------- (chỉ owner đọc/ghi)</span></code></pre>
+
+        <!-- ============ 1.10 Phim Tat ============ -->
+        <h2 id="shortcuts">1.10 Phím Tắt Hữu Ích</h2>
+        <table>
+          <thead><tr><th>Phím tắt</th><th>Chức năng</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Tab</kbd></td><td>Tự động hoàn thành tên file/thư mục</td></tr>
+            <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Duyệt lệnh đã gõ trước đó</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>C</kbd></td><td>Hủy lệnh đang chạy</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>L</kbd></td><td>Xóa màn hình</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>Tìm kiếm lệnh đã gõ</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>A</kbd> / <kbd>E</kbd></td><td>Về đầu / cuối dòng</td></tr>
+            <tr><td><kbd>Ctrl</kbd>+<kbd>D</kbd></td><td>Thoát terminal</td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ Summary ============ -->
+        <h2 id="summary">📋 Tóm Tắt Lệnh Thiết Yếu</h2>
+        <table>
+          <thead><tr><th>Lệnh</th><th>Chức năng</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>pwd</code></td><td>Đường dẫn hiện tại</td><td><code>pwd</code></td></tr>
+            <tr><td><code>ls -la</code></td><td>Liệt kê file (chi tiết)</td><td><code>ls -la src/</code></td></tr>
+            <tr><td><code>cd</code></td><td>Di chuyển</td><td><code>cd ~/project</code></td></tr>
+            <tr><td><code>mkdir -p</code></td><td>Tạo thư mục</td><td><code>mkdir -p a/b/c</code></td></tr>
+            <tr><td><code>touch</code></td><td>Tạo file rỗng</td><td><code>touch index.js</code></td></tr>
+            <tr><td><code>cp / cp -r</code></td><td>Copy file / thư mục</td><td><code>cp -r src/ bak/</code></td></tr>
+            <tr><td><code>mv</code></td><td>Di chuyển / đổi tên</td><td><code>mv old.js new.js</code></td></tr>
+            <tr><td><code>rm / rm -r</code></td><td>Xóa file / thư mục</td><td><code>rm -r temp/</code></td></tr>
+            <tr><td><code>cat</code></td><td>Đọc file</td><td><code>cat config.json</code></td></tr>
+            <tr><td><code>grep -r</code></td><td>Tìm text</td><td><code>grep -r "TODO" src/</code></td></tr>
+            <tr><td><code>find</code></td><td>Tìm file</td><td><code>find . -name "*.js"</code></td></tr>
+            <tr><td><code>chmod +x</code></td><td>Cấp quyền chạy</td><td><code>chmod +x script.sh</code></td></tr>
+            <tr><td><code>|</code></td><td>Pipe</td><td><code>cat log | grep ERR</code></td></tr>
+            <tr><td><code>&gt;</code> / <code>&gt;&gt;</code></td><td>Redirect</td><td><code>echo hi > f.txt</code></td></tr>
+          </tbody>
+        </table>
+
+        <!-- Nav -->
+        <div class="lesson-nav">
+          <a href="index.html">← Trang Chủ</a>
+          <a href="02-git.html">Bài 2: Git Cơ Bản →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

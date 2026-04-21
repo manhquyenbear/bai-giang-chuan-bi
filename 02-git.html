@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 2: Git Cơ Bản — Claude Code Prep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="hamburger" aria-label="Menu">☰</button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📘 Claude Code Prep</h2>
+        <p>Kiến thức chuẩn bị cho claude-howto</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link" href="index.html">🏠 Trang Chủ</a>
+        <div class="nav-section">BẮT BUỘC</div>
+        <a class="nav-link" href="01-terminal.html">💻 Terminal / CLI <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link active" href="02-git.html">🔀 Git Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="03-programming.html">🧩 Lập Trình Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="04-json-yaml.html">📋 JSON & YAML <span class="badge badge-required">Bắt buộc</span></a>
+        <div class="nav-section">CẦN CHO MODULE NÂNG CAO</div>
+        <a class="nav-link" href="05-shell.html">📜 Shell Scripting <span class="badge badge-later">Sau</span></a>
+        <a class="nav-link" href="06-nodejs.html">🟢 Node.js / npm <span class="badge badge-later">Sau</span></a>
+        <div class="nav-section">NÊN BIẾT</div>
+        <a class="nav-link" href="07-ai-llm.html">🤖 AI / LLM <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="08-markdown.html">📝 Markdown <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="09-cicd.html">🔄 CI/CD <span class="badge badge-optional">Nên biết</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="content">
+        <h1>🔀 Git Cơ Bản</h1>
+        <p class="subtitle">Quản lý phiên bản mã nguồn — kỹ năng bắt buộc cho mọi developer</p>
+
+        <!-- ============ 2.1 Git La Gi ============ -->
+        <h2 id="what">2.1 Git Là Gì?</h2>
+        <p>Git là hệ thống <strong>quản lý phiên bản phân tán</strong> (Distributed Version Control System). Nó theo dõi mọi thay đổi trong mã nguồn, cho phép bạn quay lại bất kỳ thời điểm nào và cộng tác với nhiều người.</p>
+
+        <div class="diagram-container">
+          <div class="diagram-img">
+            <img src="https://git-scm.com/book/en/v2/images/commits-and-parents.png" alt="Commits and their parents - Git version history">
+            <span class="img-source">Nguồn: git-scm.com — Pro Git Book</span>
+          </div>
+          <p class="caption">Lịch sử phiên bản Git — mỗi commit là một "ảnh chụp" toàn bộ project, trỏ ngược về commit trước đó</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Claude Code dùng Git để theo dõi mọi thay đổi</strong> nó tạo ra. Nếu không biết Git, bạn không thể review, undo, hoặc quản lý code mà Claude viết.</p>
+        </div>
+
+        <h3>Tại sao cần Git?</h3>
+        <table>
+          <thead><tr><th>Không có Git</th><th>Có Git</th></tr></thead>
+          <tbody>
+            <tr><td><code>project-v1.zip</code>, <code>project-v2-final.zip</code>, <code>project-v2-final-FINAL.zip</code></td><td>Một thư mục duy nhất, Git lưu toàn bộ lịch sử</td></tr>
+            <tr><td>Gửi file qua email/USB</td><td><code>git push</code> / <code>git pull</code> — đồng bộ tức thì</td></tr>
+            <tr><td>Sợ sửa code hỏng, không dám thử nghiệm</td><td>Thoải mái thử — <code>git checkout</code> quay lại ngay</td></tr>
+            <tr><td>2 người sửa cùng file → mất code</td><td>Git tự merge hoặc báo conflict để xử lý</td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 2.2 Cai Dat Git ============ -->
+        <h2 id="install">2.2 Cài Đặt Git</h2>
+
+        <h3>Cài đặt trên mỗi OS</h3>
+        <div class="compare">
+          <div class="compare-good">
+            <h4>🪟 Windows</h4>
+            <pre><code><span class="comment"># Tải và cài từ trang chủ</span>
+https://git-scm.com/download/win
+
+<span class="comment"># Hoặc dùng winget (Windows 10+)</span>
+$ winget install Git.Git</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>🍎 macOS</h4>
+            <pre><code><span class="comment"># Cài qua Homebrew (khuyến nghị)</span>
+$ brew install git
+
+<span class="comment"># Hoặc cài Xcode Command Line Tools</span>
+$ xcode-select --install</code></pre>
+          </div>
+        </div>
+
+        <pre><code><span class="comment"># Kiểm tra đã cài thành công</span>
+$ git --version
+git version 2.44.0</code></pre>
+
+        <h3>Cấu hình lần đầu (BẮT BUỘC)</h3>
+        <pre><code><span class="comment"># Tên và email — xuất hiện trong mỗi commit</span>
+$ git config --global user.name "Nguyen Van A"
+$ git config --global user.email "nguyenvana@gmail.com"
+
+<span class="comment"># Đặt branch mặc định là "main" (thay vì "master")</span>
+$ git config --global init.defaultBranch main
+
+<span class="comment"># Kiểm tra cấu hình</span>
+$ git config --list
+user.name=Nguyen Van A
+user.email=nguyenvana@gmail.com
+init.defaultBranch=main</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><code>--global</code> áp dụng cho tất cả project. Muốn cấu hình riêng cho 1 project, bỏ <code>--global</code> và chạy trong thư mục project đó.</p>
+        </div>
+
+        <!-- ============ 2.3 Ba Vung ============ -->
+        <h2 id="areas">2.3 Ba Vùng Trong Git</h2>
+        <p>Đây là khái niệm <strong>quan trọng nhất</strong> cần hiểu. Git chia thư mục project thành 3 vùng:</p>
+
+        <div class="diagram-container">
+          <div class="diagram-img">
+            <img src="https://git-scm.com/book/en/v2/images/areas.png" alt="Working tree, staging area, and Git directory">
+            <span class="img-source">Nguồn: git-scm.com — Pro Git Book</span>
+          </div>
+          <p class="caption">Ba vùng trong Git — Working Directory → Staging Area → Repository (.git directory)</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Vùng</th><th>Mô tả</th><th>Trạng thái file</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Working Directory</strong></td><td>Thư mục bạn đang làm việc, chứa file thực tế</td><td>Modified (đã sửa, chưa add)</td></tr>
+            <tr><td><strong>Staging Area</strong></td><td>Vùng "sân khấu" — chọn những thay đổi sẽ vào commit tiếp</td><td>Staged (đã add, chờ commit)</td></tr>
+            <tr><td><strong>Repository (.git)</strong></td><td>Kho lưu trữ trong thư mục ẩn <code>.git/</code></td><td>Committed (đã lưu vĩnh viễn)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Tại sao cần Staging Area?</strong> Bạn sửa 10 file nhưng chỉ muốn commit 3 file liên quan đến feature A → <code>git add</code> chỉ 3 file đó. Giúp commit gọn gàng, có ý nghĩa.</p>
+        </div>
+
+        <!-- ============ 2.4 Workflow ============ -->
+        <h2 id="workflow">2.4 Workflow Cơ Bản</h2>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+sequenceDiagram
+    participant Dev as 👩‍💻 Developer
+    participant WD as 📁 Working Dir
+    participant SA as 📋 Staging
+    participant Repo as 🗄️ Repository
+    
+    Dev->>WD: Sửa file index.js
+    Dev->>WD: Tạo file mới style.css
+    Dev->>Dev: git status (xem thay đổi)
+    Dev->>SA: git add index.js style.css
+    Dev->>Dev: git status (kiểm tra staging)
+    Dev->>Repo: git commit -m "Thêm trang chủ"
+    Note over Repo: ✅ Lưu vĩnh viễn!
+          </div>
+          <p class="caption">Quy trình làm việc: sửa code → add → commit</p>
+        </div>
+
+        <h3>Khởi tạo Git repo</h3>
+        <pre><code><span class="comment"># Tạo project mới và khởi tạo Git</span>
+$ mkdir my-website && cd my-website
+$ git init
+Initialized empty Git repository in /Users/qudomanh/my-website/.git/
+
+<span class="comment"># Hoặc clone repo có sẵn từ GitHub</span>
+$ git clone https://github.com/user/repo.git</code></pre>
+
+        <h3><code>git status</code> — Xem trạng thái</h3>
+        <pre><code>$ git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+        <span style="color:#e74c3c">index.html</span>
+        <span style="color:#e74c3c">style.css</span>
+
+nothing added to commit but untracked files present</code></pre>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Luôn chạy <code>git status</code> trước khi add/commit</strong> để biết chính xác đang có những thay đổi gì. Đây là lệnh bạn sẽ dùng nhiều nhất!</p>
+        </div>
+
+        <h3><code>git add</code> — Đưa vào Staging</h3>
+        <pre><code><span class="comment"># Add từng file cụ thể</span>
+$ git add index.html
+$ git add style.css
+
+<span class="comment"># Add tất cả file đã thay đổi</span>
+$ git add .
+
+<span class="comment"># Add theo pattern</span>
+$ git add *.js
+$ git add src/</code></pre>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p><code>git add .</code> add TẤT CẢ — cẩn thận không add nhầm file nhạy cảm (<code>.env</code>, <code>node_modules/</code>). Nên dùng <code>.gitignore</code> (mục 2.8).</p>
+        </div>
+
+        <h3><code>git commit</code> — Lưu phiên bản</h3>
+        <pre><code><span class="comment"># Commit với message ngắn gọn</span>
+$ git commit -m "Thêm trang chủ với HTML và CSS"
+
+<span class="comment"># Commit kèm mô tả chi tiết (mở editor)</span>
+$ git commit
+
+<span class="comment"># Add + commit gộp (chỉ cho file ĐÃ TRACKED)</span>
+$ git commit -am "Sửa lỗi responsive header"</code></pre>
+
+        <h3>Viết commit message tốt</h3>
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>❌ Message tệ</h4>
+            <pre><code>"fix"
+"update"
+"abc"
+"asdfsdf"
+"done"</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ Message tốt</h4>
+            <pre><code>"Thêm form đăng nhập"
+"Sửa lỗi validate email"
+"Xóa code thừa ở sidebar"
+"Cập nhật API endpoint v2"
+"Thêm unit test cho UserService"</code></pre>
+          </div>
+        </div>
+
+        <!-- ============ 2.5 Log & Diff ============ -->
+        <h2 id="log">2.5 Git Log & Diff — Xem Lịch Sử</h2>
+
+        <h3><code>git log</code> — Xem lịch sử commit</h3>
+        <pre><code><span class="comment"># Log đầy đủ</span>
+$ git log
+commit a1b2c3d (HEAD -> main)
+Author: Nguyen Van A &lt;nguyenvana@gmail.com&gt;
+Date:   Mon Apr 14 10:30:00 2026
+
+    Thêm form đăng nhập
+
+commit e4f5g6h
+Author: Nguyen Van A &lt;nguyenvana@gmail.com&gt;
+Date:   Sun Apr 13 09:00:00 2026
+
+    Khởi tạo project
+
+<span class="comment"># Log ngắn gọn 1 dòng</span>
+$ git log --oneline
+a1b2c3d (HEAD -> main) Thêm form đăng nhập
+e4f5g6h Khởi tạo project
+
+<span class="comment"># Log dạng đồ thị (rất hữu ích khi có branch)</span>
+$ git log --oneline --graph --all
+* f7g8h9i (feature/login) Xử lý auth
+* d4e5f6g Tạo form login
+| * a1b2c3d (HEAD -> main) Fix bug header
+|/
+* e4f5g6h Khởi tạo project</code></pre>
+
+        <h3><code>git diff</code> — Xem thay đổi chi tiết</h3>
+        <pre><code><span class="comment"># Xem thay đổi chưa add (Working Dir vs Staging)</span>
+$ git diff
+<span style="color:#e74c3c">- &lt;h1&gt;Hello&lt;/h1&gt;</span>
+<span style="color:#27ae60">+ &lt;h1&gt;Xin Chào&lt;/h1&gt;</span>
+
+<span class="comment"># Xem thay đổi đã add (Staging vs Repository)</span>
+$ git diff --staged
+
+<span class="comment"># Xem thay đổi của 1 file cụ thể</span>
+$ git diff index.html
+
+<span class="comment"># So sánh 2 commit</span>
+$ git diff a1b2c3d e4f5g6h</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong>Mẹo:</strong> Dùng <code>git log --oneline</code> để tìm mã commit, rồi <code>git diff</code> để xem thay đổi giữa 2 commit. Rất hữu ích khi debug "lúc nào code bị hỏng?".</p>
+        </div>
+
+        <h3>Quay lại phiên bản trước</h3>
+        <pre><code><span class="comment"># Discard thay đổi chưa add (CẨN THẬN — mất code!)</span>
+$ git checkout -- index.html
+
+<span class="comment"># Bỏ file khỏi staging (giữ thay đổi trong Working Dir)</span>
+$ git reset HEAD index.html
+
+<span class="comment"># Quay lại commit trước (giữ code, bỏ commit)</span>
+$ git reset --soft HEAD~1
+
+<span class="comment"># Quay lại commit trước (bỏ cả code — CẨN THẬN!)</span>
+$ git reset --hard HEAD~1</code></pre>
+
+        <div class="info-box danger">
+          <span class="icon">⚠️</span>
+          <p><code>git reset --hard</code> xóa vĩnh viễn mọi thay đổi chưa commit. Chỉ dùng khi bạn chắc chắn muốn bỏ hết!</p>
+        </div>
+
+        <!-- ============ 2.6 Branch ============ -->
+        <h2 id="branch">2.6 Branch — Phân Nhánh</h2>
+        <p>Branch cho phép bạn <strong>tạo "nhánh" độc lập</strong> để phát triển tính năng mới mà không ảnh hưởng code chính.</p>
+
+        <div class="diagram-container">
+          <div class="diagram-img">
+            <img src="https://git-scm.com/book/en/v2/images/advance-master.png" alt="Divergent history - Git branching">
+            <span class="img-source">Nguồn: git-scm.com — Pro Git Book</span>
+          </div>
+          <p class="caption">Branching — mỗi tính năng được phát triển trên branch riêng, lịch sử phân nhánh rồi merge lại</p>
+        </div>
+
+        <h3>Các lệnh Branch</h3>
+        <pre><code><span class="comment"># Xem danh sách branch (* = branch hiện tại)</span>
+$ git branch
+* main
+  feature/login
+  feature/dashboard
+
+<span class="comment"># Tạo branch mới</span>
+$ git branch feature/login
+
+<span class="comment"># Chuyển sang branch khác</span>
+$ git checkout feature/login
+
+<span class="comment"># Tạo + chuyển branch (1 lệnh gọn)</span>
+$ git checkout -b feature/signup
+
+<span class="comment"># Xóa branch (sau khi đã merge)</span>
+$ git branch -d feature/login</code></pre>
+
+        <h3>Merge — Gộp nhánh</h3>
+        <pre><code><span class="comment"># Bước 1: Chuyển về branch đích (thường là main)</span>
+$ git checkout main
+
+<span class="comment"># Bước 2: Merge branch feature vào</span>
+$ git merge feature/login
+Merge made by the 'ort' strategy.
+ src/login.js  | 45 +++++++++++++++++++++
+ src/auth.js   | 23 +++++++++++
+ 2 files changed, 68 insertions(+)</code></pre>
+
+        <h3>Xử lý Merge Conflict</h3>
+        <p>Khi 2 branch sửa <strong>cùng dòng</strong> trong cùng file, Git không tự merge được → conflict:</p>
+        <pre><code><span class="comment"># Git báo conflict</span>
+$ git merge feature/login
+CONFLICT (content): Merge conflict in src/header.js
+Automatic merge failed; fix conflicts and then commit.
+
+<span class="comment"># File bị conflict sẽ có dạng:</span>
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+&lt;h1&gt;Welcome&lt;/h1&gt;
+=======
+&lt;h1&gt;Xin Chào&lt;/h1&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/login
+
+<span class="comment"># Bước 1: Mở file, chọn phần code đúng, xóa dấu &lt;&lt;&lt; === &gt;&gt;&gt;</span>
+<span class="comment"># Bước 2: Add và commit</span>
+$ git add src/header.js
+$ git commit -m "Resolve merge conflict ở header"</code></pre>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p><strong>Giảm conflict:</strong> Pull thường xuyên, chia nhỏ branch, mỗi người sửa phần khác nhau. Commit nhỏ và thường xuyên!</p>
+        </div>
+
+        <!-- ============ 2.7 GitHub ============ -->
+        <h2 id="remote">2.7 GitHub (Remote Repository)</h2>
+        <p>GitHub là nền tảng lưu trữ Git repo trên cloud, cho phép cộng tác và chia sẻ code.</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+sequenceDiagram
+    participant Local as 💻 Local Repo<br>(Máy bạn)
+    participant GitHub as ☁️ GitHub<br>(Remote)
+    participant Team as 👥 Đồng đội
+
+    Local->>GitHub: git push (đẩy code lên)
+    GitHub-->>Local: git pull (kéo code về)
+    Team->>GitHub: git push (đẩy code lên)
+    GitHub-->>Team: git pull (kéo code về)
+    Local->>GitHub: git clone (tải repo lần đầu)
+    Note over Local,Team: Mọi người làm việc trên cùng 1 repo qua GitHub
+          </div>
+          <p class="caption">GitHub — cầu nối giữa các developer</p>
+        </div>
+
+        <h3><code>git clone</code> — Tải repo về</h3>
+        <pre><code><span class="comment"># Clone repo từ GitHub (lần đầu)</span>
+$ git clone https://github.com/username/my-project.git
+$ cd my-project
+
+<span class="comment"># Clone vào thư mục tùy chỉnh</span>
+$ git clone https://github.com/username/my-project.git ten-thu-muc</code></pre>
+
+        <h3><code>git remote</code> — Quản lý kết nối</h3>
+        <pre><code><span class="comment"># Xem remote hiện tại</span>
+$ git remote -v
+origin  https://github.com/username/my-project.git (fetch)
+origin  https://github.com/username/my-project.git (push)
+
+<span class="comment"># Thêm remote (nếu tạo repo local trước)</span>
+$ git remote add origin https://github.com/username/my-project.git</code></pre>
+
+        <h3><code>git push</code> — Đẩy code lên</h3>
+        <pre><code><span class="comment"># Push lần đầu (set upstream)</span>
+$ git push -u origin main
+
+<span class="comment"># Các lần sau chỉ cần</span>
+$ git push
+
+<span class="comment"># Push branch feature</span>
+$ git push -u origin feature/login</code></pre>
+
+        <h3><code>git pull</code> — Kéo code về</h3>
+        <pre><code><span class="comment"># Kéo thay đổi mới nhất từ GitHub</span>
+$ git pull
+
+<span class="comment"># Kéo từ branch cụ thể</span>
+$ git pull origin main</code></pre>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Quy trình cộng tác:</strong> <code>git pull</code> trước khi code → Viết code → <code>git add</code> → <code>git commit</code> → <code>git pull</code> (kiểm tra conflict) → <code>git push</code>.</p>
+        </div>
+
+        <!-- ============ 2.8 .gitignore ============ -->
+        <h2 id="gitignore">2.8 .gitignore — Bỏ Qua File</h2>
+        <p>File <code>.gitignore</code> cho Git biết <strong>không theo dõi</strong> những file/thư mục nào.</p>
+
+        <h3>Ví dụ .gitignore cho dự án Node.js</h3>
+        <pre><code><span class="comment"># Dependencies — hàng nghìn file, không cần lưu vào Git</span>
+node_modules/
+
+<span class="comment"># Biến môi trường — TUYỆT ĐỐI không push lên GitHub!</span>
+.env
+.env.local
+.env.production
+
+<span class="comment"># Build output — tạo lại được từ source</span>
+dist/
+build/
+.next/
+
+<span class="comment"># Log files</span>
+*.log
+npm-debug.log*
+
+<span class="comment"># OS files — rác hệ điều hành</span>
+.DS_Store
+Thumbs.db
+
+<span class="comment"># IDE config</span>
+.vscode/
+.idea/
+
+<span class="comment"># Secrets & keys</span>
+*.pem
+*.key</code></pre>
+
+        <div class="info-box danger">
+          <span class="icon">⚠️</span>
+          <p><strong>KHÔNG BAO GIỜ commit file <code>.env</code> hoặc API key lên GitHub!</strong> Dù repo private, key vẫn nằm trong lịch sử Git mãi mãi. Nếu lỡ commit, phải đổi key ngay.</p>
+        </div>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong>Thứ tự:</strong> Tạo <code>.gitignore</code> <em>trước</em> khi <code>git add</code>. Nếu đã add nhầm <code>node_modules/</code>, chạy: <code>git rm -r --cached node_modules/</code> rồi commit lại.</p>
+        </div>
+
+        <h3>Workflow hoàn chỉnh: Tạo project mới</h3>
+        <pre><code><span class="comment"># 1. Tạo project</span>
+$ mkdir my-app && cd my-app
+
+<span class="comment"># 2. Khởi tạo Git</span>
+$ git init
+
+<span class="comment"># 3. Tạo .gitignore TRƯỚC</span>
+$ echo "node_modules/" > .gitignore
+$ echo ".env" >> .gitignore
+
+<span class="comment"># 4. Tạo file code</span>
+$ touch index.js README.md
+$ npm init -y
+
+<span class="comment"># 5. Commit đầu tiên</span>
+$ git add .
+$ git status          <span class="comment"># Kiểm tra — không có node_modules!</span>
+$ git commit -m "Khởi tạo project my-app"
+
+<span class="comment"># 6. Kết nối GitHub và push</span>
+$ git remote add origin https://github.com/user/my-app.git
+$ git push -u origin main</code></pre>
+
+        <!-- ============ Summary ============ -->
+        <h2 id="summary">📋 Tóm Tắt Lệnh Thiết Yếu</h2>
+        <table>
+          <thead><tr><th>Lệnh</th><th>Chức năng</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>git init</code></td><td>Khởi tạo repo mới</td><td><code>git init</code></td></tr>
+            <tr><td><code>git clone</code></td><td>Tải repo từ remote</td><td><code>git clone &lt;url&gt;</code></td></tr>
+            <tr><td><code>git status</code></td><td>Xem trạng thái hiện tại</td><td><code>git status</code></td></tr>
+            <tr><td><code>git add</code></td><td>Đưa file vào staging</td><td><code>git add .</code></td></tr>
+            <tr><td><code>git commit</code></td><td>Lưu phiên bản</td><td><code>git commit -m "msg"</code></td></tr>
+            <tr><td><code>git log</code></td><td>Xem lịch sử commit</td><td><code>git log --oneline</code></td></tr>
+            <tr><td><code>git diff</code></td><td>Xem thay đổi chi tiết</td><td><code>git diff</code></td></tr>
+            <tr><td><code>git branch</code></td><td>Quản lý branch</td><td><code>git branch feature/x</code></td></tr>
+            <tr><td><code>git checkout</code></td><td>Chuyển branch</td><td><code>git checkout -b fix/y</code></td></tr>
+            <tr><td><code>git merge</code></td><td>Gộp branch</td><td><code>git merge feature/x</code></td></tr>
+            <tr><td><code>git remote</code></td><td>Quản lý remote</td><td><code>git remote -v</code></td></tr>
+            <tr><td><code>git push</code></td><td>Đẩy code lên remote</td><td><code>git push origin main</code></td></tr>
+            <tr><td><code>git pull</code></td><td>Kéo code từ remote</td><td><code>git pull</code></td></tr>
+            <tr><td><code>git reset</code></td><td>Quay lại commit trước</td><td><code>git reset --soft HEAD~1</code></td></tr>
+            <tr><td><code>.gitignore</code></td><td>Bỏ qua file</td><td>Thêm <code>node_modules/</code></td></tr>
+          </tbody>
+        </table>
+
+        <!-- Nav -->
+        <div class="lesson-nav">
+          <a href="01-terminal.html">← Bài 1: Terminal</a>
+          <a href="03-programming.html">Bài 3: Lập Trình →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

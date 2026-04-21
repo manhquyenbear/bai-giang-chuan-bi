@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 4: JSON &amp; YAML — Claude Code Prep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="hamburger" aria-label="Menu">☰</button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📘 Claude Code Prep</h2>
+        <p>Kiến thức chuẩn bị cho claude-howto</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link" href="index.html">🏠 Trang Chủ</a>
+        <div class="nav-section">BẮT BUỘC</div>
+        <a class="nav-link" href="01-terminal.html">💻 Terminal / CLI <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="02-git.html">🔀 Git Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="03-programming.html">🧩 Lập Trình Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link active" href="04-json-yaml.html">📋 JSON &amp; YAML <span class="badge badge-required">Bắt buộc</span></a>
+        <div class="nav-section">CẦN CHO MODULE NÂNG CAO</div>
+        <a class="nav-link" href="05-shell.html">📜 Shell Scripting <span class="badge badge-later">Sau</span></a>
+        <a class="nav-link" href="06-nodejs.html">🟢 Node.js / npm <span class="badge badge-later">Sau</span></a>
+        <div class="nav-section">NÊN BIẾT</div>
+        <a class="nav-link" href="07-ai-llm.html">🤖 AI / LLM <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="08-markdown.html">📝 Markdown <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="09-cicd.html">🔄 CI/CD <span class="badge badge-optional">Nên biết</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="content">
+        <h1>📋 JSON &amp; YAML</h1>
+        <p class="subtitle">Hai định dạng cấu hình bạn sẽ gặp mỗi ngày khi dùng Claude Code</p>
+
+        <!-- ============ 4.1 JSON Là Gì ============ -->
+        <h2 id="json-what">4.1 JSON Là Gì?</h2>
+        <p><strong>JSON</strong> (JavaScript Object Notation) là định dạng lưu trữ và trao đổi dữ liệu dạng text. Dễ đọc cho người, dễ parse cho máy.</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    subgraph Uses["📦 Nơi dùng JSON"]
+        A["⚙️ Cấu hình<br>settings.json<br>package.json"]
+        B["🌐 API Response<br>REST / GraphQL"]
+        C["💾 Lưu dữ liệu<br>NoSQL / file"]
+    end
+    subgraph CC["🤖 Trong Claude Code"]
+        D["settings.json<br>Quyền & hooks"]
+        E["MCP config<br>Kết nối tools"]
+        F["package.json<br>Quản lý project"]
+    end
+    Uses --> CC
+
+    style A fill:#6c5ce733,stroke:#6c5ce7
+    style B fill:#00cec933,stroke:#00cec9
+    style C fill:#f39c1233,stroke:#f39c12
+    style D fill:#e1705533,stroke:#e17055
+    style E fill:#74b9ff33,stroke:#74b9ff
+    style F fill:#a29bfe33,stroke:#a29bfe
+          </div>
+          <p class="caption">JSON xuất hiện khắp nơi — từ API đến cấu hình Claude Code</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Claude Code phụ thuộc nặng vào JSON</strong> — file <code>settings.json</code> kiểm soát quyền, hooks, MCP config kết nối external tools. Sai 1 dấu phẩy = Claude Code không chạy.</p>
+        </div>
+
+        <!-- ============ 4.2 Cú Pháp JSON ============ -->
+        <h2 id="json-syntax">4.2 Cú Pháp JSON</h2>
+
+        <h3>Cấu trúc cơ bản</h3>
+        <pre><code>{
+  "name": "Claude Code Project",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "express": "^4.18.0",
+    "dotenv": "^16.0.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  }
+}</code></pre>
+
+        <h3>Các kiểu dữ liệu JSON</h3>
+        <table>
+          <thead><tr><th>Kiểu</th><th>Ví dụ</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td><strong>String</strong></td><td><code>"hello world"</code></td><td>Luôn dùng ngoặc kép <code>"</code></td></tr>
+            <tr><td><strong>Number</strong></td><td><code>42</code>, <code>3.14</code>, <code>-10</code></td><td>Không có ngoặc</td></tr>
+            <tr><td><strong>Boolean</strong></td><td><code>true</code>, <code>false</code></td><td>Viết thường, không ngoặc</td></tr>
+            <tr><td><strong>Null</strong></td><td><code>null</code></td><td>Không phải <code>"null"</code></td></tr>
+            <tr><td><strong>Object</strong></td><td><code>{"key": "value"}</code></td><td>Cặp key-value trong <code>{}</code></td></tr>
+            <tr><td><strong>Array</strong></td><td><code>[1, "two", true]</code></td><td>Danh sách trong <code>[]</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Quy tắc bắt buộc</h3>
+        <table>
+          <thead><tr><th>Quy tắc</th><th>Đúng ✅</th><th>Sai ❌</th></tr></thead>
+          <tbody>
+            <tr><td>Key phải có ngoặc kép</td><td><code>"name": "Claude"</code></td><td><code>name: "Claude"</code></td></tr>
+            <tr><td>String dùng ngoặc kép</td><td><code>"hello"</code></td><td><code>'hello'</code></td></tr>
+            <tr><td>Không trailing comma</td><td><code>{"a": 1, "b": 2}</code></td><td><code>{"a": 1, "b": 2,}</code></td></tr>
+            <tr><td>Không có comment</td><td><em>(bỏ comment)</em></td><td><code>// comment</code> hay <code>/* */</code></td></tr>
+            <tr><td>Không undefined</td><td><code>null</code></td><td><code>undefined</code></td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 4.3 JSON Trong Claude Code ============ -->
+        <h2 id="json-claude">4.3 JSON Trong Claude Code</h2>
+
+        <h3>settings.json — Quyền &amp; Hooks</h3>
+        <pre><code>{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Write",
+      "Bash(git *)",
+      "Bash(npm test)",
+      "Bash(npm run lint)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(curl *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/pre-tool-check.sh"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p>File <code>settings.json</code> nằm ở <code>~/.claude/settings.json</code> (global) hoặc <code>.claude/settings.json</code> (project). Claude Code đọc cả hai và merge lại.</p>
+        </div>
+
+        <h3>MCP Config — Kết nối External Tools</h3>
+        <pre><code>{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "ghp_xxxxxxxxxxxx"
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/home/user/projects"]
+    },
+    "sqlite": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sqlite", "database.db"]
+    }
+  }
+}</code></pre>
+
+        <h3>package.json — Quản lý project Node.js</h3>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph TD
+    PKG["📦 package.json"] --> Meta["📝 Metadata<br>name, version, description"]
+    PKG --> Scripts["⚡ Scripts<br>start, dev, test, build"]
+    PKG --> Deps["📚 Dependencies<br>express, dotenv..."]
+    PKG --> DevDeps["🔧 DevDependencies<br>nodemon, eslint..."]
+    PKG --> Config["⚙️ Config<br>type, main, license"]
+
+    Scripts --> Run["$ npm run dev<br>$ npm test"]
+    Deps --> Install["$ npm install"]
+    DevDeps --> Install
+
+    style PKG fill:#e1705533,stroke:#e17055
+    style Meta fill:#6c5ce733,stroke:#6c5ce7
+    style Scripts fill:#00cec933,stroke:#00cec9
+    style Deps fill:#f39c1233,stroke:#f39c12
+    style DevDeps fill:#74b9ff33,stroke:#74b9ff
+    style Config fill:#a29bfe33,stroke:#a29bfe
+          </div>
+          <p class="caption">Cấu trúc package.json — bản đồ toàn bộ project Node.js</p>
+        </div>
+
+        <pre><code>{
+  "name": "my-claude-project",
+  "version": "1.0.0",
+  "description": "Project sử dụng Claude Code",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest --coverage",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "eslint": "^8.56.0"
+  }
+}</code></pre>
+
+        <!-- ============ 4.4 Lỗi JSON Thường Gặp ============ -->
+        <h2 id="json-errors">4.4 Lỗi JSON Thường Gặp</h2>
+        <p>JSON rất nghiêm ngặt — một lỗi nhỏ sẽ khiến toàn bộ file không parse được.</p>
+
+        <h3>❌ Trailing Comma (Dấu phẩy thừa)</h3>
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>❌ Sai — dấu phẩy cuối</h4>
+            <pre><code>{
+  "name": "project",
+  "version": "1.0",  <span class="comment">← dấu phẩy thừa!</span>
+}</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ Đúng — không có dấu phẩy cuối</h4>
+            <pre><code>{
+  "name": "project",
+  "version": "1.0"
+}</code></pre>
+          </div>
+        </div>
+
+        <h3>❌ Single Quotes (Ngoặc đơn)</h3>
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>❌ Sai — ngoặc đơn</h4>
+            <pre><code>{
+  'name': 'project',
+  'active': true
+}</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ Đúng — ngoặc kép</h4>
+            <pre><code>{
+  "name": "project",
+  "active": true
+}</code></pre>
+          </div>
+        </div>
+
+        <h3>❌ Comments (Bình luận)</h3>
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>❌ Sai — có comment</h4>
+            <pre><code>{
+  // Tên project
+  "name": "demo",
+  /* Version hiện tại */
+  "version": "2.0"
+}</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ Đúng — không comment</h4>
+            <pre><code>{
+  "name": "demo",
+  "version": "2.0"
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p><strong>Mẹo:</strong> Dùng <code>cat file.json | python3 -m json.tool</code> để kiểm tra JSON hợp lệ. Trong VS Code, cài extension "JSON" sẽ highlight lỗi ngay.</p>
+        </div>
+
+        <!-- ============ 4.5 YAML Là Gì ============ -->
+        <h2 id="yaml-what">4.5 YAML Là Gì?</h2>
+        <p><strong>YAML</strong> (YAML Ain't Markup Language) là định dạng cấu hình dựa trên <strong>thụt lề</strong> (indentation), dễ đọc hơn JSON cho người.</p>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>YAML dùng ở đâu?</strong> GitHub Actions, Docker Compose, Kubernetes, CI/CD pipelines, frontmatter trong Markdown (SKILL.md, AGENTS.md), và cấu hình nhiều tool hiện đại.</p>
+        </div>
+
+        <pre><code><span class="comment"># Cùng một dữ liệu — JSON vs YAML</span>
+
+<span class="comment"># JSON (24 dòng)</span>
+{
+  "server": {
+    "host": "localhost",
+    "port": 3000,
+    "debug": true
+  },
+  "database": {
+    "url": "postgres://localhost:5432/mydb",
+    "pool": 10
+  }
+}
+
+<span class="comment"># YAML (7 dòng) — gọn hơn nhiều!</span>
+server:
+  host: localhost
+  port: 3000
+  debug: true
+database:
+  url: postgres://localhost:5432/mydb
+  pool: 10</code></pre>
+
+        <!-- ============ 4.6 Cú Pháp YAML ============ -->
+        <h2 id="yaml-syntax">4.6 Cú Pháp YAML</h2>
+
+        <h3>Key-Value cơ bản</h3>
+        <pre><code>name: My Project
+version: 2.1.0
+description: "Dự án sử dụng Claude Code"   <span class="comment"># String có dấu đặc biệt cần ngoặc</span>
+active: true                                 <span class="comment"># Boolean</span>
+count: 42                                    <span class="comment"># Number</span>
+nothing: null                                <span class="comment"># Null</span></code></pre>
+
+        <h3>Nested (lồng nhau) — dùng thụt lề 2 spaces</h3>
+        <pre><code>server:
+  host: localhost
+  port: 3000
+  ssl:
+    enabled: true
+    cert: /path/to/cert.pem
+    key: /path/to/key.pem</code></pre>
+
+        <h3>Arrays (Danh sách)</h3>
+        <pre><code><span class="comment"># Dạng block (mỗi item 1 dòng)</span>
+fruits:
+  - apple
+  - banana
+  - cherry
+
+<span class="comment"># Dạng inline (1 dòng)</span>
+colors: [red, green, blue]
+
+<span class="comment"># Array of objects</span>
+users:
+  - name: Alice
+    role: admin
+  - name: Bob
+    role: developer</code></pre>
+
+        <h3>Multiline Strings</h3>
+        <pre><code><span class="comment"># | (Literal) — giữ nguyên xuống dòng</span>
+description: |
+  Đây là dòng 1
+  Đây là dòng 2
+  Mỗi dòng giữ nguyên
+
+<span class="comment"># > (Folded) — gộp thành 1 dòng</span>
+summary: >
+  Đây là một đoạn dài
+  sẽ được nối thành
+  một dòng duy nhất</code></pre>
+
+        <h3>Kiểu dữ liệu YAML</h3>
+        <table>
+          <thead><tr><th>Kiểu</th><th>Ví dụ</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td><strong>String</strong></td><td><code>name: hello</code></td><td>Không cần ngoặc (trừ ký tự đặc biệt)</td></tr>
+            <tr><td><strong>Number</strong></td><td><code>port: 3000</code></td><td>Tự nhận diện</td></tr>
+            <tr><td><strong>Boolean</strong></td><td><code>debug: true</code></td><td><code>true/false</code>, <code>yes/no</code>, <code>on/off</code></td></tr>
+            <tr><td><strong>Null</strong></td><td><code>value: null</code> hoặc <code>value:</code></td><td>Để trống cũng là null</td></tr>
+            <tr><td><strong>Date</strong></td><td><code>date: 2026-04-14</code></td><td>ISO 8601 tự nhận diện</td></tr>
+            <tr><td><strong>List</strong></td><td><code>- item1</code></td><td>Dấu <code>-</code> ở đầu dòng</td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 4.7 YAML Trong Claude Code ============ -->
+        <h2 id="yaml-claude">4.7 YAML Trong Claude Code</h2>
+
+        <h3>SKILL.md Frontmatter</h3>
+        <p>Các file <code>SKILL.md</code> dùng YAML frontmatter (phần giữa <code>---</code>) để khai báo metadata:</p>
+        <pre><code>---
+name: code-review
+description: "Skill review code tự động"
+version: 1.0
+triggers:
+  - "review this code"
+  - "check for bugs"
+tags:
+  - review
+  - quality
+---
+
+# Code Review Skill
+
+Khi được yêu cầu review code, hãy:
+1. Kiểm tra logic errors
+2. Tìm security vulnerabilities
+3. Đề xuất performance improvements</code></pre>
+
+        <h3>Agent Definition File</h3>
+        <pre><code>---
+name: backend-agent
+description: "Agent chuyên xử lý backend"
+model: claude-sonnet
+tools:
+  - Read
+  - Write
+  - Bash
+permissions:
+  allow:
+    - "Bash(npm *)"
+    - "Bash(node *)"
+  deny:
+    - "Bash(rm -rf *)"
+context:
+  - src/server/
+  - tests/
+---</code></pre>
+
+        <h3>Slash Command (Custom)</h3>
+        <pre><code><span class="comment"># File: .claude/commands/deploy.md</span>
+---
+name: deploy
+description: "Deploy ứng dụng lên staging"
+arguments:
+  - name: environment
+    description: "Môi trường deploy"
+    required: true
+    options:
+      - staging
+      - production
+---
+
+Hãy thực hiện deploy ứng dụng lên môi trường $environment:
+1. Chạy tests
+2. Build project
+3. Deploy lên server</code></pre>
+
+        <!-- ============ 4.8 YAML cho GitHub Actions ============ -->
+        <h2 id="yaml-github-actions">4.8 YAML cho GitHub Actions</h2>
+        <p>GitHub Actions là nơi bạn gặp YAML <strong>nhiều nhất</strong> trong thực tế.</p>
+
+        <pre><code><span class="comment"># .github/workflows/ci.yml</span>
+name: CI Pipeline                     <span class="comment"># Tên workflow</span>
+
+on:                                   <span class="comment"># Khi nào chạy?</span>
+  push:
+    branches: [main, develop]         <span class="comment"># Push vào main hoặc develop</span>
+  pull_request:
+    branches: [main]                  <span class="comment"># Tạo PR vào main</span>
+
+jobs:                                 <span class="comment"># Danh sách jobs</span>
+  test:                               <span class="comment"># Job tên "test"</span>
+    runs-on: ubuntu-latest            <span class="comment"># Chạy trên Ubuntu</span>
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]    <span class="comment"># Test trên 3 version Node</span>
+
+    steps:                            <span class="comment"># Các bước thực hiện</span>
+      - uses: actions/checkout@v4     <span class="comment"># Checkout code</span>
+
+      - name: Setup Node.js           <span class="comment"># Cài Node.js</span>
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies    <span class="comment"># Cài packages</span>
+        run: npm ci
+
+      - name: Run tests               <span class="comment"># Chạy test</span>
+        run: npm test
+
+      - name: Run lint                 <span class="comment"># Kiểm tra code style</span>
+        run: npm run lint
+
+  deploy:                             <span class="comment"># Job tên "deploy"</span>
+    needs: test                       <span class="comment"># Chỉ chạy sau khi test pass</span>
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'  <span class="comment"># Chỉ deploy từ main</span>
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to production
+        run: ./deploy.sh
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}</code></pre>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph TD
+    Trigger["🔔 Trigger<br>push / pull_request"] --> Test["🧪 Job: test"]
+    Test --> N18["Node 18"]
+    Test --> N20["Node 20"]
+    Test --> N22["Node 22"]
+    N18 --> Check{Tất cả pass?}
+    N20 --> Check
+    N22 --> Check
+    Check -->|Yes ✅| Deploy["🚀 Job: deploy"]
+    Check -->|No ❌| Fail["💥 Fail — dừng lại"]
+    Deploy --> Prod["🌐 Production"]
+
+    style Trigger fill:#6c5ce733,stroke:#6c5ce7
+    style Test fill:#00cec933,stroke:#00cec9
+    style Deploy fill:#f39c1233,stroke:#f39c12
+    style Fail fill:#e74c3c33,stroke:#e74c3c
+    style Prod fill:#00b89433,stroke:#00b894
+          </div>
+          <p class="caption">Luồng CI/CD — test trên nhiều Node version, deploy chỉ khi tất cả pass</p>
+        </div>
+
+        <!-- ============ 4.9 Lỗi YAML Thường Gặp ============ -->
+        <h2 id="yaml-errors">4.9 Lỗi YAML Thường Gặp</h2>
+
+        <h3>❌ Indent sai (Tab thay vì Space)</h3>
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>❌ Sai — dùng tab hoặc indent lệch</h4>
+            <pre><code>server:
+    host: localhost      <span class="comment"># 4 spaces</span>
+  port: 3000             <span class="comment"># 2 spaces → LỖI!</span>
+	debug: true            <span class="comment"># Tab → LỖI!</span></code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ Đúng — nhất quán 2 spaces</h4>
+            <pre><code>server:
+  host: localhost
+  port: 3000
+  debug: true</code></pre>
+          </div>
+        </div>
+
+        <h3>❌ Thiếu ngoặc kép cho ký tự đặc biệt</h3>
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>❌ Sai — ký tự đặc biệt không ngoặc</h4>
+            <pre><code>message: Error: file not found
+url: https://example.com
+regex: [a-z]+</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ Đúng — bọc trong ngoặc kép</h4>
+            <pre><code>message: "Error: file not found"
+url: "https://example.com"
+regex: "[a-z]+"</code></pre>
+          </div>
+        </div>
+
+        <h3>❌ Boolean bất ngờ (Boolean Gotchas)</h3>
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>❌ Nguy hiểm — YAML tự chuyển thành boolean</h4>
+            <pre><code>country: NO        <span class="comment"># → false (không phải "NO"!)</span>
+answer: yes        <span class="comment"># → true (không phải "yes"!)</span>
+switch: on         <span class="comment"># → true</span>
+version: 1.0       <span class="comment"># → number 1 (mất .0!)</span></code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ An toàn — dùng ngoặc kép</h4>
+            <pre><code>country: "NO"      <span class="comment"># → string "NO" ✓</span>
+answer: "yes"      <span class="comment"># → string "yes" ✓</span>
+switch: "on"       <span class="comment"># → string "on" ✓</span>
+version: "1.0"     <span class="comment"># → string "1.0" ✓</span></code></pre>
+          </div>
+        </div>
+
+        <div class="info-box danger">
+          <span class="icon">⚠️</span>
+          <p>YAML tự chuyển <code>yes</code>, <code>no</code>, <code>on</code>, <code>off</code>, <code>true</code>, <code>false</code> thành boolean. Nếu muốn giữ là string, <strong>luôn bọc trong ngoặc kép</strong>!</p>
+        </div>
+
+        <!-- ============ 4.10 So Sánh JSON vs YAML ============ -->
+        <h2 id="compare">4.10 So Sánh JSON vs YAML</h2>
+
+        <table>
+          <thead><tr><th>Tiêu chí</th><th>JSON</th><th>YAML</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cú pháp</strong></td><td>Ngoặc <code>{ }</code> <code>[ ]</code></td><td>Thụt lề (indentation)</td></tr>
+            <tr><td><strong>Comment</strong></td><td>❌ Không hỗ trợ</td><td>✅ Dùng <code>#</code></td></tr>
+            <tr><td><strong>Độ dài</strong></td><td>Dài hơn (nhiều dấu ngoặc)</td><td>Ngắn gọn hơn</td></tr>
+            <tr><td><strong>Dễ đọc</strong></td><td>⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td></tr>
+            <tr><td><strong>Dễ viết máy</strong></td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐</td></tr>
+            <tr><td><strong>Lỗi thường gặp</strong></td><td>Trailing comma, thiếu ngoặc</td><td>Sai indent, boolean gotcha</td></tr>
+            <tr><td><strong>Multiline</strong></td><td>❌ Phải escape <code>\n</code></td><td>✅ Hỗ trợ <code>|</code> và <code>&gt;</code></td></tr>
+            <tr><td><strong>Dùng cho API</strong></td><td>✅ Tiêu chuẩn</td><td>❌ Hiếm khi</td></tr>
+            <tr><td><strong>CI/CD config</strong></td><td>Ít dùng</td><td>✅ Tiêu chuẩn</td></tr>
+            <tr><td><strong>Package manager</strong></td><td>✅ package.json</td><td>❌ Không dùng</td></tr>
+          </tbody>
+        </table>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph TD
+    Start{"Bạn cần định dạng nào?"} --> Q1{"Dùng cho API<br>hoặc trao đổi dữ liệu?"}
+    Q1 -->|Có| JSON["📋 Dùng JSON"]
+    Q1 -->|Không| Q2{"Cần comment<br>trong file?"}
+    Q2 -->|Có| YAML["📝 Dùng YAML"]
+    Q2 -->|Không| Q3{"Cấu hình CI/CD<br>hoặc Docker?"}
+    Q3 -->|Có| YAML
+    Q3 -->|Không| Q4{"Cấu hình VS Code<br>hoặc Node.js?"}
+    Q4 -->|Có| JSON
+    Q4 -->|Không| Q5{"Ưu tiên dễ đọc<br>cho con người?"}
+    Q5 -->|Có| YAML
+    Q5 -->|Không| JSON
+
+    style Start fill:#6c5ce733,stroke:#6c5ce7
+    style JSON fill:#f39c1233,stroke:#f39c12
+    style YAML fill:#00cec933,stroke:#00cec9
+          </div>
+          <p class="caption">Sơ đồ quyết định: khi nào dùng JSON, khi nào dùng YAML?</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Thực tế:</strong> Bạn không cần chọn — hãy thành thạo <strong>cả hai</strong>. Claude Code dùng JSON cho settings/MCP, YAML cho GitHub Actions/SKILL.md. Biết cả hai = không bị stuck.</p>
+        </div>
+
+        <!-- ============ 4.11 Bài Tập & Tóm Tắt ============ -->
+        <h2 id="exercises">4.11 Bài Tập &amp; Tóm Tắt</h2>
+
+        <h3>Bài tập JSON</h3>
+        <table>
+          <thead><tr><th>#</th><th>Bài tập</th><th>Gợi ý</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Tạo file <code>settings.json</code> cho Claude Code với 3 quyền allow và 2 quyền deny</td><td>Xem mẫu ở mục 4.3</td></tr>
+            <tr><td>2</td><td>Tìm và sửa lỗi trong đoạn JSON: <code>{'name': 'test', 'v': 1.0,}</code></td><td>3 lỗi: ngoặc đơn, trailing comma</td></tr>
+            <tr><td>3</td><td>Viết MCP config kết nối GitHub và filesystem server</td><td>Xem mẫu MCP ở mục 4.3</td></tr>
+            <tr><td>4</td><td>Tạo <code>package.json</code> hoàn chỉnh cho web app với express + jest</td><td>Bao gồm scripts, deps, devDeps</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Bài tập YAML</h3>
+        <table>
+          <thead><tr><th>#</th><th>Bài tập</th><th>Gợi ý</th></tr></thead>
+          <tbody>
+            <tr><td>5</td><td>Viết SKILL.md frontmatter cho skill "auto-test" với 3 triggers</td><td>Xem mẫu ở mục 4.7</td></tr>
+            <tr><td>6</td><td>Tạo GitHub Actions workflow chạy test khi push vào main</td><td>Xem mẫu ở mục 4.8</td></tr>
+            <tr><td>7</td><td>Chuyển đoạn JSON sau sang YAML: <code>{"db": {"host": "localhost", "port": 5432, "ssl": true}}</code></td><td>Dùng thụt lề 2 spaces</td></tr>
+            <tr><td>8</td><td>Tìm lỗi: đoạn YAML có tab, boolean gotcha, và indent lệch</td><td>Xem mục 4.9</td></tr>
+          </tbody>
+        </table>
+
+        <h3>📋 Tóm Tắt</h3>
+        <table>
+          <thead><tr><th>Chủ đề</th><th>Điểm chính</th></tr></thead>
+          <tbody>
+            <tr><td><strong>JSON cú pháp</strong></td><td>Key ngoặc kép, không trailing comma, không comment</td></tr>
+            <tr><td><strong>JSON trong Claude Code</strong></td><td><code>settings.json</code> (quyền), MCP config (tools), <code>package.json</code> (project)</td></tr>
+            <tr><td><strong>YAML cú pháp</strong></td><td>Thụt lề 2 spaces, <code>#</code> comment, <code>|</code> / <code>&gt;</code> multiline</td></tr>
+            <tr><td><strong>YAML trong Claude Code</strong></td><td>SKILL.md frontmatter, agent definition, slash commands</td></tr>
+            <tr><td><strong>YAML cho CI/CD</strong></td><td>GitHub Actions: <code>on</code> triggers, <code>jobs</code>, <code>steps</code>, matrix strategy</td></tr>
+            <tr><td><strong>Lỗi JSON</strong></td><td>Trailing comma, single quotes, comments</td></tr>
+            <tr><td><strong>Lỗi YAML</strong></td><td>Tab/indent lệch, thiếu ngoặc kép, boolean gotcha (<code>yes</code>/<code>no</code>)</td></tr>
+            <tr><td><strong>Khi nào dùng gì?</strong></td><td>JSON: API, VS Code config / YAML: CI/CD, human-readable config</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Nav -->
+        <div class="lesson-nav">
+          <a href="03-programming.html">← Bài 3: Lập Trình Cơ Bản</a>
+          <a href="05-shell.html">Bài 5: Shell Scripting →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

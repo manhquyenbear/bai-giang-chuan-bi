@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code Prep — Kiến thức chuẩn bị</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="hamburger" aria-label="Menu">☰</button>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📘 Claude Code Prep</h2>
+        <p>Kiến thức chuẩn bị cho claude-howto</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link active" href="index.html">🏠 Trang Chủ</a>
+        <div class="nav-section">BẮT BUỘC</div>
+        <a class="nav-link" href="01-terminal.html">💻 Terminal / CLI <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="02-git.html">🔀 Git Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="03-programming.html">🧩 Lập Trình Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="04-json-yaml.html">📋 JSON & YAML <span class="badge badge-required">Bắt buộc</span></a>
+        <div class="nav-section">CẦN CHO MODULE NÂNG CAO</div>
+        <a class="nav-link" href="05-shell.html">📜 Shell Scripting <span class="badge badge-later">Sau</span></a>
+        <a class="nav-link" href="06-nodejs.html">🟢 Node.js / npm <span class="badge badge-later">Sau</span></a>
+        <div class="nav-section">NÊN BIẾT</div>
+        <a class="nav-link" href="07-ai-llm.html">🤖 AI / LLM <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="08-markdown.html">📝 Markdown <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="09-cicd.html">🔄 CI/CD <span class="badge badge-optional">Nên biết</span></a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <div class="content">
+        <!-- Hero -->
+        <div class="hero">
+          <h1>🚀 Kiến Thức Chuẩn Bị<br>Học Claude Code</h1>
+          <p class="subtitle">Tổng hợp 9 bài giảng kiến thức nền tảng bạn cần nắm trước khi bắt đầu
+            học theo lộ trình <a href="https://github.com/luongnv89/claude-howto" target="_blank">claude-howto</a>.</p>
+        </div>
+
+        <!-- Roadmap Diagram -->
+        <h2>📍 Lộ Trình Học Claude Code</h2>
+        <div class="diagram-container">
+          <div class="mermaid">
+graph LR
+    subgraph Beginner["🟢 Beginner ~3h"]
+        M1[01 Slash Commands]
+        M2[02 Memory]
+        M3[08 Checkpoints]
+        M4[10 CLI Basics]
+    end
+    subgraph Intermediate["🔵 Intermediate ~5h"]
+        M5[03 Skills]
+        M6[06 Hooks]
+        M7[05 MCP]
+        M8[04 Subagents]
+    end
+    subgraph Advanced["🔴 Advanced ~5h"]
+        M9[09 Advanced Features]
+        M10[07 Plugins]
+        M11[10 CLI Mastery]
+    end
+    Beginner --> Intermediate --> Advanced
+          </div>
+          <p class="caption">Lộ trình 10 modules của claude-howto, tổng ~11-13 giờ</p>
+        </div>
+
+        <!-- Prerequisites Overview -->
+        <h2>📋 Bạn Cần Chuẩn Bị Gì?</h2>
+        <p>Trước khi bắt đầu khóa học, hãy nắm vững các kiến thức sau — sắp xếp theo mức độ ưu tiên:</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph TD
+    Start((Bắt đầu)) --> A[1. Terminal / CLI]
+    Start --> B[2. Git Cơ Bản]
+    Start --> C[3. Lập Trình Cơ Bản]
+    Start --> D[4. JSON & YAML]
+    A --> E{Đủ kiến thức nền}
+    B --> E
+    C --> E
+    D --> E
+    E -->|Beginner Modules| F[5. Shell Scripting]
+    E -->|Beginner Modules| G[6. Node.js / npm]
+    E --> H[7. AI / LLM &#40;tham khảo&#41;]
+    E --> I[8. Markdown &#40;tham khảo&#41;]
+    F -->|Intermediate+| J[9. CI/CD]
+    G -->|Intermediate+| J
+
+    style A fill:#e74c3c33,stroke:#e74c3c
+    style B fill:#e74c3c33,stroke:#e74c3c
+    style C fill:#e74c3c33,stroke:#e74c3c
+    style D fill:#e74c3c33,stroke:#e74c3c
+    style F fill:#f39c1233,stroke:#f39c12
+    style G fill:#f39c1233,stroke:#f39c12
+    style H fill:#00cec933,stroke:#00cec9
+    style I fill:#00cec933,stroke:#00cec9
+    style J fill:#00cec933,stroke:#00cec9
+          </div>
+          <p class="caption">Sơ đồ kiến thức cần chuẩn bị trước khi vào từng cấp độ</p>
+        </div>
+
+        <!-- Module Cards -->
+        <h2>📚 Các Bài Giảng</h2>
+
+        <h3>🔴 Bắt Buộc — Học trước khi bắt đầu</h3>
+        <div class="module-grid">
+          <a class="module-card" href="01-terminal.html">
+            <div class="num">Bài 01</div>
+            <h3>💻 Terminal / Command Line</h3>
+            <p>Di chuyển thư mục, tạo/xóa file, pipe, redirect, grep, biến môi trường, quyền file</p>
+            <span class="tag badge-required">Bắt buộc</span>
+          </a>
+          <a class="module-card" href="02-git.html">
+            <div class="num">Bài 02</div>
+            <h3>🔀 Git Cơ Bản</h3>
+            <p>Clone, commit, push, pull, branch, merge, .gitignore và GitHub</p>
+            <span class="tag badge-required">Bắt buộc</span>
+          </a>
+          <a class="module-card" href="03-programming.html">
+            <div class="num">Bài 03</div>
+            <h3>🧩 Lập Trình Cơ Bản</h3>
+            <p>Biến, hàm, điều kiện, vòng lặp, array, object, async/await, debug</p>
+            <span class="tag badge-required">Bắt buộc</span>
+          </a>
+          <a class="module-card" href="04-json-yaml.html">
+            <div class="num">Bài 04</div>
+            <h3>📋 JSON & YAML</h3>
+            <p>Cú pháp JSON/YAML, settings.json, frontmatter, YAML cho GitHub Actions</p>
+            <span class="tag badge-required">Bắt buộc</span>
+          </a>
+        </div>
+
+        <h3>🟠 Cần Khi Vào Module Nâng Cao</h3>
+        <div class="module-grid">
+          <a class="module-card" href="05-shell.html">
+            <div class="num">Bài 05</div>
+            <h3>📜 Shell Scripting</h3>
+            <p>Biến bash, if/else, loop, exit code, hook script cho Claude Code</p>
+            <span class="tag badge-later">Module 6+</span>
+          </a>
+          <a class="module-card" href="06-nodejs.html">
+            <div class="num">Bài 06</div>
+            <h3>🟢 Node.js / npm</h3>
+            <p>npm install, npx, package.json, scripts, cài đặt Claude Code</p>
+            <span class="tag badge-later">Module 7+</span>
+          </a>
+        </div>
+
+        <h3>🟡 Nên Biết — Giúp hiểu sâu hơn</h3>
+        <div class="module-grid">
+          <a class="module-card" href="07-ai-llm.html">
+            <div class="num">Bài 07</div>
+            <h3>🤖 AI / LLM</h3>
+            <p>Token, context window, prompt engineering, các model Claude, hallucination</p>
+            <span class="tag badge-optional">Nên biết</span>
+          </a>
+          <a class="module-card" href="08-markdown.html">
+            <div class="num">Bài 08</div>
+            <h3>📝 Markdown</h3>
+            <p>Heading, code block, table, link — viết CLAUDE.md, slash commands, skills</p>
+            <span class="tag badge-optional">Nên biết</span>
+          </a>
+          <a class="module-card" href="09-cicd.html">
+            <div class="num">Bài 09</div>
+            <h3>🔄 CI/CD</h3>
+            <p>GitHub Actions, workflow YAML, secrets, tích hợp Claude vào pipeline</p>
+            <span class="tag badge-optional">Nên biết</span>
+          </a>
+        </div>
+
+        <!-- Timeline -->
+        <h2>🗓️ Lộ Trình Chuẩn Bị Gợi Ý</h2>
+        <div class="card">
+          <h3>Tuần 1: Nền tảng cốt lõi</h3>
+          <ul class="steps">
+            <li class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>Ngày 1-2: Terminal / Command Line</h4>
+                <p>Thành thạo di chuyển thư mục, tạo file, pipe, grep — 2-3 giờ</p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>Ngày 3-4: Git Cơ Bản</h4>
+                <p>Clone repo, commit, push, branch — tạo GitHub account — 2-3 giờ</p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>Ngày 5-6: JSON + YAML + Markdown</h4>
+                <p>Đọc/viết cấu hình — sẵn sàng cho settings.json, CLAUDE.md — 2 giờ</p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h4>Ngày 7: Cài đặt môi trường</h4>
+                <p>Node.js, Git, Claude Code, VS Code — kiểm tra mọi thứ hoạt động — 1-2 giờ</p>
+              </div>
+            </li>
+          </ul>
+
+          <h3>Tuần 2: Bổ sung (nếu cần)</h3>
+          <ul class="steps">
+            <li class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <h4>Ngày 1-3: Ôn lập trình cơ bản</h4>
+                <p>Python hoặc JavaScript — biến, hàm, loop, object — 3-4 giờ</p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-num">6</div>
+              <div class="step-content">
+                <h4>Ngày 4-5: Shell scripting</h4>
+                <p>Viết script bash, exit code — chuẩn bị cho Hooks module — 2-3 giờ</p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-num">7</div>
+              <div class="step-content">
+                <h4>Ngày 6-7: AI/LLM + Clone repo</h4>
+                <p>Đọc về prompt engineering, bắt đầu bài học đầu tiên! — 2-3 giờ</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Installation Checklist -->
+        <h2>⚙️ Checklist Cài Đặt</h2>
+        <div class="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Phần mềm</th>
+                <th>Lệnh kiểm tra</th>
+                <th>Link tải</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Node.js</strong> (v18+)</td>
+                <td><code>node --version</code></td>
+                <td><a href="https://nodejs.org/" target="_blank">nodejs.org</a></td>
+              </tr>
+              <tr>
+                <td><strong>Git</strong></td>
+                <td><code>git --version</code></td>
+                <td><a href="https://git-scm.com/downloads" target="_blank">git-scm.com</a></td>
+              </tr>
+              <tr>
+                <td><strong>Claude Code</strong></td>
+                <td><code>claude --version</code></td>
+                <td><code>npm install -g @anthropic-ai/claude-code</code></td>
+              </tr>
+              <tr>
+                <td><strong>VS Code</strong></td>
+                <td><code>code --version</code></td>
+                <td><a href="https://code.visualstudio.com/" target="_blank">code.visualstudio.com</a></td>
+              </tr>
+              <tr>
+                <td><strong>Tài khoản Anthropic</strong></td>
+                <td>—</td>
+                <td><a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Start button -->
+        <div style="text-align:center; margin: 48px 0 24px;">
+          <a href="01-terminal.html" style="display:inline-block; padding:16px 40px; background:var(--accent); color:white; border-radius:8px; font-weight:700; font-size:1.1rem; transition:all 0.25s;">
+            Bắt Đầu Bài 1: Terminal →
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

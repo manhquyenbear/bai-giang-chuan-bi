@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 9: CI/CD & GitHub Actions — Claude Code Prep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="hamburger" aria-label="Menu">☰</button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📘 Claude Code Prep</h2>
+        <p>Kiến thức chuẩn bị cho claude-howto</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link" href="index.html">🏠 Trang Chủ</a>
+        <div class="nav-section">BẮT BUỘC</div>
+        <a class="nav-link" href="01-terminal.html">💻 Terminal / CLI <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="02-git.html">🔀 Git Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="03-programming.html">🧩 Lập Trình Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="04-json-yaml.html">📋 JSON & YAML <span class="badge badge-required">Bắt buộc</span></a>
+        <div class="nav-section">CẦN CHO MODULE NÂNG CAO</div>
+        <a class="nav-link" href="05-shell.html">📜 Shell Scripting <span class="badge badge-later">Sau</span></a>
+        <a class="nav-link" href="06-nodejs.html">🟢 Node.js / npm <span class="badge badge-later">Sau</span></a>
+        <div class="nav-section">NÊN BIẾT</div>
+        <a class="nav-link" href="07-ai-llm.html">🤖 AI / LLM <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="08-markdown.html">📝 Markdown <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link active" href="09-cicd.html">🔄 CI/CD <span class="badge badge-optional">Nên biết</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="content">
+        <h1>🔄 CI/CD & GitHub Actions</h1>
+        <p class="subtitle">Tự động hóa kiểm thử, build và deploy — nền tảng DevOps hiện đại</p>
+
+        <!-- ============ 9.1 CI/CD La Gi ============ -->
+        <h2 id="what">9.1 CI/CD Là Gì?</h2>
+        <p><strong>CI/CD</strong> (Continuous Integration / Continuous Delivery) là quy trình <strong>tự động hóa</strong> việc kiểm thử, build và triển khai code mỗi khi có thay đổi.</p>
+
+        <div class="diagram-container">
+          <div class="diagram-img">
+            <img src="https://docs.github.com/assets/cb-25535/mw-1440/images/help/actions/overview-actions-simple.webp" alt="GitHub Actions overview - Event triggers Runner with Jobs and Steps">
+            <span class="img-source">Nguồn: docs.github.com — Understanding GitHub Actions</span>
+          </div>
+          <p class="caption">Pipeline CI/CD với GitHub Actions — Event kích hoạt Workflow → Jobs → Steps chạy trên Runner</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>CI</strong> = "Mỗi lần push code, tự động chạy test để phát hiện lỗi sớm." <br><strong>CD</strong> = "Nếu test pass, tự động deploy lên server."</p>
+        </div>
+
+        <div class="compare">
+          <div class="compare-bad">
+            <h4>❌ Không có CI/CD</h4>
+            <pre><code># Dev push code lên main
+# "Chạy ngon trên máy mình" 🤷
+# Deploy thủ công bằng FTP
+# Phát hiện bug trên production
+# Rollback thủ công... hoảng loạn</code></pre>
+          </div>
+          <div class="compare-good">
+            <h4>✅ Có CI/CD</h4>
+            <pre><code># Dev tạo PR
+# CI tự động chạy test → lỗi ở dòng 42
+# Dev sửa, push lại → test pass ✅
+# Merge → CD tự deploy staging
+# Approve → CD deploy production 🚀</code></pre>
+          </div>
+        </div>
+
+        <!-- ============ 9.2 GitHub Actions ============ -->
+        <h2 id="github-actions">9.2 GitHub Actions — CI/CD Của GitHub</h2>
+        <p><strong>GitHub Actions</strong> là nền tảng CI/CD <strong>tích hợp sẵn</strong> trong GitHub — không cần setup server riêng. Mọi thứ nằm trong thư mục <code>.github/workflows/</code>.</p>
+
+        <pre><code>my-project/
+├── .github/
+│   └── workflows/
+│       ├── ci.yml          <span class="comment"># Chạy test khi push/PR</span>
+│       ├── deploy.yml      <span class="comment"># Deploy khi merge vào main</span>
+│       └── review.yml      <span class="comment"># Claude Code review PR</span>
+├── src/
+├── tests/
+└── package.json</code></pre>
+
+        <div class="diagram-container">
+          <div class="diagram-img">
+            <img src="https://docs.github.com/assets/cb-25535/mw-1440/images/help/actions/overview-actions-simple.webp" alt="GitHub Actions structure - Workflow with Jobs and Steps">
+            <span class="img-source">Nguồn: docs.github.com — Understanding GitHub Actions</span>
+          </div>
+          <p class="caption">Cấu trúc GitHub Actions: Workflow → Jobs → Steps — mỗi Job chạy trên Runner riêng</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Khái niệm</th><th>Giải thích</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Workflow</strong></td><td>File YAML định nghĩa pipeline</td><td><code>.github/workflows/ci.yml</code></td></tr>
+            <tr><td><strong>Event</strong></td><td>Sự kiện kích hoạt workflow</td><td><code>push</code>, <code>pull_request</code>, <code>schedule</code></td></tr>
+            <tr><td><strong>Job</strong></td><td>Nhóm các bước chạy trên cùng runner</td><td><code>test</code>, <code>build</code>, <code>deploy</code></td></tr>
+            <tr><td><strong>Step</strong></td><td>Một bước đơn lẻ trong job</td><td>Chạy script, dùng action</td></tr>
+            <tr><td><strong>Action</strong></td><td>Module tái sử dụng (từ Marketplace)</td><td><code>actions/checkout@v4</code></td></tr>
+            <tr><td><strong>Runner</strong></td><td>Máy ảo chạy job</td><td><code>ubuntu-latest</code>, <code>windows-latest</code></td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 9.3 Workflow Dau Tien ============ -->
+        <h2 id="first-workflow">9.3 Viết Workflow Đầu Tiên</h2>
+        <p>Tạo file <code>.github/workflows/ci.yml</code>:</p>
+
+        <pre><code><span class="comment"># .github/workflows/ci.yml</span>
+name: CI                          <span class="comment"># Tên workflow (hiển thị trên GitHub)</span>
+
+on:                               <span class="comment"># Khi nào chạy?</span>
+  push:
+    branches: [main]              <span class="comment"># Push vào main</span>
+  pull_request:
+    branches: [main]              <span class="comment"># Tạo PR vào main</span>
+
+jobs:                             <span class="comment"># Danh sách jobs</span>
+  test:                           <span class="comment"># Tên job</span>
+    runs-on: ubuntu-latest        <span class="comment"># Chạy trên Ubuntu</span>
+
+    steps:                        <span class="comment"># Các bước trong job</span>
+      - name: Checkout code       <span class="comment"># Bước 1: Lấy code</span>
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js       <span class="comment"># Bước 2: Cài Node</span>
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies <span class="comment"># Bước 3: Cài packages</span>
+        run: npm ci
+
+      - name: Run tests            <span class="comment"># Bước 4: Chạy test</span>
+        run: npm test
+
+      - name: Run linter            <span class="comment"># Bước 5: Kiểm tra code style</span>
+        run: npm run lint</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong><code>on:</code></strong> — Định nghĩa event trigger. Có thể là <code>push</code>, <code>pull_request</code>, <code>schedule</code> (cron), <code>workflow_dispatch</code> (chạy tay), v.v.</p>
+        </div>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong><code>jobs:</code></strong> — Mỗi job chạy trên một runner riêng (máy ảo mới). Các job chạy <strong>song song</strong> mặc định. Dùng <code>needs:</code> để chạy tuần tự.</p>
+        </div>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p><strong><code>steps:</code></strong> — Mỗi step dùng <code>uses:</code> (action có sẵn) hoặc <code>run:</code> (chạy lệnh shell). Step chạy <strong>tuần tự</strong> trong job.</p>
+        </div>
+
+        <!-- ============ 9.4 Vi Du Thuc Te ============ -->
+        <h2 id="real-examples">9.4 Ví Dụ Workflow Thực Tế</h2>
+
+        <h3>CI/CD cho Node.js — Test, Build, Deploy</h3>
+        <pre><code><span class="comment"># .github/workflows/full-pipeline.yml</span>
+name: Full CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]   <span class="comment"># Test trên 3 phiên bản Node</span>
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test
+
+  build:
+    needs: test                       <span class="comment"># Chờ test pass mới build</span>
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+
+  deploy:
+    needs: build                      <span class="comment"># Chờ build xong mới deploy</span>
+    if: github.ref == 'refs/heads/main'  <span class="comment"># Chỉ deploy từ main</span>
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: dist/
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production..."
+          <span class="comment"># Thêm lệnh deploy thực tế ở đây</span></code></pre>
+
+        <h3>Claude Code Review — Tự động review PR</h3>
+        <pre><code><span class="comment"># .github/workflows/claude-review.yml</span>
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0              <span class="comment"># Lấy full history để diff</span>
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run Claude Review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude -p "Review PR này. Tìm bugs, security issues, \
+            và đề xuất cải thiện. Trả lời bằng tiếng Việt." \
+            --output-format json > review.json
+
+      - name: Post Review Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const review = fs.readFileSync('review.json', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## 🤖 Claude Code Review\n\n${review}`
+            });</code></pre>
+
+        <!-- ============ 9.5 Secrets ============ -->
+        <h2 id="secrets">9.5 Secrets & Environment Variables</h2>
+        <p>Secrets dùng để lưu thông tin nhạy cảm (API keys, tokens) — <strong>KHÔNG BAO GIỜ</strong> viết trực tiếp trong code.</p>
+
+        <h3>Thêm Secret trên GitHub</h3>
+        <pre><code><span class="comment"># Đường dẫn trên GitHub:</span>
+Repository → Settings → Secrets and variables → Actions → New repository secret
+
+<span class="comment"># Ví dụ thêm:</span>
+Name:  ANTHROPIC_API_KEY
+Value: sk-ant-xxxxxxxxxxxxx
+
+Name:  DEPLOY_TOKEN
+Value: ghp_xxxxxxxxxxxxx</code></pre>
+
+        <h3>Sử dụng trong workflow</h3>
+        <pre><code><span class="comment"># Dùng secret</span>
+env:
+  ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+<span class="comment"># Biến môi trường ở các cấp:</span>
+
+<span class="comment"># 1. Cấp workflow (tất cả jobs đều thấy)</span>
+env:
+  NODE_ENV: production
+
+jobs:
+  build:
+    <span class="comment"># 2. Cấp job (chỉ job này thấy)</span>
+    env:
+      DATABASE_URL: ${{ secrets.DB_URL }}
+    steps:
+      - name: Deploy
+        <span class="comment"># 3. Cấp step (chỉ step này thấy)</span>
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+        run: echo "Deploying..."</code></pre>
+
+        <div class="info-box danger">
+          <span class="icon">⚠️</span>
+          <p>GitHub tự động <strong>mask</strong> secrets trong logs (hiện <code>***</code>). Nhưng đừng dùng <code>echo ${{ secrets.KEY }}</code> — có thể bị lộ nếu secret chứa ký tự đặc biệt.</p>
+        </div>
+
+        <!-- ============ 9.6 Actions Pho Bien ============ -->
+        <h2 id="popular-actions">9.6 Các Actions Phổ Biến</h2>
+
+        <table>
+          <thead><tr><th>Action</th><th>Chức năng</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>actions/checkout@v4</code></td><td>Clone repo vào runner</td><td>Bắt buộc trong hầu hết workflow</td></tr>
+            <tr><td><code>actions/setup-node@v4</code></td><td>Cài đặt Node.js</td><td><code>node-version: '20'</code></td></tr>
+            <tr><td><code>actions/setup-python@v5</code></td><td>Cài đặt Python</td><td><code>python-version: '3.12'</code></td></tr>
+            <tr><td><code>actions/upload-artifact@v4</code></td><td>Lưu file output giữa jobs</td><td>Lưu build output, test reports</td></tr>
+            <tr><td><code>actions/download-artifact@v4</code></td><td>Tải artifact từ job trước</td><td>Lấy build output để deploy</td></tr>
+            <tr><td><code>actions/cache@v4</code></td><td>Cache dependencies</td><td>Cache <code>node_modules/</code></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Ví dụ: Cache <code>node_modules</code> để tăng tốc</h3>
+        <pre><code>steps:
+  - uses: actions/checkout@v4
+
+  - name: Cache node_modules
+    uses: actions/cache@v4
+    with:
+      path: node_modules
+      key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+      restore-keys: |
+        ${{ runner.os }}-node-
+
+  - name: Install dependencies
+    run: npm ci
+
+  - name: Run tests
+    run: npm test</code></pre>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Cache</strong> giúp giảm thời gian CI từ ~2 phút xuống ~30 giây bằng cách lưu lại <code>node_modules/</code> giữa các lần chạy. Key dựa trên <code>package-lock.json</code> — thay đổi dependencies = cache mới.</p>
+        </div>
+
+        <!-- ============ 9.7 Doc Hieu Ket Qua ============ -->
+        <h2 id="results">9.7 Đọc Hiểu Kết Quả CI/CD</h2>
+        <p>Khi có CI/CD, mỗi PR và commit sẽ hiển thị trạng thái trực tiếp trên GitHub.</p>
+
+        <div class="compare">
+          <div class="compare-good">
+            <h4>✅ CI Pass</h4>
+            <pre><code>All checks have passed
+✅ test (18) — 45s
+✅ test (20) — 42s
+✅ test (22) — 43s
+✅ build — 1m 12s
+✅ deploy — 30s
+
+→ "Merge pull request" button XANH</code></pre>
+          </div>
+          <div class="compare-bad">
+            <h4>❌ CI Fail</h4>
+            <pre><code>Some checks were not successful
+✅ test (18) — 45s
+❌ test (20) — 38s  ← FAIL
+✅ test (22) — 43s
+⏭️ build — skipped
+⏭️ deploy — skipped
+
+→ "Merge" button ĐỎ — cần sửa!</code></pre>
+          </div>
+        </div>
+
+        <h3>Thêm Badge vào README</h3>
+        <p>Badge hiển thị trạng thái CI/CD trực tiếp trên README của repo:</p>
+        <pre><code><span class="comment">&lt;!-- Thêm vào README.md --&gt;</span>
+![CI](https://github.com/USER/REPO/actions/workflows/ci.yml/badge.svg)
+![Deploy](https://github.com/USER/REPO/actions/workflows/deploy.yml/badge.svg)
+
+<span class="comment"># Kết quả hiển thị:</span>
+<span class="comment"># [CI ✅ passing]  [Deploy ✅ passing]</span>
+<span class="comment"># hoặc</span>
+<span class="comment"># [CI ❌ failing]  [Deploy ⏭️ skipped]</span></code></pre>
+
+        <!-- ============ 9.8 Tich Hop Claude Code ============ -->
+        <h2 id="claude-integration">9.8 Tích Hợp Claude Code Trong CI/CD</h2>
+        <p>Claude Code có thể chạy trong CI/CD với flag <code>-p</code> (print mode — không cần terminal tương tác).</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+sequenceDiagram
+    participant Dev as 👨‍💻 Developer
+    participant GH as 🐙 GitHub
+    participant CI as ⚙️ GitHub Actions
+    participant Claude as 🤖 Claude Code
+
+    Dev->>GH: Tạo Pull Request
+    GH->>CI: Trigger workflow
+    CI->>CI: Checkout code
+    CI->>Claude: claude -p "Review PR này"
+    Claude->>Claude: Phân tích code changes
+    Claude-->>CI: Kết quả review (JSON)
+    CI->>GH: Post comment lên PR
+    GH-->>Dev: 🔔 Thông báo review
+          </div>
+          <p class="caption">Luồng tự động: Push PR → Claude review → Comment kết quả</p>
+        </div>
+
+        <h3>Workflow thực tế: Claude Code review tự động</h3>
+        <pre><code><span class="comment"># .github/workflows/claude-auto-review.yml</span>
+name: Claude Auto Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: diff
+        run: |
+          echo "files=$(git diff --name-only origin/main...HEAD | tr '\n' ' ')" \
+            >> $GITHUB_OUTPUT
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Review with Claude
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude -p "Hãy review các file sau: ${{ steps.diff.outputs.files }}
+          Tập trung vào:
+          1. Bugs tiềm ẩn
+          2. Security issues
+          3. Performance
+          4. Code style
+          Trả lời bằng tiếng Việt, format Markdown." > review.md
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const review = fs.readFileSync('review.md', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `## 🤖 Claude Code Auto Review\n\n${review}`
+            });</code></pre>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong><code>claude -p</code></strong> = print mode — Claude nhận prompt, xử lý, trả kết quả về stdout. Hoàn hảo cho CI/CD vì không cần terminal tương tác.</p>
+        </div>
+
+        <!-- ============ 9.9 Summary ============ -->
+        <h2 id="summary">📋 Tóm Tắt</h2>
+        <table>
+          <thead><tr><th>Khái niệm</th><th>Giải thích</th><th>Ví dụ / Lệnh</th></tr></thead>
+          <tbody>
+            <tr><td><strong>CI</strong></td><td>Tự động build + test khi push</td><td>Chạy <code>npm test</code> mỗi PR</td></tr>
+            <tr><td><strong>CD</strong></td><td>Tự động deploy sau khi CI pass</td><td>Deploy lên server khi merge main</td></tr>
+            <tr><td><strong>Workflow</strong></td><td>File YAML trong <code>.github/workflows/</code></td><td><code>ci.yml</code>, <code>deploy.yml</code></td></tr>
+            <tr><td><strong>Event</strong></td><td>Trigger kích hoạt workflow</td><td><code>push</code>, <code>pull_request</code></td></tr>
+            <tr><td><strong>Job</strong></td><td>Nhóm steps, chạy song song</td><td><code>test</code>, <code>build</code>, <code>deploy</code></td></tr>
+            <tr><td><strong>Step</strong></td><td>Bước đơn lẻ trong job</td><td><code>uses:</code> action hoặc <code>run:</code> script</td></tr>
+            <tr><td><strong>Action</strong></td><td>Module tái sử dụng</td><td><code>actions/checkout@v4</code></td></tr>
+            <tr><td><strong>Secret</strong></td><td>Biến bí mật, không lộ trong log</td><td><code>${{ secrets.API_KEY }}</code></td></tr>
+            <tr><td><strong>Matrix</strong></td><td>Test trên nhiều phiên bản</td><td><code>node: [18, 20, 22]</code></td></tr>
+            <tr><td><strong>Cache</strong></td><td>Lưu deps giữa các lần chạy</td><td><code>actions/cache@v4</code></td></tr>
+            <tr><td><strong><code>needs:</code></strong></td><td>Chạy job tuần tự</td><td><code>needs: test</code></td></tr>
+            <tr><td><strong><code>claude -p</code></strong></td><td>Claude Code trong CI</td><td>Auto review PR</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Nav -->
+        <div class="lesson-nav">
+          <a href="08-markdown.html">← Bài 8: Markdown</a>
+          <a href="index.html">Trang Chủ →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

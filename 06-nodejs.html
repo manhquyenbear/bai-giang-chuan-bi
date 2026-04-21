@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bài 6: Node.js / npm — Claude Code Prep</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <button class="hamburger" aria-label="Menu">☰</button>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>📘 Claude Code Prep</h2>
+        <p>Kiến thức chuẩn bị cho claude-howto</p>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link" href="index.html">🏠 Trang Chủ</a>
+        <div class="nav-section">BẮT BUỘC</div>
+        <a class="nav-link" href="01-terminal.html">💻 Terminal / CLI <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="02-git.html">🔀 Git Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="03-programming.html">🧩 Lập Trình Cơ Bản <span class="badge badge-required">Bắt buộc</span></a>
+        <a class="nav-link" href="04-json-yaml.html">📋 JSON & YAML <span class="badge badge-required">Bắt buộc</span></a>
+        <div class="nav-section">CẦN CHO MODULE NÂNG CAO</div>
+        <a class="nav-link" href="05-shell.html">📜 Shell Scripting <span class="badge badge-later">Sau</span></a>
+        <a class="nav-link active" href="06-nodejs.html">🟢 Node.js / npm <span class="badge badge-later">Sau</span></a>
+        <div class="nav-section">NÊN BIẾT</div>
+        <a class="nav-link" href="07-ai-llm.html">🤖 AI / LLM <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="08-markdown.html">📝 Markdown <span class="badge badge-optional">Nên biết</span></a>
+        <a class="nav-link" href="09-cicd.html">🔄 CI/CD <span class="badge badge-optional">Nên biết</span></a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="content">
+        <h1>🟢 Node.js &amp; npm</h1>
+        <p class="subtitle">Nền tảng runtime JavaScript — công cụ cần thiết để cài đặt và chạy Claude Code, MCP servers</p>
+
+        <!-- ============ 6.1 Node.js La Gi ============ -->
+        <h2 id="what">6.1 Node.js Là Gì?</h2>
+        <p>Node.js là một <strong>JavaScript runtime</strong> — cho phép bạn chạy code JavaScript <strong>bên ngoài trình duyệt</strong>. Trước khi có Node.js, JavaScript chỉ chạy được trong Chrome, Firefox, Safari. Giờ đây, JS chạy được ở mọi nơi:</p>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph TB
+    JS["⚡ JavaScript"] --> Browser["🌐 Trình duyệt<br>Chrome, Firefox, Safari"]
+    JS --> Server["🖥️ Server<br>Express, Fastify, NestJS"]
+    JS --> CLI["💻 CLI Tools<br>ESLint, Prettier, Webpack"]
+    JS --> Claude["🤖 Claude Code<br>npm install -g @anthropic-ai/claude-code"]
+    JS --> MCP["🔌 MCP Servers<br>npx chạy tools cho AI"]
+    JS --> Mobile["📱 Mobile<br>React Native"]
+
+    style JS fill:#f7df1e33,stroke:#f7df1e
+    style Browser fill:#4285f433,stroke:#4285f4
+    style Server fill:#68a06333,stroke:#68a063
+    style CLI fill:#6c5ce733,stroke:#6c5ce7
+    style Claude fill:#d97b3c33,stroke:#d97b3c
+    style MCP fill:#00cec933,stroke:#00cec9
+    style Mobile fill:#61dafb33,stroke:#61dafb
+          </div>
+          <p class="caption">JavaScript chạy ở mọi nơi nhờ Node.js — từ trình duyệt, server, đến Claude Code</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>Claude Code được viết bằng TypeScript/JavaScript</strong> và cài qua npm. Hiểu Node.js &amp; npm = hiểu cách Claude Code hoạt động bên dưới.</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Khái niệm</th><th>Giải thích</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Node.js</strong></td><td>Runtime chạy JavaScript trên máy tính (dựa trên engine V8 của Chrome)</td></tr>
+            <tr><td><strong>npm</strong></td><td>Node Package Manager — trình quản lý thư viện/package cho Node.js</td></tr>
+            <tr><td><strong>npx</strong></td><td>Công cụ chạy package mà không cần cài đặt (đi kèm npm)</td></tr>
+            <tr><td><strong>package.json</strong></td><td>File cấu hình project — liệt kê dependencies, scripts, metadata</td></tr>
+            <tr><td><strong>node_modules</strong></td><td>Thư mục chứa tất cả package đã cài — KHÔNG commit vào Git</td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 6.2 Cai Dat ============ -->
+        <h2 id="install">6.2 Cài Đặt Node.js</h2>
+
+        <h3>Windows</h3>
+        <pre><code><span class="comment"># Cách 1: Tải installer từ website</span>
+<span class="comment"># Vào https://nodejs.org → tải bản LTS → cài đặt</span>
+
+<span class="comment"># Cách 2: Dùng winget (Windows Package Manager)</span>
+$ winget install OpenJS.NodeJS.LTS
+
+<span class="comment"># Cách 3: Dùng Chocolatey</span>
+$ choco install nodejs-lts</code></pre>
+
+        <h3>macOS</h3>
+        <pre><code><span class="comment"># Dùng Homebrew (khuyến nghị)</span>
+$ brew install node
+
+<span class="comment"># Hoặc dùng nvm (quản lý nhiều phiên bản)</span>
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+$ nvm install --lts
+$ nvm use --lts</code></pre>
+
+        <h3>Xác nhận cài đặt thành công</h3>
+        <pre><code>$ node --version
+v22.15.0
+
+$ npm --version
+10.9.2
+
+$ npx --version
+10.9.2</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p>Luôn cài bản <strong>LTS</strong> (Long Term Support) — ổn định, được hỗ trợ lâu dài. Tránh bản "Current" trừ khi cần tính năng mới nhất.</p>
+        </div>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p>Nếu dùng <strong>nvm</strong> (Node Version Manager), bạn có thể chuyển đổi phiên bản Node.js dễ dàng: <code>nvm install 20</code>, <code>nvm use 18</code>. Rất hữu ích khi làm nhiều project yêu cầu phiên bản khác nhau.</p>
+        </div>
+
+        <!-- ============ 6.3 npm La Gi ============ -->
+        <h2 id="npm">6.3 npm Là Gì?</h2>
+        <p>npm (Node Package Manager) là <strong>kho thư viện lớn nhất thế giới</strong> với hơn 2 triệu package. Nó giúp bạn cài đặt, quản lý và chia sẻ code JavaScript.</p>
+
+        <table>
+          <thead><tr><th>Lệnh</th><th>Chức năng</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>npm init -y</code></td><td>Tạo project mới (file package.json)</td><td><code>npm init -y</code></td></tr>
+            <tr><td><code>npm install &lt;pkg&gt;</code></td><td>Cài package vào project (local)</td><td><code>npm install express</code></td></tr>
+            <tr><td><code>npm install -g &lt;pkg&gt;</code></td><td>Cài package toàn hệ thống (global)</td><td><code>npm install -g @anthropic-ai/claude-code</code></td></tr>
+            <tr><td><code>npm install</code></td><td>Cài tất cả dependencies từ package.json</td><td><code>npm install</code></td></tr>
+            <tr><td><code>npm run &lt;script&gt;</code></td><td>Chạy script định nghĩa trong package.json</td><td><code>npm run dev</code></td></tr>
+            <tr><td><code>npm test</code></td><td>Chạy test (tắt = <code>npm run test</code>)</td><td><code>npm test</code></td></tr>
+            <tr><td><code>npm list</code></td><td>Xem danh sách package đã cài</td><td><code>npm list --depth=0</code></td></tr>
+            <tr><td><code>npm outdated</code></td><td>Kiểm tra package cần cập nhật</td><td><code>npm outdated</code></td></tr>
+            <tr><td><code>npm uninstall &lt;pkg&gt;</code></td><td>Gỡ package</td><td><code>npm uninstall lodash</code></td></tr>
+            <tr><td><code>npm update</code></td><td>Cập nhật tất cả package</td><td><code>npm update</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p>Viết tắt: <code>npm i</code> = <code>npm install</code>, <code>npm i -D</code> = <code>npm install --save-dev</code> (cài cho dev only).</p>
+        </div>
+
+        <!-- ============ 6.4 Tao Project ============ -->
+        <h2 id="project">6.4 Tạo Project Node.js</h2>
+
+        <h3>Bước 1: Khởi tạo project</h3>
+        <pre><code><span class="comment"># Tạo thư mục project</span>
+$ mkdir my-node-app && cd my-node-app
+
+<span class="comment"># Khởi tạo package.json (flag -y = dùng mặc định)</span>
+$ npm init -y</code></pre>
+
+        <h3>Bước 2: File package.json được tạo</h3>
+        <pre><code>{
+  "name": "my-node-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}</code></pre>
+
+        <h3>Bước 3: Cài đặt dependencies</h3>
+        <pre><code><span class="comment"># Cài dependency chính (cho production)</span>
+$ npm install express dotenv
+
+<span class="comment"># Cài devDependency (chỉ dùng khi phát triển)</span>
+$ npm install -D nodemon eslint jest</code></pre>
+
+        <h3>Bước 4: Cấu trúc thư mục sau khi cài</h3>
+        <pre><code>my-node-app/
+├── node_modules/        <span class="comment"># 📦 Tất cả package (KHÔNG commit!)</span>
+│   ├── express/
+│   ├── dotenv/
+│   └── ... (hàng trăm thư mục con)
+├── package.json         <span class="comment"># 📋 Danh sách dependencies + config</span>
+├── package-lock.json    <span class="comment"># 🔒 Phiên bản chính xác (PHẢI commit)</span>
+└── index.js             <span class="comment"># 📄 File code chính</span></code></pre>
+
+        <div class="info-box danger">
+          <span class="icon">⚠️</span>
+          <p><strong>KHÔNG BAO GIỜ</strong> commit <code>node_modules/</code> vào Git! Luôn thêm vào <code>.gitignore</code>. Thư mục này có thể chứa hàng chục ngàn file và rất nặng.</p>
+        </div>
+
+        <pre><code><span class="comment"># Tạo .gitignore</span>
+$ echo "node_modules/" > .gitignore</code></pre>
+
+        <h3>package.json sau khi cài dependencies</h3>
+        <pre><code>{
+  "name": "my-node-app",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "eslint": "^9.18.0",
+    "jest": "^29.7.0"
+  }
+}</code></pre>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p>Ký hiệu phiên bản: <code>^4.21.2</code> nghĩa là chấp nhận cập nhật minor/patch (4.x.x) nhưng không lên 5.x.x. <code>~4.21.2</code> chỉ cập nhật patch (4.21.x). Phiên bản chính xác: <code>4.21.2</code> (không có ký hiệu).</p>
+        </div>
+
+        <!-- ============ 6.5 npm Scripts ============ -->
+        <h2 id="scripts">6.5 npm Scripts</h2>
+        <p>Scripts là các lệnh tắt định nghĩa trong <code>package.json</code> — giúp chuẩn hóa cách chạy project cho cả team.</p>
+
+        <pre><code>{
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "tsc && node dist/index.js",
+    "test": "jest --coverage",
+    "lint": "eslint src/",
+    "format": "prettier --write src/"
+  }
+}</code></pre>
+
+        <pre><code><span class="comment"># Chạy script</span>
+$ npm start           <span class="comment"># Chạy "start" (không cần "run")</span>
+$ npm test            <span class="comment"># Chạy "test" (không cần "run")</span>
+$ npm run dev         <span class="comment"># Chạy "dev" (CẦN "run")</span>
+$ npm run build       <span class="comment"># Chạy "build" (CẦN "run")</span>
+$ npm run lint        <span class="comment"># Chạy "lint" (CẦN "run")</span></code></pre>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p>Chỉ <code>start</code> và <code>test</code> là chạy trực tiếp (<code>npm start</code>, <code>npm test</code>). Tất cả script khác phải dùng <code>npm run &lt;tên&gt;</code>.</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Script</th><th>Mục đích thường dùng</th><th>Lệnh chạy</th></tr></thead>
+          <tbody>
+            <tr><td><code>start</code></td><td>Chạy app ở production</td><td><code>npm start</code></td></tr>
+            <tr><td><code>dev</code></td><td>Chạy app ở chế độ phát triển (auto-reload)</td><td><code>npm run dev</code></td></tr>
+            <tr><td><code>build</code></td><td>Build code (compile TypeScript, bundle, ...)</td><td><code>npm run build</code></td></tr>
+            <tr><td><code>test</code></td><td>Chạy test suite</td><td><code>npm test</code></td></tr>
+            <tr><td><code>lint</code></td><td>Kiểm tra style code</td><td><code>npm run lint</code></td></tr>
+          </tbody>
+        </table>
+
+        <!-- ============ 6.6 npx ============ -->
+        <h2 id="npx">6.6 npx — Chạy Package Không Cần Cài</h2>
+        <p><code>npx</code> cho phép bạn <strong>chạy một package npm trực tiếp</strong> mà không cần cài đặt trước. Package được tải về, chạy, rồi xóa. Đây là cách MCP servers hoạt động!</p>
+
+        <pre><code><span class="comment"># So sánh: cài rồi chạy vs npx</span>
+
+<span class="comment"># Cách cũ: cài global → chạy</span>
+$ npm install -g create-react-app
+$ create-react-app my-app
+
+<span class="comment"># Cách mới: npx chạy luôn (không cần cài)</span>
+$ npx create-react-app my-app
+
+<span class="comment"># Thêm ví dụ npx</span>
+$ npx cowsay "Hello from npx!"     <span class="comment"># Chạy thử package vui</span>
+$ npx http-server                   <span class="comment"># Tạo web server nhanh</span>
+$ npx json-server db.json           <span class="comment"># Fake API server</span></code></pre>
+
+        <h3>MCP Servers dùng npx</h3>
+        <p>Đây là lý do chính bạn cần hiểu npx — <strong>MCP servers</strong> (Model Context Protocol) cho Claude Code đều được chạy qua npx:</p>
+
+        <pre><code><span class="comment"># Thêm MCP server cho Claude Code</span>
+$ claude mcp add github -- npx -y @modelcontextprotocol/server-github
+$ claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem /path/to/dir
+$ claude mcp add puppeteer -- npx -y @modelcontextprotocol/server-puppeteer
+
+<span class="comment"># Flag -y = tự động xác nhận cài đặt (không hỏi yes/no)</span></code></pre>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+sequenceDiagram
+    participant User as 👤 Bạn
+    participant Claude as 🤖 Claude Code
+    participant npx as 📦 npx
+    participant MCP as 🔌 MCP Server
+
+    User->>Claude: "Đọc file trên GitHub"
+    Claude->>npx: npx @modelcontextprotocol/server-github
+    npx->>npx: Tải package (nếu chưa có)
+    npx->>MCP: Khởi động MCP server
+    MCP->>Claude: Cung cấp GitHub tools
+    Claude->>MCP: Gọi tool: get_file_contents
+    MCP-->>Claude: Trả về nội dung file
+    Claude-->>User: "Đây là nội dung file..."
+          </div>
+          <p class="caption">Luồng hoạt động: Claude Code → npx → MCP Server → Kết quả</p>
+        </div>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p><strong>npx -y</strong> nghĩa là tự động đồng ý cài package. Không có <code>-y</code>, npx sẽ hỏi xác nhận mỗi lần — gây gián đoạn khi Claude Code tự động chạy MCP servers.</p>
+        </div>
+
+        <!-- ============ 6.7 Global vs Local ============ -->
+        <h2 id="global-local">6.7 Global vs Local Install</h2>
+
+        <div class="diagram-container">
+          <div class="mermaid">
+graph TB
+    npm["📦 npm install"] --> Local["🏠 Local Install<br>npm install express"]
+    npm --> Global["🌍 Global Install<br>npm install -g claude"]
+
+    Local --> LDir["📁 ./node_modules/"]
+    Local --> LJson["📋 package.json"]
+    Local --> LUse["Dùng trong 1 project"]
+
+    Global --> GDir["📁 /usr/lib/node_modules/<br>hoặc %AppData%/npm/"]
+    Global --> GBin["⌨️ Chạy từ mọi nơi"]
+    Global --> GUse["CLI tools toàn hệ thống"]
+
+    style Local fill:#00cec933,stroke:#00cec9
+    style Global fill:#f39c1233,stroke:#f39c12
+          </div>
+          <p class="caption">Local install = cho project cụ thể / Global install = CLI tools dùng mọi nơi</p>
+        </div>
+
+        <table>
+          <thead><tr><th>Tiêu chí</th><th>Local <code>npm install pkg</code></th><th>Global <code>npm install -g pkg</code></th></tr></thead>
+          <tbody>
+            <tr><td><strong>Lưu ở đâu</strong></td><td><code>./node_modules/</code></td><td>Thư mục global của npm</td></tr>
+            <tr><td><strong>Ghi vào</strong></td><td><code>package.json</code></td><td>Không ghi vào file nào</td></tr>
+            <tr><td><strong>Phạm vi</strong></td><td>Chỉ project hiện tại</td><td>Toàn bộ hệ thống</td></tr>
+            <tr><td><strong>Chạy bằng</strong></td><td><code>npx pkg</code> hoặc npm scripts</td><td>Gõ trực tiếp: <code>claude</code></td></tr>
+            <tr><td><strong>Dùng cho</strong></td><td>Libraries, frameworks (express, react)</td><td>CLI tools (claude-code, npm, eslint)</td></tr>
+            <tr><td><strong>Ví dụ</strong></td><td><code>npm install express</code></td><td><code>npm install -g @anthropic-ai/claude-code</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p><strong>Nguyên tắc:</strong> Luôn cài <strong>local</strong> trừ khi package là CLI tool bạn cần gõ trực tiếp từ terminal. Cài global = mọi project dùng chung 1 phiên bản → dễ xung đột.</p>
+        </div>
+
+        <pre><code><span class="comment"># Xem package global đã cài</span>
+$ npm list -g --depth=0
+/usr/lib
+├── @anthropic-ai/claude-code@1.0.12
+├── npm@10.9.2
+└── typescript@5.7.3
+
+<span class="comment"># Xem đường dẫn thư mục global</span>
+$ npm root -g
+/usr/lib/node_modules</code></pre>
+
+        <!-- ============ 6.8 Cai Dat Claude Code ============ -->
+        <h2 id="claude-code">6.8 Cài Đặt Claude Code</h2>
+        <p>Claude Code là CLI tool → cài <strong>global</strong>:</p>
+
+        <pre><code><span class="comment"># Cài đặt Claude Code</span>
+$ npm install -g @anthropic-ai/claude-code
+
+<span class="comment"># Xác nhận cài đặt</span>
+$ claude --version
+claude-code v1.0.12
+
+<span class="comment"># Cập nhật lên phiên bản mới nhất</span>
+$ npm update -g @anthropic-ai/claude-code
+
+<span class="comment"># Nếu cần cài lại hoàn toàn</span>
+$ npm uninstall -g @anthropic-ai/claude-code
+$ npm install -g @anthropic-ai/claude-code</code></pre>
+
+        <div class="info-box tip">
+          <span class="icon">💡</span>
+          <p>Sau khi cài, gõ <code>claude</code> ở bất kỳ thư mục nào để bắt đầu. Claude Code sẽ yêu cầu đăng nhập Anthropic nếu chưa có API key.</p>
+        </div>
+
+        <div class="info-box note">
+          <span class="icon">📌</span>
+          <p>Trên <strong>macOS/Linux</strong>, nếu gặp lỗi quyền khi cài global, xem phần 6.9 bên dưới. <strong>KHÔNG</strong> dùng <code>sudo npm install -g</code> — có cách an toàn hơn.</p>
+        </div>
+
+        <!-- ============ 6.9 Xu Ly Loi ============ -->
+        <h2 id="errors">6.9 Xử Lý Lỗi npm Thường Gặp</h2>
+
+        <h3>1. EACCES — Lỗi quyền truy cập (macOS/Linux)</h3>
+        <pre><code><span class="comment"># Lỗi:</span>
+npm ERR! code EACCES
+npm ERR! Error: EACCES: permission denied, access '/usr/lib/node_modules'
+
+<span class="comment"># ❌ SAI — KHÔNG dùng sudo</span>
+$ sudo npm install -g claude-code
+
+<span class="comment"># ✅ ĐÚNG — Đổi thư mục global của npm</span>
+$ mkdir ~/.npm-global
+$ npm config set prefix '~/.npm-global'
+$ echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+$ source ~/.bashrc
+
+<span class="comment"># Giờ cài lại bình thường</span>
+$ npm install -g @anthropic-ai/claude-code</code></pre>
+
+        <div class="info-box danger">
+          <span class="icon">⚠️</span>
+          <p><strong>Tuyệt đối KHÔNG dùng <code>sudo npm install -g</code></strong> — điều này thay đổi quyền sở hữu file hệ thống và gây lỗi dây chuyền sau này.</p>
+        </div>
+
+        <h3>2. Module not found</h3>
+        <pre><code><span class="comment"># Lỗi:</span>
+Error: Cannot find module 'express'
+
+<span class="comment"># Nguyên nhân: chưa cài dependencies</span>
+<span class="comment"># Sửa: chạy npm install trong thư mục project</span>
+$ cd my-project
+$ npm install
+
+<span class="comment"># Nếu vẫn lỗi, xóa node_modules và cài lại</span>
+$ rm -rf node_modules package-lock.json
+$ npm install</code></pre>
+
+        <h3>3. Version conflict — Xung đột phiên bản</h3>
+        <pre><code><span class="comment"># Lỗi:</span>
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR! peer dependency conflict
+
+<span class="comment"># Sửa: dùng flag --legacy-peer-deps</span>
+$ npm install --legacy-peer-deps
+
+<span class="comment"># Hoặc xem chi tiết xung đột</span>
+$ npm ls --all</code></pre>
+
+        <h3>4. Corrupted node_modules — "Nuclear option"</h3>
+        <pre><code><span class="comment"># Khi mọi cách đều thất bại — xóa sạch và cài lại</span>
+$ rm -rf node_modules
+$ rm package-lock.json
+$ npm cache clean --force
+$ npm install
+
+<span class="comment"># Kiểm tra cache</span>
+$ npm cache verify</code></pre>
+
+        <div class="info-box warning">
+          <span class="icon">💡</span>
+          <p>Luôn thử <code>npm install</code> trước. Chỉ xóa <code>node_modules</code> khi thực sự cần thiết — việc cài lại có thể mất vài phút với project lớn.</p>
+        </div>
+
+        <h3>5. node --version sai hoặc không tìm thấy</h3>
+        <pre><code><span class="comment"># Lỗi:</span>
+'node' is not recognized as an internal or external command
+
+<span class="comment"># Windows: Kiểm tra PATH</span>
+$ echo %PATH%
+<span class="comment"># Đảm bảo có C:\Program Files\nodejs\ trong PATH</span>
+
+<span class="comment"># macOS/Linux: Kiểm tra PATH</span>
+$ echo $PATH
+$ which node
+<span class="comment"># Nếu dùng nvm:</span>
+$ nvm use --lts</code></pre>
+
+        <!-- ============ Summary ============ -->
+        <h2 id="summary">📋 Tóm Tắt</h2>
+        <table>
+          <thead><tr><th>Lệnh / Khái niệm</th><th>Chức năng</th><th>Ví dụ</th></tr></thead>
+          <tbody>
+            <tr><td><code>node --version</code></td><td>Kiểm tra phiên bản Node.js</td><td><code>node --version</code></td></tr>
+            <tr><td><code>npm init -y</code></td><td>Tạo project mới</td><td><code>npm init -y</code></td></tr>
+            <tr><td><code>npm install &lt;pkg&gt;</code></td><td>Cài package local</td><td><code>npm install express</code></td></tr>
+            <tr><td><code>npm install -g &lt;pkg&gt;</code></td><td>Cài package global</td><td><code>npm i -g @anthropic-ai/claude-code</code></td></tr>
+            <tr><td><code>npm install</code></td><td>Cài tất cả từ package.json</td><td><code>npm install</code></td></tr>
+            <tr><td><code>npm run &lt;script&gt;</code></td><td>Chạy npm script</td><td><code>npm run dev</code></td></tr>
+            <tr><td><code>npx &lt;pkg&gt;</code></td><td>Chạy package không cần cài</td><td><code>npx create-react-app my-app</code></td></tr>
+            <tr><td><code>package.json</code></td><td>File cấu hình project</td><td>Chứa dependencies, scripts</td></tr>
+            <tr><td><code>node_modules/</code></td><td>Thư mục package đã cài</td><td>Thêm vào <code>.gitignore</code></td></tr>
+            <tr><td><code>package-lock.json</code></td><td>Lock phiên bản chính xác</td><td>PHẢI commit vào Git</td></tr>
+            <tr><td><code>npm list -g</code></td><td>Xem package global</td><td><code>npm list -g --depth=0</code></td></tr>
+            <tr><td><code>npm outdated</code></td><td>Kiểm tra package cũ</td><td><code>npm outdated</code></td></tr>
+            <tr><td><code>rm -rf node_modules</code></td><td>"Nuclear option" khi lỗi</td><td>Xóa sạch rồi <code>npm install</code></td></tr>
+          </tbody>
+        </table>
+
+        <!-- Nav -->
+        <div class="lesson-nav">
+          <a href="05-shell.html">← Bài 5: Shell Scripting</a>
+          <a href="07-ai-llm.html">Bài 7: AI / LLM →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
