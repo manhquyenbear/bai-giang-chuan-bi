@@ -42,10 +42,35 @@
         <p><strong>CI/CD</strong> (Continuous Integration / Continuous Delivery) là quy trình <strong>tự động hóa</strong> việc kiểm thử, build và triển khai code mỗi khi có thay đổi.</p>
 
         <div class="diagram-container">
-          <div class="diagram-img">
-            <img src="https://docs.github.com/assets/cb-25535/mw-1440/images/help/actions/overview-actions-simple.webp" alt="GitHub Actions overview - Event triggers Runner with Jobs and Steps">
-            <span class="img-source">Nguồn: docs.github.com — Understanding GitHub Actions</span>
-          </div>
+          <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <defs><marker id="c9a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <text x="350" y="20" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="700">GitHub Actions Pipeline</text>
+            <!-- Event -->
+            <rect x="15" y="45" width="120" height="55" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="75" y="68" text-anchor="middle" fill="#a29bfe" font-size="12" font-weight="600">📨 Event</text>
+            <text x="75" y="85" text-anchor="middle" fill="#6b7280" font-size="10">push, PR, cron</text>
+            <line x1="135" y1="72" x2="163" y2="72" stroke="#9ca3b8" stroke-width="2" marker-end="url(#c9a)"/>
+            <!-- Workflow -->
+            <rect x="165" y="45" width="130" height="55" rx="10" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="230" y="68" text-anchor="middle" fill="#fdcb6e" font-size="12" font-weight="600">📄 Workflow</text>
+            <text x="230" y="85" text-anchor="middle" fill="#6b7280" font-size="10">.yml config</text>
+            <line x1="295" y1="72" x2="323" y2="72" stroke="#9ca3b8" stroke-width="2" marker-end="url(#c9a)"/>
+            <!-- Runner -->
+            <rect x="325" y="45" width="120" height="55" rx="10" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="385" y="68" text-anchor="middle" fill="#00cec9" font-size="12" font-weight="600">🖥️ Runner</text>
+            <text x="385" y="85" text-anchor="middle" fill="#6b7280" font-size="10">ubuntu-latest</text>
+            <line x1="445" y1="72" x2="473" y2="72" stroke="#9ca3b8" stroke-width="2" marker-end="url(#c9a)"/>
+            <!-- Job -->
+            <rect x="475" y="35" width="210" height="75" rx="10" fill="#e74c3c10" stroke="#e74c3c" stroke-width="2"/>
+            <text x="580" y="55" text-anchor="middle" fill="#e74c3c" font-size="12" font-weight="600">💼 Job</text>
+            <rect x="490" y="62" width="85" height="30" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="532" y="82" text-anchor="middle" fill="#74b9ff" font-size="10">Step 1</text>
+            <rect x="585" y="62" width="85" height="30" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="627" y="82" text-anchor="middle" fill="#74b9ff" font-size="10">Step 2</text>
+            <!-- Bottom -->
+            <text x="350" y="145" text-anchor="middle" fill="#9ca3b8" font-size="11">Event → Workflow → Runner → Jobs → Steps</text>
+            <text x="350" y="165" text-anchor="middle" fill="#6b7280" font-size="10">Mỗi Job chạy trên Runner riêng, các Steps chạy tuần tự</text>
+          </svg>
           <p class="caption">Pipeline CI/CD với GitHub Actions — Event kích hoạt Workflow → Jobs → Steps chạy trên Runner</p>
         </div>
 
@@ -88,10 +113,41 @@
 └── package.json</code></pre>
 
         <div class="diagram-container">
-          <div class="diagram-img">
-            <img src="https://docs.github.com/assets/cb-25535/mw-1440/images/help/actions/overview-actions-simple.webp" alt="GitHub Actions structure - Workflow with Jobs and Steps">
-            <span class="img-source">Nguồn: docs.github.com — Understanding GitHub Actions</span>
-          </div>
+          <svg viewBox="0 0 700 190" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <defs><marker id="c9b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <text x="350" y="18" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="700">Cấu trúc GitHub Actions</text>
+            <!-- Workflow -->
+            <rect x="10" y="35" width="680" height="130" rx="12" fill="#6c5ce708" stroke="#6c5ce7" stroke-width="2" stroke-dasharray="6,3"/>
+            <text x="30" y="55" fill="#a29bfe" font-size="12" font-weight="600">📄 Workflow (.github/workflows/*.yml)</text>
+            <!-- Job 1 -->
+            <rect x="25" y="65" width="320" height="85" rx="10" fill="#f39c1210" stroke="#f39c12" stroke-width="2"/>
+            <text x="185" y="83" text-anchor="middle" fill="#fdcb6e" font-size="12" font-weight="600">💼 Job 1: build</text>
+            <rect x="40" y="92" width="90" height="42" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="85" y="108" text-anchor="middle" fill="#74b9ff" font-size="10">checkout</text>
+            <text x="85" y="125" text-anchor="middle" fill="#6b7280" font-size="9">Step 1</text>
+            <line x1="130" y1="113" x2="148" y2="113" stroke="#9ca3b8" stroke-width="1" marker-end="url(#c9b)"/>
+            <rect x="150" y="92" width="90" height="42" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="195" y="108" text-anchor="middle" fill="#74b9ff" font-size="10">install</text>
+            <text x="195" y="125" text-anchor="middle" fill="#6b7280" font-size="9">Step 2</text>
+            <line x1="240" y1="113" x2="258" y2="113" stroke="#9ca3b8" stroke-width="1" marker-end="url(#c9b)"/>
+            <rect x="260" y="92" width="72" height="42" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="296" y="108" text-anchor="middle" fill="#74b9ff" font-size="10">build</text>
+            <text x="296" y="125" text-anchor="middle" fill="#6b7280" font-size="9">Step 3</text>
+            <!-- Job 2 -->
+            <rect x="365" y="65" width="310" height="85" rx="10" fill="#00cec910" stroke="#00cec9" stroke-width="2"/>
+            <text x="520" y="83" text-anchor="middle" fill="#00cec9" font-size="12" font-weight="600">💼 Job 2: deploy</text>
+            <rect x="380" y="92" width="90" height="42" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="425" y="108" text-anchor="middle" fill="#74b9ff" font-size="10">download</text>
+            <text x="425" y="125" text-anchor="middle" fill="#6b7280" font-size="9">Step 1</text>
+            <line x1="470" y1="113" x2="488" y2="113" stroke="#9ca3b8" stroke-width="1" marker-end="url(#c9b)"/>
+            <rect x="490" y="92" width="80" height="42" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="530" y="108" text-anchor="middle" fill="#74b9ff" font-size="10">deploy</text>
+            <text x="530" y="125" text-anchor="middle" fill="#6b7280" font-size="9">Step 2</text>
+            <!-- Needs arrow -->
+            <text x="350" y="117" fill="#f39c12" font-size="10">needs:</text>
+            <text x="350" y="130" fill="#f39c12" font-size="9">build</text>
+            <text x="350" y="175" text-anchor="middle" fill="#6b7280" font-size="10">Mỗi Job chạy trên Runner riêng — dùng needs: để sắp xếp thứ tự</text>
+          </svg>
           <p class="caption">Cấu trúc GitHub Actions: Workflow → Jobs → Steps — mỗi Job chạy trên Runner riêng</p>
         </div>
 
@@ -384,22 +440,40 @@ jobs:
         <p>Claude Code có thể chạy trong CI/CD với flag <code>-p</code> (print mode — không cần terminal tương tác).</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-sequenceDiagram
-    participant Dev as 👨‍💻 Developer
-    participant GH as 🐙 GitHub
-    participant CI as ⚙️ GitHub Actions
-    participant Claude as 🤖 Claude Code
-
-    Dev->>GH: Tạo Pull Request
-    GH->>CI: Trigger workflow
-    CI->>CI: Checkout code
-    CI->>Claude: claude -p "Review PR này"
-    Claude->>Claude: Phân tích code changes
-    Claude-->>CI: Kết quả review (JSON)
-    CI->>GH: Post comment lên PR
-    GH-->>Dev: 🔔 Thông báo review
-          </div>
+          <svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <defs><marker id="c9c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a29bfe"/></marker><marker id="c9cg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#00cec9"/></marker></defs>
+            <!-- Headers -->
+            <rect x="20" y="10" width="120" height="38" rx="8" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="80" y="34" text-anchor="middle" fill="#a29bfe" font-size="12">👨‍💻 Developer</text>
+            <rect x="190" y="10" width="120" height="38" rx="8" fill="#9ca3b818" stroke="#9ca3b8" stroke-width="2"/>
+            <text x="250" y="34" text-anchor="middle" fill="#9ca3b8" font-size="12">🐙 GitHub</text>
+            <rect x="360" y="10" width="130" height="38" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="425" y="34" text-anchor="middle" fill="#fdcb6e" font-size="12">⚙️ Actions</text>
+            <rect x="540" y="10" width="130" height="38" rx="8" fill="#d97b3c18" stroke="#d97b3c" stroke-width="2"/>
+            <text x="605" y="34" text-anchor="middle" fill="#d97b3c" font-size="12">🤖 Claude Code</text>
+            <!-- Lifelines -->
+            <line x1="80" y1="48" x2="80" y2="350" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="250" y1="48" x2="250" y2="350" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="425" y1="48" x2="425" y2="350" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="605" y1="48" x2="605" y2="350" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <!-- Messages -->
+            <line x1="80" y1="80" x2="248" y2="80" stroke="#a29bfe" stroke-width="1.5" marker-end="url(#c9c)"/>
+            <text x="160" y="74" fill="#a29bfe" font-size="10">Tạo Pull Request</text>
+            <line x1="250" y1="110" x2="423" y2="110" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#c9c)"/>
+            <text x="330" y="104" fill="#9ca3b8" font-size="10">Trigger workflow</text>
+            <rect x="380" y="125" width="90" height="22" rx="4" fill="#f39c1212" stroke="#f39c12"/>
+            <text x="425" y="140" text-anchor="middle" fill="#fdcb6e" font-size="9">Checkout code</text>
+            <line x1="425" y1="160" x2="603" y2="160" stroke="#f39c12" stroke-width="1.5" marker-end="url(#c9c)"/>
+            <text x="510" y="154" fill="#fdcb6e" font-size="9">claude -p "Review PR"</text>
+            <rect x="555" y="175" width="100" height="25" rx="4" fill="#d97b3c12" stroke="#d97b3c"/>
+            <text x="605" y="192" text-anchor="middle" fill="#d97b3c" font-size="9">Phân tích code</text>
+            <line x1="605" y1="215" x2="427" y2="215" stroke="#00cec9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#c9cg)"/>
+            <text x="510" y="209" fill="#00cec9" font-size="9">Kết quả review (JSON)</text>
+            <line x1="425" y1="245" x2="252" y2="245" stroke="#f39c12" stroke-width="1.5" marker-end="url(#c9c)"/>
+            <text x="330" y="239" fill="#fdcb6e" font-size="9">Post comment lên PR</text>
+            <line x1="250" y1="275" x2="82" y2="275" stroke="#00cec9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#c9cg)"/>
+            <text x="160" y="269" fill="#00cec9" font-size="9">🔔 Thông báo review</text>
+          </svg>
           <p class="caption">Luồng tự động: Push PR → Claude review → Comment kết quả</p>
         </div>
 
@@ -490,7 +564,6 @@ jobs:
       </div>
     </main>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

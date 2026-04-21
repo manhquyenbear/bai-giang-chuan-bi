@@ -48,27 +48,34 @@
         <!-- Roadmap Diagram -->
         <h2>📍 Lộ Trình Học Claude Code</h2>
         <div class="diagram-container">
-          <div class="mermaid">
-graph LR
-    subgraph Beginner["🟢 Beginner ~3h"]
-        M1[01 Slash Commands]
-        M2[02 Memory]
-        M3[08 Checkpoints]
-        M4[10 CLI Basics]
-    end
-    subgraph Intermediate["🔵 Intermediate ~5h"]
-        M5[03 Skills]
-        M6[06 Hooks]
-        M7[05 MCP]
-        M8[04 Subagents]
-    end
-    subgraph Advanced["🔴 Advanced ~5h"]
-        M9[09 Advanced Features]
-        M10[07 Plugins]
-        M11[10 CLI Mastery]
-    end
-    Beginner --> Intermediate --> Advanced
-          </div>
+          <svg viewBox="0 0 700 150" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <defs><marker id="ia" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <!-- Beginner -->
+            <rect x="10" y="10" width="200" height="120" rx="12" fill="#2ecc7110" stroke="#2ecc71" stroke-width="2"/>
+            <text x="110" y="30" text-anchor="middle" fill="#2ecc71" font-size="13" font-weight="700">🟢 Beginner ~3h</text>
+            <text x="110" y="50" text-anchor="middle" fill="#9ca3b8" font-size="10">01 Slash Commands</text>
+            <text x="110" y="66" text-anchor="middle" fill="#9ca3b8" font-size="10">02 Memory</text>
+            <text x="110" y="82" text-anchor="middle" fill="#9ca3b8" font-size="10">08 Checkpoints</text>
+            <text x="110" y="98" text-anchor="middle" fill="#9ca3b8" font-size="10">10 CLI Basics</text>
+            <!-- Arrow -->
+            <line x1="210" y1="70" x2="238" y2="70" stroke="#9ca3b8" stroke-width="2" marker-end="url(#ia)"/>
+            <!-- Intermediate -->
+            <rect x="240" y="10" width="210" height="120" rx="12" fill="#74b9ff10" stroke="#74b9ff" stroke-width="2"/>
+            <text x="345" y="30" text-anchor="middle" fill="#74b9ff" font-size="13" font-weight="700">🔵 Intermediate ~5h</text>
+            <text x="345" y="50" text-anchor="middle" fill="#9ca3b8" font-size="10">03 Skills</text>
+            <text x="345" y="66" text-anchor="middle" fill="#9ca3b8" font-size="10">06 Hooks</text>
+            <text x="345" y="82" text-anchor="middle" fill="#9ca3b8" font-size="10">05 MCP</text>
+            <text x="345" y="98" text-anchor="middle" fill="#9ca3b8" font-size="10">04 Subagents</text>
+            <!-- Arrow -->
+            <line x1="450" y1="70" x2="478" y2="70" stroke="#9ca3b8" stroke-width="2" marker-end="url(#ia)"/>
+            <!-- Advanced -->
+            <rect x="480" y="10" width="210" height="120" rx="12" fill="#e74c3c10" stroke="#e74c3c" stroke-width="2"/>
+            <text x="585" y="30" text-anchor="middle" fill="#e74c3c" font-size="13" font-weight="700">🔴 Advanced ~5h</text>
+            <text x="585" y="50" text-anchor="middle" fill="#9ca3b8" font-size="10">09 Advanced Features</text>
+            <text x="585" y="66" text-anchor="middle" fill="#9ca3b8" font-size="10">07 Plugins</text>
+            <text x="585" y="82" text-anchor="middle" fill="#9ca3b8" font-size="10">10 CLI Mastery</text>
+            <text x="350" y="145" text-anchor="middle" fill="#fdcb6e" font-size="11">Tổng ~11-13 giờ</text>
+          </svg>
           <p class="caption">Lộ trình 10 modules của claude-howto, tổng ~11-13 giờ</p>
         </div>
 
@@ -77,33 +84,52 @@ graph LR
         <p>Trước khi bắt đầu khóa học, hãy nắm vững các kiến thức sau — sắp xếp theo mức độ ưu tiên:</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph TD
-    Start((Bắt đầu)) --> A[1. Terminal / CLI]
-    Start --> B[2. Git Cơ Bản]
-    Start --> C[3. Lập Trình Cơ Bản]
-    Start --> D[4. JSON & YAML]
-    A --> E{Đủ kiến thức nền}
-    B --> E
-    C --> E
-    D --> E
-    E -->|Beginner Modules| F[5. Shell Scripting]
-    E -->|Beginner Modules| G[6. Node.js / npm]
-    E --> H[7. AI / LLM &#40;tham khảo&#41;]
-    E --> I[8. Markdown &#40;tham khảo&#41;]
-    F -->|Intermediate+| J[9. CI/CD]
-    G -->|Intermediate+| J
-
-    style A fill:#e74c3c33,stroke:#e74c3c
-    style B fill:#e74c3c33,stroke:#e74c3c
-    style C fill:#e74c3c33,stroke:#e74c3c
-    style D fill:#e74c3c33,stroke:#e74c3c
-    style F fill:#f39c1233,stroke:#f39c12
-    style G fill:#f39c1233,stroke:#f39c12
-    style H fill:#00cec933,stroke:#00cec9
-    style I fill:#00cec933,stroke:#00cec9
-    style J fill:#00cec933,stroke:#00cec9
-          </div>
+          <svg viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg" style="max-width:600px;width:100%;height:auto">
+            <defs><marker id="ib" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <!-- Start -->
+            <circle cx="300" cy="20" r="14" fill="#6c5ce7" stroke="#a29bfe" stroke-width="2"/>
+            <text x="300" y="25" text-anchor="middle" fill="#fff" font-size="10">Start</text>
+            <!-- Core 4 -->
+            <line x1="240" y1="34" x2="100" y2="55" stroke="#e74c3c" stroke-width="1.5"/>
+            <line x1="280" y1="34" x2="250" y2="55" stroke="#e74c3c" stroke-width="1.5"/>
+            <line x1="320" y1="34" x2="400" y2="55" stroke="#e74c3c" stroke-width="1.5"/>
+            <line x1="360" y1="34" x2="500" y2="55" stroke="#e74c3c" stroke-width="1.5"/>
+            <rect x="20" y="55" width="160" height="35" rx="8" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="100" y="77" text-anchor="middle" fill="#e74c3c" font-size="12">1. Terminal / CLI</text>
+            <rect x="195" y="55" width="160" height="35" rx="8" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="275" y="77" text-anchor="middle" fill="#e74c3c" font-size="12">2. Git Cơ Bản</text>
+            <rect x="370" y="55" width="110" height="35" rx="8" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="425" y="77" text-anchor="middle" fill="#e74c3c" font-size="12">3. Lập Trình</text>
+            <rect x="495" y="55" width="95" height="35" rx="8" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="542" y="77" text-anchor="middle" fill="#e74c3c" font-size="11">4. JSON/YAML</text>
+            <!-- Converge -->
+            <line x1="100" y1="90" x2="270" y2="130" stroke="#9ca3b8" stroke-width="1"/>
+            <line x1="275" y1="90" x2="290" y2="130" stroke="#9ca3b8" stroke-width="1"/>
+            <line x1="425" y1="90" x2="310" y2="130" stroke="#9ca3b8" stroke-width="1"/>
+            <line x1="542" y1="90" x2="330" y2="130" stroke="#9ca3b8" stroke-width="1"/>
+            <!-- Diamond -->
+            <polygon points="300,130 370,155 300,180 230,155" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="300" y="159" text-anchor="middle" fill="#fdcb6e" font-size="10">Đủ kiến thức nền</text>
+            <!-- Intermediate -->
+            <line x1="240" y1="155" x2="120" y2="205" stroke="#f39c12" stroke-width="1.5"/>
+            <line x1="300" y1="180" x2="300" y2="205" stroke="#f39c12" stroke-width="1.5"/>
+            <rect x="40" y="205" width="160" height="35" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="120" y="227" text-anchor="middle" fill="#fdcb6e" font-size="12">5. Shell Scripting</text>
+            <rect x="220" y="205" width="160" height="35" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="300" y="227" text-anchor="middle" fill="#fdcb6e" font-size="12">6. Node.js / npm</text>
+            <!-- Reference -->
+            <line x1="360" y1="155" x2="480" y2="205" stroke="#00cec9" stroke-width="1"/>
+            <line x1="360" y1="168" x2="480" y2="260" stroke="#00cec9" stroke-width="1"/>
+            <rect x="400" y="205" width="180" height="35" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="1.5"/>
+            <text x="490" y="227" text-anchor="middle" fill="#00cec9" font-size="12">7. AI / LLM (tham khảo)</text>
+            <rect x="400" y="260" width="180" height="35" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="1.5"/>
+            <text x="490" y="282" text-anchor="middle" fill="#00cec9" font-size="12">8. Markdown (tham khảo)</text>
+            <!-- CI/CD -->
+            <line x1="120" y1="240" x2="240" y2="320" stroke="#00cec9" stroke-width="1.5"/>
+            <line x1="300" y1="240" x2="310" y2="320" stroke="#00cec9" stroke-width="1.5"/>
+            <rect x="200" y="320" width="200" height="35" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="300" y="342" text-anchor="middle" fill="#00cec9" font-size="12">9. CI/CD (Intermediate+)</text>
+          </svg>
           <p class="caption">Sơ đồ kiến thức cần chuẩn bị trước khi vào từng cấp độ</p>
         </div>
 
@@ -289,7 +315,6 @@ graph TD
     </main>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

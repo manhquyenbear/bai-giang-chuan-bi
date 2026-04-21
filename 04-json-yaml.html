@@ -42,27 +42,36 @@
         <p><strong>JSON</strong> (JavaScript Object Notation) là định dạng lưu trữ và trao đổi dữ liệu dạng text. Dễ đọc cho người, dễ parse cho máy.</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph LR
-    subgraph Uses["📦 Nơi dùng JSON"]
-        A["⚙️ Cấu hình<br>settings.json<br>package.json"]
-        B["🌐 API Response<br>REST / GraphQL"]
-        C["💾 Lưu dữ liệu<br>NoSQL / file"]
-    end
-    subgraph CC["🤖 Trong Claude Code"]
-        D["settings.json<br>Quyền & hooks"]
-        E["MCP config<br>Kết nối tools"]
-        F["package.json<br>Quản lý project"]
-    end
-    Uses --> CC
-
-    style A fill:#6c5ce733,stroke:#6c5ce7
-    style B fill:#00cec933,stroke:#00cec9
-    style C fill:#f39c1233,stroke:#f39c12
-    style D fill:#e1705533,stroke:#e17055
-    style E fill:#74b9ff33,stroke:#74b9ff
-    style F fill:#a29bfe33,stroke:#a29bfe
-          </div>
+          <svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" style="max-width:720px;width:100%;height:auto">
+            <defs><marker id="j4a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#f39c12"/></marker></defs>
+            <!-- Uses box -->
+            <rect x="15" y="10" width="320" height="160" rx="12" fill="#6c5ce710" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="175" y="32" text-anchor="middle" fill="#a29bfe" font-size="13" font-weight="600">📦 Nơi dùng JSON</text>
+            <rect x="30" y="44" width="140" height="50" rx="8" fill="#6c5ce718" stroke="#6c5ce7"/>
+            <text x="100" y="62" text-anchor="middle" fill="#a29bfe" font-size="12">⚙️ Cấu hình</text>
+            <text x="100" y="80" text-anchor="middle" fill="#6b7280" font-size="10">settings.json, pkg.json</text>
+            <rect x="180" y="44" width="140" height="50" rx="8" fill="#00cec918" stroke="#00cec9"/>
+            <text x="250" y="62" text-anchor="middle" fill="#00cec9" font-size="12">🌐 API Response</text>
+            <text x="250" y="80" text-anchor="middle" fill="#6b7280" font-size="10">REST / GraphQL</text>
+            <rect x="80" y="104" width="180" height="50" rx="8" fill="#f39c1218" stroke="#f39c12"/>
+            <text x="170" y="122" text-anchor="middle" fill="#fdcb6e" font-size="12">💾 Lưu dữ liệu</text>
+            <text x="170" y="138" text-anchor="middle" fill="#6b7280" font-size="10">NoSQL / file storage</text>
+            <!-- Arrow -->
+            <line x1="335" y1="95" x2="378" y2="95" stroke="#f39c12" stroke-width="2" marker-end="url(#j4a)"/>
+            <!-- CC box -->
+            <rect x="380" y="10" width="320" height="160" rx="12" fill="#00cec910" stroke="#00cec9" stroke-width="2"/>
+            <text x="540" y="32" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="600">🤖 Trong Claude Code</text>
+            <rect x="395" y="44" width="140" height="50" rx="8" fill="#e74c3c18" stroke="#e74c3c"/>
+            <text x="465" y="62" text-anchor="middle" fill="#e74c3c" font-size="12">settings.json</text>
+            <text x="465" y="80" text-anchor="middle" fill="#6b7280" font-size="10">Quyền & hooks</text>
+            <rect x="545" y="44" width="140" height="50" rx="8" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="615" y="62" text-anchor="middle" fill="#74b9ff" font-size="12">MCP config</text>
+            <text x="615" y="80" text-anchor="middle" fill="#6b7280" font-size="10">Kết nối tools</text>
+            <rect x="470" y="104" width="140" height="50" rx="8" fill="#a29bfe18" stroke="#a29bfe"/>
+            <text x="540" y="122" text-anchor="middle" fill="#a29bfe" font-size="12">package.json</text>
+            <text x="540" y="138" text-anchor="middle" fill="#6b7280" font-size="10">Quản lý project</text>
+            <text x="360" y="200" text-anchor="middle" fill="#6b7280" font-size="12">JSON = ngôn ngữ chung của web và AI tools</text>
+          </svg>
           <p class="caption">JSON xuất hiện khắp nơi — từ API đến cấu hình Claude Code</p>
         </div>
 
@@ -176,25 +185,39 @@ graph LR
         <h3>package.json — Quản lý project Node.js</h3>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph TD
-    PKG["📦 package.json"] --> Meta["📝 Metadata<br>name, version, description"]
-    PKG --> Scripts["⚡ Scripts<br>start, dev, test, build"]
-    PKG --> Deps["📚 Dependencies<br>express, dotenv..."]
-    PKG --> DevDeps["🔧 DevDependencies<br>nodemon, eslint..."]
-    PKG --> Config["⚙️ Config<br>type, main, license"]
-
-    Scripts --> Run["$ npm run dev<br>$ npm test"]
-    Deps --> Install["$ npm install"]
-    DevDeps --> Install
-
-    style PKG fill:#e1705533,stroke:#e17055
-    style Meta fill:#6c5ce733,stroke:#6c5ce7
-    style Scripts fill:#00cec933,stroke:#00cec9
-    style Deps fill:#f39c1233,stroke:#f39c12
-    style DevDeps fill:#74b9ff33,stroke:#74b9ff
-    style Config fill:#a29bfe33,stroke:#a29bfe
-          </div>
+          <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" style="max-width:600px;width:100%;height:auto">
+            <defs><marker id="j4b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <!-- package.json -->
+            <rect x="220" y="10" width="160" height="40" rx="10" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="300" y="35" text-anchor="middle" fill="#e74c3c" font-size="14" font-weight="700">📦 package.json</text>
+            <!-- Lines -->
+            <line x1="300" y1="50" x2="80" y2="85" stroke="#2d3041" stroke-width="1"/>
+            <line x1="300" y1="50" x2="220" y2="85" stroke="#2d3041" stroke-width="1"/>
+            <line x1="300" y1="50" x2="370" y2="85" stroke="#2d3041" stroke-width="1"/>
+            <line x1="300" y1="50" x2="520" y2="85" stroke="#2d3041" stroke-width="1"/>
+            <!-- Items -->
+            <rect x="20" y="85" width="120" height="45" rx="8" fill="#6c5ce718" stroke="#6c5ce7"/>
+            <text x="80" y="103" text-anchor="middle" fill="#a29bfe" font-size="12">📝 Metadata</text>
+            <text x="80" y="119" text-anchor="middle" fill="#6b7280" font-size="10">name, version</text>
+            <rect x="160" y="85" width="120" height="45" rx="8" fill="#00cec918" stroke="#00cec9"/>
+            <text x="220" y="103" text-anchor="middle" fill="#00cec9" font-size="12">⚡ Scripts</text>
+            <text x="220" y="119" text-anchor="middle" fill="#6b7280" font-size="10">start, test, build</text>
+            <rect x="310" y="85" width="130" height="45" rx="8" fill="#f39c1218" stroke="#f39c12"/>
+            <text x="375" y="103" text-anchor="middle" fill="#fdcb6e" font-size="12">📚 Dependencies</text>
+            <text x="375" y="119" text-anchor="middle" fill="#6b7280" font-size="10">express, dotenv</text>
+            <rect x="460" y="85" width="130" height="45" rx="8" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="525" y="103" text-anchor="middle" fill="#74b9ff" font-size="12">🔧 DevDeps</text>
+            <text x="525" y="119" text-anchor="middle" fill="#6b7280" font-size="10">nodemon, eslint</text>
+            <!-- Sub links -->
+            <line x1="220" y1="130" x2="220" y2="170" stroke="#00cec9" stroke-width="1" marker-end="url(#j4b)"/>
+            <rect x="150" y="172" width="140" height="35" rx="6" fill="#00cec912" stroke="#00cec9"/>
+            <text x="220" y="194" text-anchor="middle" fill="#00cec9" font-size="11" font-family="JetBrains Mono,monospace">$ npm run dev</text>
+            <line x1="375" y1="130" x2="375" y2="170" stroke="#f39c12" stroke-width="1" marker-end="url(#j4b)"/>
+            <line x1="525" y1="130" x2="525" y2="170" stroke="#74b9ff" stroke-width="1" marker-end="url(#j4b)"/>
+            <line x1="450" y1="185" x2="448" y2="185" stroke="#9ca3b8" stroke-width="1"/>
+            <rect x="370" y="172" width="140" height="35" rx="6" fill="#f39c1212" stroke="#f39c12"/>
+            <text x="440" y="194" text-anchor="middle" fill="#fdcb6e" font-size="11" font-family="JetBrains Mono,monospace">$ npm install</text>
+          </svg>
           <p class="caption">Cấu trúc package.json — bản đồ toàn bộ project Node.js</p>
         </div>
 
@@ -494,25 +517,42 @@ jobs:                                 <span class="comment"># Danh sách jobs</s
           DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}</code></pre>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph TD
-    Trigger["🔔 Trigger<br>push / pull_request"] --> Test["🧪 Job: test"]
-    Test --> N18["Node 18"]
-    Test --> N20["Node 20"]
-    Test --> N22["Node 22"]
-    N18 --> Check{Tất cả pass?}
-    N20 --> Check
-    N22 --> Check
-    Check -->|Yes ✅| Deploy["🚀 Job: deploy"]
-    Check -->|No ❌| Fail["💥 Fail — dừng lại"]
-    Deploy --> Prod["🌐 Production"]
-
-    style Trigger fill:#6c5ce733,stroke:#6c5ce7
-    style Test fill:#00cec933,stroke:#00cec9
-    style Deploy fill:#f39c1233,stroke:#f39c12
-    style Fail fill:#e74c3c33,stroke:#e74c3c
-    style Prod fill:#00b89433,stroke:#00b894
-          </div>
+          <svg viewBox="0 0 620 340" xmlns="http://www.w3.org/2000/svg" style="max-width:620px;width:100%;height:auto">
+            <defs><marker id="j4c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker><marker id="j4cg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#00cec9"/></marker><marker id="j4cr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#e74c3c"/></marker></defs>
+            <!-- Trigger -->
+            <rect x="230" y="10" width="150" height="40" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="305" y="35" text-anchor="middle" fill="#a29bfe" font-size="13">🔔 push / pull_request</text>
+            <line x1="305" y1="50" x2="305" y2="68" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#j4c)"/>
+            <!-- Test job -->
+            <rect x="235" y="70" width="140" height="36" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="305" y="93" text-anchor="middle" fill="#00cec9" font-size="13">🧪 Job: test</text>
+            <!-- Matrix -->
+            <line x1="265" y1="106" x2="120" y2="130" stroke="#00cec9" stroke-width="1"/>
+            <line x1="305" y1="106" x2="305" y2="130" stroke="#00cec9" stroke-width="1"/>
+            <line x1="345" y1="106" x2="490" y2="130" stroke="#00cec9" stroke-width="1"/>
+            <rect x="60" y="130" width="120" height="34" rx="6" fill="#a5d8ff18" stroke="#74b9ff"/>
+            <text x="120" y="152" text-anchor="middle" fill="#74b9ff" font-size="12">Node 18</text>
+            <rect x="245" y="130" width="120" height="34" rx="6" fill="#d0bfff18" stroke="#a29bfe"/>
+            <text x="305" y="152" text-anchor="middle" fill="#a29bfe" font-size="12">Node 20</text>
+            <rect x="430" y="130" width="120" height="34" rx="6" fill="#b2f2bb18" stroke="#00cec9"/>
+            <text x="490" y="152" text-anchor="middle" fill="#00cec9" font-size="12">Node 22</text>
+            <!-- Check -->
+            <line x1="120" y1="164" x2="270" y2="200" stroke="#9ca3b8" stroke-width="1"/>
+            <line x1="305" y1="164" x2="305" y2="200" stroke="#9ca3b8" stroke-width="1"/>
+            <line x1="490" y1="164" x2="340" y2="200" stroke="#9ca3b8" stroke-width="1"/>
+            <polygon points="305,200 370,230 305,260 240,230" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="305" y="234" text-anchor="middle" fill="#fdcb6e" font-size="12">All pass?</text>
+            <!-- Yes -->
+            <line x1="240" y1="230" x2="150" y2="280" stroke="#00cec9" stroke-width="2" marker-end="url(#j4cg)"/>
+            <text x="180" y="265" fill="#00cec9" font-size="11">Yes ✅</text>
+            <rect x="60" y="280" width="140" height="36" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="130" y="303" text-anchor="middle" fill="#fdcb6e" font-size="13">🚀 Deploy</text>
+            <!-- No -->
+            <line x1="370" y1="230" x2="440" y2="280" stroke="#e74c3c" stroke-width="2" marker-end="url(#j4cr)"/>
+            <text x="420" y="265" fill="#e74c3c" font-size="11">No ❌</text>
+            <rect x="400" y="280" width="160" height="36" rx="8" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="480" y="303" text-anchor="middle" fill="#e74c3c" font-size="13">💥 Fail — dừng lại</text>
+          </svg>
           <p class="caption">Luồng CI/CD — test trên nhiều Node version, deploy chỉ khi tất cả pass</p>
         </div>
 
@@ -596,24 +636,48 @@ version: "1.0"     <span class="comment"># → string "1.0" ✓</span></code></p
         </table>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph TD
-    Start{"Bạn cần định dạng nào?"} --> Q1{"Dùng cho API<br>hoặc trao đổi dữ liệu?"}
-    Q1 -->|Có| JSON["📋 Dùng JSON"]
-    Q1 -->|Không| Q2{"Cần comment<br>trong file?"}
-    Q2 -->|Có| YAML["📝 Dùng YAML"]
-    Q2 -->|Không| Q3{"Cấu hình CI/CD<br>hoặc Docker?"}
-    Q3 -->|Có| YAML
-    Q3 -->|Không| Q4{"Cấu hình VS Code<br>hoặc Node.js?"}
-    Q4 -->|Có| JSON
-    Q4 -->|Không| Q5{"Ưu tiên dễ đọc<br>cho con người?"}
-    Q5 -->|Có| YAML
-    Q5 -->|Không| JSON
-
-    style Start fill:#6c5ce733,stroke:#6c5ce7
-    style JSON fill:#f39c1233,stroke:#f39c12
-    style YAML fill:#00cec933,stroke:#00cec9
-          </div>
+          <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" style="max-width:640px;width:100%;height:auto">
+            <defs><marker id="j4d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <!-- Start -->
+            <polygon points="300,15 380,45 300,75 220,45" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="300" y="48" text-anchor="middle" fill="#a29bfe" font-size="11">Dùng cho API?</text>
+            <!-- Yes -> JSON -->
+            <line x1="220" y1="45" x2="100" y2="45" stroke="#f39c12" stroke-width="1.5" marker-end="url(#j4d)"/>
+            <text x="165" y="38" fill="#fdcb6e" font-size="10">Có</text>
+            <rect x="20" y="25" width="120" height="40" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="80" y="50" text-anchor="middle" fill="#fdcb6e" font-size="14" font-weight="600">📋 JSON</text>
+            <!-- No -> Q2 -->
+            <line x1="300" y1="75" x2="300" y2="108" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#j4d)"/>
+            <text x="310" y="95" fill="#e74c3c" font-size="10">Không</text>
+            <polygon points="300,110 380,140 300,170 220,140" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="300" y="143" text-anchor="middle" fill="#a29bfe" font-size="11">Cần comment?</text>
+            <line x1="220" y1="140" x2="100" y2="140" stroke="#00cec9" stroke-width="1.5" marker-end="url(#j4d)"/>
+            <text x="165" y="133" fill="#00cec9" font-size="10">Có</text>
+            <rect x="20" y="120" width="120" height="40" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="80" y="145" text-anchor="middle" fill="#00cec9" font-size="14" font-weight="600">📝 YAML</text>
+            <!-- Q3 -->
+            <line x1="300" y1="170" x2="300" y2="198" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#j4d)"/>
+            <polygon points="300,200 400,235 300,270 200,235" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="300" y="232" text-anchor="middle" fill="#a29bfe" font-size="11">CI/CD / Docker?</text>
+            <text x="300" y="248" text-anchor="middle" fill="#a29bfe" font-size="10">Có → YAML | Không ↓</text>
+            <line x1="200" y1="235" x2="100" y2="235" stroke="#00cec9" stroke-width="1.5" marker-end="url(#j4d)"/>
+            <!-- Q4 -->
+            <line x1="300" y1="270" x2="300" y2="298" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#j4d)"/>
+            <polygon points="300,300 400,330 300,360 200,330" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="300" y="328" text-anchor="middle" fill="#a29bfe" font-size="11">VS Code / Node?</text>
+            <text x="300" y="344" text-anchor="middle" fill="#a29bfe" font-size="10">Có → JSON | Dễ đọc → YAML</text>
+            <!-- Side labels -->
+            <rect x="460" y="60" width="170" height="90" rx="8" fill="#f39c1210" stroke="#f39c12" stroke-dasharray="5,3"/>
+            <text x="545" y="82" text-anchor="middle" fill="#fdcb6e" font-size="12" font-weight="600">JSON khi:</text>
+            <text x="545" y="100" text-anchor="middle" fill="#6b7280" font-size="11">settings.json, API,</text>
+            <text x="545" y="116" text-anchor="middle" fill="#6b7280" font-size="11">package.json, MCP</text>
+            <text x="545" y="132" text-anchor="middle" fill="#6b7280" font-size="11">config, tsconfig</text>
+            <rect x="460" y="170" width="170" height="90" rx="8" fill="#00cec910" stroke="#00cec9" stroke-dasharray="5,3"/>
+            <text x="545" y="192" text-anchor="middle" fill="#00cec9" font-size="12" font-weight="600">YAML khi:</text>
+            <text x="545" y="210" text-anchor="middle" fill="#6b7280" font-size="11">GitHub Actions,</text>
+            <text x="545" y="226" text-anchor="middle" fill="#6b7280" font-size="11">Docker Compose,</text>
+            <text x="545" y="242" text-anchor="middle" fill="#6b7280" font-size="11">K8s, SKILL.md front</text>
+          </svg>
           <p class="caption">Sơ đồ quyết định: khi nào dùng JSON, khi nào dùng YAML?</p>
         </div>
 
@@ -670,7 +734,6 @@ graph TD
       </div>
     </main>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

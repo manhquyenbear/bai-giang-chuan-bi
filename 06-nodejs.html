@@ -42,23 +42,42 @@
         <p>Node.js là một <strong>JavaScript runtime</strong> — cho phép bạn chạy code JavaScript <strong>bên ngoài trình duyệt</strong>. Trước khi có Node.js, JavaScript chỉ chạy được trong Chrome, Firefox, Safari. Giờ đây, JS chạy được ở mọi nơi:</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph TB
-    JS["⚡ JavaScript"] --> Browser["🌐 Trình duyệt<br>Chrome, Firefox, Safari"]
-    JS --> Server["🖥️ Server<br>Express, Fastify, NestJS"]
-    JS --> CLI["💻 CLI Tools<br>ESLint, Prettier, Webpack"]
-    JS --> Claude["🤖 Claude Code<br>npm install -g @anthropic-ai/claude-code"]
-    JS --> MCP["🔌 MCP Servers<br>npx chạy tools cho AI"]
-    JS --> Mobile["📱 Mobile<br>React Native"]
-
-    style JS fill:#f7df1e33,stroke:#f7df1e
-    style Browser fill:#4285f433,stroke:#4285f4
-    style Server fill:#68a06333,stroke:#68a063
-    style CLI fill:#6c5ce733,stroke:#6c5ce7
-    style Claude fill:#d97b3c33,stroke:#d97b3c
-    style MCP fill:#00cec933,stroke:#00cec9
-    style Mobile fill:#61dafb33,stroke:#61dafb
-          </div>
+          <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <!-- JS Center -->
+            <rect x="270" y="10" width="160" height="50" rx="12" fill="#f7df1e20" stroke="#f7df1e" stroke-width="3"/>
+            <text x="350" y="40" text-anchor="middle" fill="#f7df1e" font-size="16" font-weight="700">⚡ JavaScript</text>
+            <!-- Lines -->
+            <line x1="290" y1="60" x2="100" y2="95" stroke="#4285f4" stroke-width="1.5"/>
+            <line x1="350" y1="60" x2="350" y2="95" stroke="#68a063" stroke-width="1.5"/>
+            <line x1="410" y1="60" x2="600" y2="95" stroke="#6c5ce7" stroke-width="1.5"/>
+            <line x1="310" y1="60" x2="100" y2="200" stroke="#d97b3c" stroke-width="1"/>
+            <line x1="390" y1="60" x2="600" y2="200" stroke="#00cec9" stroke-width="1"/>
+            <line x1="350" y1="60" x2="350" y2="200" stroke="#61dafb" stroke-width="1"/>
+            <!-- Row 1 -->
+            <rect x="20" y="95" width="160" height="70" rx="10" fill="#4285f418" stroke="#4285f4" stroke-width="2"/>
+            <text x="100" y="115" text-anchor="middle" fill="#4285f4" font-size="13" font-weight="600">🌐 Trình duyệt</text>
+            <text x="100" y="135" text-anchor="middle" fill="#6b7280" font-size="11">Chrome, Firefox</text>
+            <text x="100" y="150" text-anchor="middle" fill="#6b7280" font-size="10">DOM, React, Vue</text>
+            <rect x="270" y="95" width="160" height="70" rx="10" fill="#68a06318" stroke="#68a063" stroke-width="2"/>
+            <text x="350" y="115" text-anchor="middle" fill="#68a063" font-size="13" font-weight="600">🖥️ Server</text>
+            <text x="350" y="135" text-anchor="middle" fill="#6b7280" font-size="11">Express, Fastify</text>
+            <text x="350" y="150" text-anchor="middle" fill="#6b7280" font-size="10">API backend, DB</text>
+            <rect x="520" y="95" width="160" height="70" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="600" y="115" text-anchor="middle" fill="#a29bfe" font-size="13" font-weight="600">💻 CLI Tools</text>
+            <text x="600" y="135" text-anchor="middle" fill="#6b7280" font-size="11">ESLint, Prettier</text>
+            <text x="600" y="150" text-anchor="middle" fill="#6b7280" font-size="10">Webpack, Vite</text>
+            <!-- Row 2 -->
+            <rect x="20" y="200" width="160" height="55" rx="10" fill="#d97b3c18" stroke="#d97b3c" stroke-width="2"/>
+            <text x="100" y="220" text-anchor="middle" fill="#d97b3c" font-size="13" font-weight="600">🤖 Claude Code</text>
+            <text x="100" y="240" text-anchor="middle" fill="#6b7280" font-size="10">npm install -g</text>
+            <rect x="270" y="200" width="160" height="55" rx="10" fill="#61dafb18" stroke="#61dafb" stroke-width="2"/>
+            <text x="350" y="220" text-anchor="middle" fill="#61dafb" font-size="13" font-weight="600">📱 Mobile</text>
+            <text x="350" y="240" text-anchor="middle" fill="#6b7280" font-size="10">React Native</text>
+            <rect x="520" y="200" width="160" height="55" rx="10" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="600" y="220" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="600">🔌 MCP Servers</text>
+            <text x="600" y="240" text-anchor="middle" fill="#6b7280" font-size="10">npx tools cho AI</text>
+            <text x="350" y="290" text-anchor="middle" fill="#f7df1e" font-size="13" font-weight="600">Node.js = JS runtime bên ngoài browser</text>
+          </svg>
           <p class="caption">JavaScript chạy ở mọi nơi nhờ Node.js — từ trình duyệt, server, đến Claude Code</p>
         </div>
 
@@ -284,22 +303,42 @@ $ claude mcp add puppeteer -- npx -y @modelcontextprotocol/server-puppeteer
 <span class="comment"># Flag -y = tự động xác nhận cài đặt (không hỏi yes/no)</span></code></pre>
 
         <div class="diagram-container">
-          <div class="mermaid">
-sequenceDiagram
-    participant User as 👤 Bạn
-    participant Claude as 🤖 Claude Code
-    participant npx as 📦 npx
-    participant MCP as 🔌 MCP Server
-
-    User->>Claude: "Đọc file trên GitHub"
-    Claude->>npx: npx @modelcontextprotocol/server-github
-    npx->>npx: Tải package (nếu chưa có)
-    npx->>MCP: Khởi động MCP server
-    MCP->>Claude: Cung cấp GitHub tools
-    Claude->>MCP: Gọi tool: get_file_contents
-    MCP-->>Claude: Trả về nội dung file
-    Claude-->>User: "Đây là nội dung file..."
-          </div>
+          <svg viewBox="0 0 700 380" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <defs><marker id="n6a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a29bfe"/></marker><marker id="n6ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#00cec9"/></marker></defs>
+            <!-- Headers -->
+            <rect x="20" y="10" width="110" height="38" rx="8" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="75" y="34" text-anchor="middle" fill="#a29bfe" font-size="12">👤 Bạn</text>
+            <rect x="180" y="10" width="130" height="38" rx="8" fill="#d97b3c18" stroke="#d97b3c" stroke-width="2"/>
+            <text x="245" y="34" text-anchor="middle" fill="#d97b3c" font-size="12">🤖 Claude Code</text>
+            <rect x="360" y="10" width="100" height="38" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="410" y="34" text-anchor="middle" fill="#fdcb6e" font-size="12">📦 npx</text>
+            <rect x="530" y="10" width="130" height="38" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="595" y="34" text-anchor="middle" fill="#00cec9" font-size="12">🔌 MCP Server</text>
+            <!-- Lifelines -->
+            <line x1="75" y1="48" x2="75" y2="360" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="245" y1="48" x2="245" y2="360" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="410" y1="48" x2="410" y2="360" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="595" y1="48" x2="595" y2="360" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <!-- Messages -->
+            <line x1="75" y1="75" x2="243" y2="75" stroke="#a29bfe" stroke-width="1.5" marker-end="url(#n6a)"/>
+            <text x="150" y="69" fill="#a29bfe" font-size="10">"Đọc file trên GitHub"</text>
+            <line x1="245" y1="105" x2="408" y2="105" stroke="#d97b3c" stroke-width="1.5" marker-end="url(#n6a)"/>
+            <text x="310" y="99" fill="#d97b3c" font-size="9">npx @mcp/server-github</text>
+            <rect x="360" y="120" width="100" height="22" rx="4" fill="#f39c1212" stroke="#f39c12"/>
+            <text x="410" y="136" text-anchor="middle" fill="#fdcb6e" font-size="9">Tải package</text>
+            <line x1="410" y1="150" x2="593" y2="150" stroke="#f39c12" stroke-width="1.5" marker-end="url(#n6a)"/>
+            <text x="490" y="145" fill="#fdcb6e" font-size="10">Start MCP server</text>
+            <line x1="595" y1="180" x2="247" y2="180" stroke="#00cec9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#n6ag)"/>
+            <text x="410" y="175" fill="#00cec9" font-size="10">Cung cấp GitHub tools</text>
+            <line x1="245" y1="210" x2="593" y2="210" stroke="#a29bfe" stroke-width="1.5" marker-end="url(#n6a)"/>
+            <text x="410" y="205" fill="#a29bfe" font-size="10">get_file_contents</text>
+            <line x1="595" y1="240" x2="247" y2="240" stroke="#00cec9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#n6ag)"/>
+            <text x="410" y="235" fill="#00cec9" font-size="10">Nội dung file</text>
+            <line x1="245" y1="270" x2="77" y2="270" stroke="#00cec9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#n6ag)"/>
+            <text x="150" y="265" fill="#00cec9" font-size="10">"Đây là nội dung file..."</text>
+            <!-- Note -->
+            <text x="350" y="330" text-anchor="middle" fill="#f39c12" font-size="12">npx = Download + Run ngay, KHÔNG lưu vào node_modules</text>
+          </svg>
           <p class="caption">Luồng hoạt động: Claude Code → npx → MCP Server → Kết quả</p>
         </div>
 
@@ -312,22 +351,31 @@ sequenceDiagram
         <h2 id="global-local">6.7 Global vs Local Install</h2>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph TB
-    npm["📦 npm install"] --> Local["🏠 Local Install<br>npm install express"]
-    npm --> Global["🌍 Global Install<br>npm install -g claude"]
-
-    Local --> LDir["📁 ./node_modules/"]
-    Local --> LJson["📋 package.json"]
-    Local --> LUse["Dùng trong 1 project"]
-
-    Global --> GDir["📁 /usr/lib/node_modules/<br>hoặc %AppData%/npm/"]
-    Global --> GBin["⌨️ Chạy từ mọi nơi"]
-    Global --> GUse["CLI tools toàn hệ thống"]
-
-    style Local fill:#00cec933,stroke:#00cec9
-    style Global fill:#f39c1233,stroke:#f39c12
-          </div>
+          <svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;width:100%;height:auto">
+            <!-- npm install center -->
+            <rect x="250" y="10" width="160" height="40" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="330" y="35" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="700">📦 npm install</text>
+            <!-- Local -->
+            <line x1="280" y1="50" x2="140" y2="80" stroke="#00cec9" stroke-width="1.5"/>
+            <rect x="20" y="80" width="240" height="150" rx="12" fill="#00cec910" stroke="#00cec9" stroke-width="2"/>
+            <text x="140" y="102" text-anchor="middle" fill="#00cec9" font-size="14" font-weight="700">🏠 Local Install</text>
+            <text x="140" y="120" text-anchor="middle" fill="#9ca3b8" font-size="11" font-family="JetBrains Mono,monospace">npm install express</text>
+            <text x="140" y="145" text-anchor="middle" fill="#6b7280" font-size="11">📁 ./node_modules/</text>
+            <text x="140" y="163" text-anchor="middle" fill="#6b7280" font-size="11">📋 Ghi vào package.json</text>
+            <text x="140" y="181" text-anchor="middle" fill="#6b7280" font-size="11">Dùng trong 1 project</text>
+            <rect x="50" y="200" width="180" height="22" rx="4" fill="#00cec920" stroke="#00cec9"/>
+            <text x="140" y="216" text-anchor="middle" fill="#00cec9" font-size="11" font-weight="600">🎯 KHUYÊN DÙNG</text>
+            <!-- Global -->
+            <line x1="380" y1="50" x2="520" y2="80" stroke="#f39c12" stroke-width="1.5"/>
+            <rect x="400" y="80" width="260" height="150" rx="12" fill="#f39c1210" stroke="#f39c12" stroke-width="2"/>
+            <text x="530" y="102" text-anchor="middle" fill="#fdcb6e" font-size="14" font-weight="700">🌍 Global Install</text>
+            <text x="530" y="120" text-anchor="middle" fill="#9ca3b8" font-size="11" font-family="JetBrains Mono,monospace">npm install -g claude</text>
+            <text x="530" y="145" text-anchor="middle" fill="#6b7280" font-size="11">📁 /usr/lib/node_modules/</text>
+            <text x="530" y="163" text-anchor="middle" fill="#6b7280" font-size="11">⌨️ Chạy từ mọi nơi</text>
+            <text x="530" y="181" text-anchor="middle" fill="#6b7280" font-size="11">CLI tools toàn hệ thống</text>
+            <rect x="430" y="200" width="200" height="22" rx="4" fill="#f39c1220" stroke="#f39c12"/>
+            <text x="530" y="216" text-anchor="middle" fill="#fdcb6e" font-size="11">⚠️ Có thể conflict version</text>
+          </svg>
           <p class="caption">Local install = cho project cụ thể / Global install = CLI tools dùng mọi nơi</p>
         </div>
 
@@ -494,7 +542,6 @@ $ nvm use --lts</code></pre>
       </div>
     </main>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

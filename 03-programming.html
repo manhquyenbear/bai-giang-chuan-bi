@@ -42,23 +42,41 @@
         <p>Bạn không cần trở thành lập trình viên chuyên nghiệp, nhưng cần <strong>đọc hiểu code</strong> mà Claude Code tạo ra để review, chỉnh sửa và debug.</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph LR
-    subgraph You["🧑 Bạn — Người điều khiển"]
-        A["Hiểu yêu cầu"] --> B["Viết prompt rõ ràng"]
-        B --> C["Review code"]
-    end
-    subgraph Claude["🤖 Claude Code — AI coder"]
-        D["Đọc prompt"] --> E["Viết code"]
-        E --> F["Chạy test"]
-    end
-    You -->|"Prompt"| Claude
-    Claude -->|"Code output"| You
-    C -->|"Feedback / Fix"| B
-
-    style You fill:#6c5ce733,stroke:#6c5ce7
-    style Claude fill:#00cec933,stroke:#00cec9
-          </div>
+          <svg viewBox="0 0 720 240" xmlns="http://www.w3.org/2000/svg" style="max-width:720px;width:100%;height:auto">
+            <defs><marker id="p3a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <!-- You box -->
+            <rect x="20" y="15" width="290" height="130" rx="12" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="165" y="38" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="700">🧑 Bạn — Người điều khiển</text>
+            <rect x="40" y="50" width="110" height="34" rx="8" fill="#6c5ce722" stroke="#6c5ce7"/>
+            <text x="95" y="72" text-anchor="middle" fill="#e4e6f0" font-size="12">Hiểu yêu cầu</text>
+            <line x1="150" y1="67" x2="168" y2="67" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#p3a)"/>
+            <rect x="170" y="50" width="120" height="34" rx="8" fill="#6c5ce722" stroke="#6c5ce7"/>
+            <text x="230" y="72" text-anchor="middle" fill="#e4e6f0" font-size="11">Viết prompt rõ ràng</text>
+            <line x1="230" y1="84" x2="230" y2="100" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#p3a)"/>
+            <rect x="170" y="102" width="120" height="34" rx="8" fill="#6c5ce722" stroke="#6c5ce7"/>
+            <text x="230" y="124" text-anchor="middle" fill="#e4e6f0" font-size="12">Review code</text>
+            <!-- Claude box -->
+            <rect x="400" y="15" width="290" height="130" rx="12" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="545" y="38" text-anchor="middle" fill="#00cec9" font-size="14" font-weight="700">🤖 Claude Code</text>
+            <rect x="420" y="50" width="110" height="34" rx="8" fill="#00cec922" stroke="#00cec9"/>
+            <text x="475" y="72" text-anchor="middle" fill="#e4e6f0" font-size="12">Đọc prompt</text>
+            <line x1="530" y1="67" x2="548" y2="67" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#p3a)"/>
+            <rect x="550" y="50" width="110" height="34" rx="8" fill="#00cec922" stroke="#00cec9"/>
+            <text x="605" y="72" text-anchor="middle" fill="#e4e6f0" font-size="12">Viết code</text>
+            <line x1="605" y1="84" x2="605" y2="100" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#p3a)"/>
+            <rect x="550" y="102" width="110" height="34" rx="8" fill="#00cec922" stroke="#00cec9"/>
+            <text x="605" y="124" text-anchor="middle" fill="#e4e6f0" font-size="12">Chạy test</text>
+            <!-- Arrows between -->
+            <line x1="310" y1="67" x2="398" y2="67" stroke="#f39c12" stroke-width="2" marker-end="url(#p3a)"/>
+            <text x="350" y="60" fill="#fdcb6e" font-size="11">Prompt</text>
+            <line x1="400" y1="119" x2="312" y2="119" stroke="#00cec9" stroke-width="2" marker-end="url(#p3a)"/>
+            <text x="350" y="135" fill="#00cec9" font-size="11">Code output</text>
+            <!-- Feedback loop -->
+            <path d="M 170 119 Q 130 170 170 170 L 200 170 Q 240 170 240 150" stroke="#fdcb6e" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#p3a)"/>
+            <text x="120" y="185" fill="#fdcb6e" font-size="10">Feedback / Fix</text>
+            <!-- Bottom label -->
+            <text x="360" y="220" text-anchor="middle" fill="#6b7280" font-size="12">Bạn = Architect + Reviewer | Claude = Coder + Tester</text>
+          </svg>
           <p class="caption">Quy trình làm việc với Claude Code — bạn là người review, Claude là người viết</p>
         </div>
 
@@ -316,21 +334,39 @@ const fetchWithRetry = async (url, maxRetries = 3) => {
 };</code></pre>
 
         <div class="diagram-container">
-          <div class="mermaid">
-flowchart TD
-    Start(["Bắt đầu"]) --> Call["Gọi API"]
-    Call --> Check{"Thành công?"}
-    Check -->|"✅ Có"| Return["Trả kết quả"]
-    Check -->|"❌ Không"| Inc["attempt++"]
-    Inc --> Max{"attempt < maxRetries?"}
-    Max -->|"Có"| Wait["Chờ delay..."]
-    Wait --> Call
-    Max -->|"Không"| Throw["Throw Error"]
-
-    style Start fill:#00cec933,stroke:#00cec9
-    style Return fill:#00b89433,stroke:#00b894
-    style Throw fill:#e74c3c33,stroke:#e74c3c
-          </div>
+          <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" style="max-width:500px;width:100%;height:auto">
+            <defs><marker id="p3b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker><marker id="p3bg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#00cec9"/></marker><marker id="p3br" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#e74c3c"/></marker></defs>
+            <rect x="175" y="10" width="130" height="36" rx="18" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="240" y="33" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="600">Bắt đầu</text>
+            <line x1="240" y1="46" x2="240" y2="62" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#p3b)"/>
+            <rect x="175" y="64" width="130" height="36" rx="8" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="240" y="87" text-anchor="middle" fill="#a29bfe" font-size="13">Gọi API</text>
+            <line x1="240" y1="100" x2="240" y2="118" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#p3b)"/>
+            <polygon points="240,118 310,155 240,192 170,155" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="240" y="160" text-anchor="middle" fill="#fdcb6e" font-size="13">Thành công?</text>
+            <!-- Yes -->
+            <line x1="170" y1="155" x2="80" y2="155" stroke="#00cec9" stroke-width="2" marker-end="url(#p3bg)"/>
+            <text x="130" y="148" fill="#00cec9" font-size="11">✅ Có</text>
+            <rect x="10" y="138" width="130" height="36" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="75" y="161" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="600">Trả kết quả</text>
+            <!-- No -->
+            <line x1="310" y1="155" x2="378" y2="155" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#p3br)"/>
+            <text x="338" y="148" fill="#e74c3c" font-size="11">❌ Không</text>
+            <rect x="380" y="138" width="100" height="36" rx="8" fill="#e74c3c18" stroke="#e74c3c"/>
+            <text x="430" y="161" text-anchor="middle" fill="#e74c3c" font-size="12">attempt++</text>
+            <line x1="430" y1="174" x2="430" y2="205" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#p3b)"/>
+            <polygon points="430,205 480,240 430,275 380,240" fill="#f39c1218" stroke="#f39c12" stroke-width="1.5"/>
+            <text x="430" y="242" text-anchor="middle" fill="#fdcb6e" font-size="11">< maxRetries?</text>
+            <!-- Retry -->
+            <line x1="380" y1="240" x2="200" y2="240" stroke="#f39c12" stroke-width="1.5"/>
+            <text x="280" y="234" fill="#fdcb6e" font-size="11">Có → Chờ delay</text>
+            <line x1="200" y1="240" x2="200" y2="100" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#p3b)"/>
+            <!-- Max reached -->
+            <line x1="430" y1="275" x2="430" y2="310" stroke="#e74c3c" stroke-width="2" marker-end="url(#p3br)"/>
+            <text x="440" y="298" fill="#e74c3c" font-size="11">Không</text>
+            <rect x="365" y="312" width="130" height="36" rx="8" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="430" y="335" text-anchor="middle" fill="#e74c3c" font-size="13" font-weight="600">Throw Error</text>
+          </svg>
           <p class="caption">Retry pattern — thử lại khi API gọi thất bại</p>
         </div>
 
@@ -484,19 +520,38 @@ console.log(`Cấm: ${deny.length} rules`);</code></pre>
         <p>JavaScript xử lý công việc tốn thời gian (gọi API, đọc file) theo kiểu <strong>bất đồng bộ (asynchronous)</strong> — không chờ xong mới làm tiếp.</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-sequenceDiagram
-    participant App as 🖥️ App
-    participant API as 🌐 API Server
-    participant DB as 🗄️ Database
-
-    App->>API: 1. fetch("/api/users")
-    Note over App: ⏳ await — chờ response
-    API->>DB: 2. Query users
-    DB-->>API: 3. Kết quả
-    API-->>App: 4. JSON response
-    Note over App: ✅ Tiếp tục xử lý data
-          </div>
+          <svg viewBox="0 0 600 310" xmlns="http://www.w3.org/2000/svg" style="max-width:600px;width:100%;height:auto">
+            <defs><marker id="p3c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a29bfe"/></marker><marker id="p3cd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#00cec9"/></marker></defs>
+            <!-- Headers -->
+            <rect x="50" y="10" width="110" height="38" rx="8" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="105" y="34" text-anchor="middle" fill="#a29bfe" font-size="13" font-weight="600">🖥️ App</text>
+            <rect x="240" y="10" width="120" height="38" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="300" y="34" text-anchor="middle" fill="#fdcb6e" font-size="13" font-weight="600">🌐 API Server</text>
+            <rect x="440" y="10" width="110" height="38" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="495" y="34" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="600">🗄️ Database</text>
+            <!-- Lifelines -->
+            <line x1="105" y1="48" x2="105" y2="290" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="300" y1="48" x2="300" y2="290" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="495" y1="48" x2="495" y2="290" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <!-- 1. fetch -->
+            <line x1="105" y1="80" x2="298" y2="80" stroke="#a29bfe" stroke-width="1.5" marker-end="url(#p3c)"/>
+            <text x="190" y="74" fill="#a29bfe" font-size="11">1. fetch("/api/users")</text>
+            <!-- await note -->
+            <rect x="55" y="95" width="100" height="25" rx="5" fill="#f39c1218" stroke="#f39c12"/>
+            <text x="105" y="112" text-anchor="middle" fill="#fdcb6e" font-size="10">⏳ await...</text>
+            <!-- 2. Query -->
+            <line x1="300" y1="130" x2="493" y2="130" stroke="#f39c12" stroke-width="1.5" marker-end="url(#p3c)"/>
+            <text x="390" y="124" fill="#fdcb6e" font-size="11">2. Query users</text>
+            <!-- 3. Result -->
+            <line x1="495" y1="170" x2="302" y2="170" stroke="#00cec9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#p3cd)"/>
+            <text x="390" y="164" fill="#00cec9" font-size="11">3. Kết quả</text>
+            <!-- 4. Response -->
+            <line x1="300" y1="210" x2="107" y2="210" stroke="#00cec9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#p3cd)"/>
+            <text x="190" y="204" fill="#00cec9" font-size="11">4. JSON response</text>
+            <!-- Done note -->
+            <rect x="55" y="230" width="140" height="25" rx="5" fill="#00cec918" stroke="#00cec9"/>
+            <text x="125" y="247" text-anchor="middle" fill="#00cec9" font-size="11">✅ Tiếp tục xử lý data</text>
+          </svg>
           <p class="caption">Async/Await — chờ API trả kết quả rồi mới xử lý tiếp</p>
         </div>
 
@@ -546,30 +601,59 @@ console.log(json);</code></pre>
         <p>Hiểu cách tổ chức thư mục giúp bạn hướng dẫn Claude Code tạo file đúng chỗ.</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph TD
-    Root["📁 my-project/"] --> Pkg["📄 package.json<br><i>Thông tin project + dependencies</i>"]
-    Root --> Src["📁 src/"]
-    Root --> Tests["📁 tests/"]
-    Root --> Env["📄 .env<br><i>Biến môi trường (BÍ MẬT)</i>"]
-    Root --> Git["📄 .gitignore"]
-    Root --> Readme["📄 README.md"]
-    Root --> NodeMod["📁 node_modules/<br><i>Thư viện (TỰ ĐỘNG tải)</i>"]
-
-    Src --> Index["📄 index.js<br><i>Entry point</i>"]
-    Src --> Routes["📁 routes/<br><i>API endpoints</i>"]
-    Src --> Models["📁 models/<br><i>Cấu trúc dữ liệu</i>"]
-    Src --> Utils["📁 utils/<br><i>Hàm tiện ích</i>"]
-
-    Tests --> TestFiles["📄 *.test.js"]
-
-    style Root fill:#6c5ce733,stroke:#6c5ce7
-    style Pkg fill:#f39c1233,stroke:#f39c12
-    style Src fill:#00cec933,stroke:#00cec9
-    style Tests fill:#74b9ff33,stroke:#74b9ff
-    style Env fill:#e74c3c33,stroke:#e74c3c
-    style NodeMod fill:#63636333,stroke:#636363
-          </div>
+          <svg viewBox="0 0 700 380" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <defs><marker id="p3d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#2d3041"/></marker></defs>
+            <!-- Root -->
+            <rect x="260" y="10" width="160" height="36" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="340" y="33" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="700">📁 my-project/</text>
+            <!-- Lines from root -->
+            <line x1="340" y1="46" x2="70" y2="75" stroke="#2d3041" stroke-width="1"/>
+            <line x1="340" y1="46" x2="190" y2="75" stroke="#2d3041" stroke-width="1"/>
+            <line x1="340" y1="46" x2="310" y2="75" stroke="#2d3041" stroke-width="1"/>
+            <line x1="340" y1="46" x2="430" y2="75" stroke="#2d3041" stroke-width="1"/>
+            <line x1="340" y1="46" x2="530" y2="75" stroke="#2d3041" stroke-width="1"/>
+            <line x1="340" y1="46" x2="630" y2="75" stroke="#2d3041" stroke-width="1"/>
+            <!-- Level 1 items -->
+            <rect x="10" y="75" width="120" height="45" rx="6" fill="#f39c1218" stroke="#f39c12" stroke-width="1.5"/>
+            <text x="70" y="92" text-anchor="middle" fill="#fdcb6e" font-size="11" font-weight="600">📄 package.json</text>
+            <text x="70" y="108" text-anchor="middle" fill="#6b7280" font-size="9">dependencies</text>
+            <rect x="145" y="75" width="90" height="36" rx="6" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="190" y="98" text-anchor="middle" fill="#00cec9" font-size="12" font-weight="600">📁 src/</text>
+            <rect x="260" y="75" width="100" height="36" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="310" y="98" text-anchor="middle" fill="#74b9ff" font-size="12" font-weight="600">📁 tests/</text>
+            <rect x="380" y="75" width="100" height="45" rx="6" fill="#e74c3c18" stroke="#e74c3c"/>
+            <text x="430" y="92" text-anchor="middle" fill="#e74c3c" font-size="11" font-weight="600">📄 .env</text>
+            <text x="430" y="108" text-anchor="middle" fill="#6b7280" font-size="9">BÍ MẬT 🔒</text>
+            <rect x="500" y="75" width="90" height="36" rx="6" fill="#21242f" stroke="#2d3041"/>
+            <text x="545" y="98" text-anchor="middle" fill="#9ca3b8" font-size="11">.gitignore</text>
+            <rect x="600" y="75" width="90" height="36" rx="6" fill="#21242f" stroke="#2d3041"/>
+            <text x="645" y="98" text-anchor="middle" fill="#9ca3b8" font-size="11">README.md</text>
+            <!-- src subtree -->
+            <line x1="190" y1="111" x2="100" y2="155" stroke="#00cec9" stroke-width="1"/>
+            <line x1="190" y1="111" x2="190" y2="155" stroke="#00cec9" stroke-width="1"/>
+            <line x1="190" y1="111" x2="280" y2="155" stroke="#00cec9" stroke-width="1"/>
+            <line x1="190" y1="111" x2="380" y2="155" stroke="#00cec9" stroke-width="1"/>
+            <rect x="40" y="155" width="120" height="40" rx="6" fill="#00cec912" stroke="#00cec9"/>
+            <text x="100" y="172" text-anchor="middle" fill="#00cec9" font-size="11">📄 index.js</text>
+            <text x="100" y="186" text-anchor="middle" fill="#6b7280" font-size="9">Entry point</text>
+            <rect x="140" y="155" width="100" height="40" rx="6" fill="#00cec912" stroke="#00cec9"/>
+            <text x="190" y="172" text-anchor="middle" fill="#00cec9" font-size="11">📁 routes/</text>
+            <text x="190" y="186" text-anchor="middle" fill="#6b7280" font-size="9">API endpoints</text>
+            <rect x="240" y="155" width="100" height="40" rx="6" fill="#00cec912" stroke="#00cec9"/>
+            <text x="290" y="172" text-anchor="middle" fill="#00cec9" font-size="11">📁 models/</text>
+            <text x="290" y="186" text-anchor="middle" fill="#6b7280" font-size="9">Dữ liệu</text>
+            <rect x="340" y="155" width="100" height="40" rx="6" fill="#00cec912" stroke="#00cec9"/>
+            <text x="390" y="172" text-anchor="middle" fill="#00cec9" font-size="11">📁 utils/</text>
+            <text x="390" y="186" text-anchor="middle" fill="#6b7280" font-size="9">Tiện ích</text>
+            <!-- tests subtree -->
+            <line x1="310" y1="111" x2="310" y2="155" stroke="#74b9ff" stroke-width="1"/>
+            <rect x="455" y="155" width="110" height="36" rx="6" fill="#74b9ff12" stroke="#74b9ff"/>
+            <text x="510" y="178" text-anchor="middle" fill="#74b9ff" font-size="11">📄 *.test.js</text>
+            <!-- node_modules -->
+            <rect x="560" y="130" width="130" height="45" rx="6" fill="#63636318" stroke="#636363" stroke-dasharray="5,3"/>
+            <text x="625" y="148" text-anchor="middle" fill="#636363" font-size="11">📁 node_modules/</text>
+            <text x="625" y="164" text-anchor="middle" fill="#636363" font-size="9">TỰ ĐỘNG (gitignore)</text>
+          </svg>
           <p class="caption">Cấu trúc thư mục chuẩn của một Node.js project</p>
         </div>
 
@@ -707,7 +791,6 @@ console.error("❌ Database connection failed:", error.message);</code></pre>
       </div>
     </main>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -42,10 +42,38 @@
         <p>Git là hệ thống <strong>quản lý phiên bản phân tán</strong> (Distributed Version Control System). Nó theo dõi mọi thay đổi trong mã nguồn, cho phép bạn quay lại bất kỳ thời điểm nào và cộng tác với nhiều người.</p>
 
         <div class="diagram-container">
-          <div class="diagram-img">
-            <img src="https://git-scm.com/book/en/v2/images/commits-and-parents.png" alt="Commits and their parents - Git version history">
-            <span class="img-source">Nguồn: git-scm.com — Pro Git Book</span>
-          </div>
+          <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <defs><marker id="garr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <!-- Commit C1 -->
+            <rect x="20" y="40" width="130" height="70" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="85" y="62" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="700">C1 (init)</text>
+            <text x="85" y="82" text-anchor="middle" fill="#6b7280" font-size="11">Snapshot 📸</text>
+            <text x="85" y="98" text-anchor="middle" fill="#6b7280" font-size="10" font-family="JetBrains Mono,monospace">98ca9..</text>
+            <!-- Arrow C2→C1 -->
+            <line x1="170" y1="75" x2="148" y2="75" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#garr)"/>
+            <!-- Commit C2 -->
+            <rect x="170" y="40" width="130" height="70" rx="10" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="235" y="62" text-anchor="middle" fill="#00cec9" font-size="14" font-weight="700">C2</text>
+            <text x="235" y="82" text-anchor="middle" fill="#6b7280" font-size="11">Snapshot 📸</text>
+            <text x="235" y="98" text-anchor="middle" fill="#6b7280" font-size="10" font-family="JetBrains Mono,monospace">34ac2..</text>
+            <!-- Arrow C3→C2 -->
+            <line x1="320" y1="75" x2="298" y2="75" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#garr)"/>
+            <!-- Commit C3 -->
+            <rect x="320" y="40" width="130" height="70" rx="10" fill="#74b9ff18" stroke="#74b9ff" stroke-width="2"/>
+            <text x="385" y="62" text-anchor="middle" fill="#74b9ff" font-size="14" font-weight="700">C3</text>
+            <text x="385" y="82" text-anchor="middle" fill="#6b7280" font-size="11">Snapshot 📸</text>
+            <text x="385" y="98" text-anchor="middle" fill="#6b7280" font-size="10" font-family="JetBrains Mono,monospace">f30ab..</text>
+            <!-- Arrow C4→C3 -->
+            <line x1="470" y1="75" x2="448" y2="75" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#garr)"/>
+            <!-- Commit C4 (HEAD) -->
+            <rect x="470" y="40" width="130" height="70" rx="10" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="535" y="62" text-anchor="middle" fill="#fdcb6e" font-size="14" font-weight="700">C4 (HEAD)</text>
+            <text x="535" y="82" text-anchor="middle" fill="#6b7280" font-size="11">Snapshot 📸</text>
+            <text x="535" y="98" text-anchor="middle" fill="#6b7280" font-size="10" font-family="JetBrains Mono,monospace">a1b2c..</text>
+            <!-- parent pointers label -->
+            <text x="220" y="145" fill="#6b7280" font-size="12">← parent pointer (mỗi commit trỏ về commit trước)</text>
+            <text x="220" y="165" fill="#f39c12" font-size="12">HEAD = commit mới nhất trên branch hiện tại</text>
+          </svg>
           <p class="caption">Lịch sử phiên bản Git — mỗi commit là một "ảnh chụp" toàn bộ project, trỏ ngược về commit trước đó</p>
         </div>
 
@@ -116,10 +144,36 @@ init.defaultBranch=main</code></pre>
         <p>Đây là khái niệm <strong>quan trọng nhất</strong> cần hiểu. Git chia thư mục project thành 3 vùng:</p>
 
         <div class="diagram-container">
-          <div class="diagram-img">
-            <img src="https://git-scm.com/book/en/v2/images/areas.png" alt="Working tree, staging area, and Git directory">
-            <span class="img-source">Nguồn: git-scm.com — Pro Git Book</span>
-          </div>
+          <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <defs><marker id="garr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#f39c12"/></marker></defs>
+            <!-- Working Directory -->
+            <rect x="20" y="30" width="180" height="110" rx="12" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="110" y="55" text-anchor="middle" fill="#e74c3c" font-size="14" font-weight="700">📁 Working Directory</text>
+            <text x="110" y="78" text-anchor="middle" fill="#9ca3b8" font-size="12">Sửa file ở đây</text>
+            <text x="110" y="96" text-anchor="middle" fill="#6b7280" font-size="11">Modified files</text>
+            <text x="110" y="115" text-anchor="middle" fill="#e74c3c" font-size="11">Untracked / Modified</text>
+            <!-- Arrow WD→SA -->
+            <line x1="200" y1="65" x2="258" y2="65" stroke="#f39c12" stroke-width="2" marker-end="url(#garr2)"/>
+            <text x="225" y="58" fill="#fdcb6e" font-size="11" font-weight="600">git add</text>
+            <!-- Staging Area -->
+            <rect x="260" y="30" width="180" height="110" rx="12" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="350" y="55" text-anchor="middle" fill="#fdcb6e" font-size="14" font-weight="700">📋 Staging Area</text>
+            <text x="350" y="78" text-anchor="middle" fill="#9ca3b8" font-size="12">Chuẩn bị commit</text>
+            <text x="350" y="96" text-anchor="middle" fill="#6b7280" font-size="11">Staged changes</text>
+            <text x="350" y="115" text-anchor="middle" fill="#f39c12" font-size="11">Staged</text>
+            <!-- Arrow SA→Repo -->
+            <line x1="440" y1="65" x2="498" y2="65" stroke="#00cec9" stroke-width="2" marker-end="url(#garr2)"/>
+            <text x="455" y="58" fill="#00cec9" font-size="11" font-weight="600">git commit</text>
+            <!-- Repository -->
+            <rect x="500" y="30" width="180" height="110" rx="12" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="590" y="55" text-anchor="middle" fill="#00cec9" font-size="14" font-weight="700">🗄️ Repository</text>
+            <text x="590" y="78" text-anchor="middle" fill="#9ca3b8" font-size="12">.git directory</text>
+            <text x="590" y="96" text-anchor="middle" fill="#6b7280" font-size="11">Committed history</text>
+            <text x="590" y="115" text-anchor="middle" fill="#00cec9" font-size="11">Committed ✅</text>
+            <!-- Bottom flow -->
+            <text x="350" y="175" text-anchor="middle" fill="#6b7280" font-size="12">Working Dir → git add → Staging → git commit → Repository</text>
+            <text x="350" y="195" text-anchor="middle" fill="#a29bfe" font-size="12">git checkout / git restore ← quay ngược lại</text>
+          </svg>
           <p class="caption">Ba vùng trong Git — Working Directory → Staging Area → Repository (.git directory)</p>
         </div>
 
@@ -141,21 +195,43 @@ init.defaultBranch=main</code></pre>
         <h2 id="workflow">2.4 Workflow Cơ Bản</h2>
 
         <div class="diagram-container">
-          <div class="mermaid">
-sequenceDiagram
-    participant Dev as 👩‍💻 Developer
-    participant WD as 📁 Working Dir
-    participant SA as 📋 Staging
-    participant Repo as 🗄️ Repository
-    
-    Dev->>WD: Sửa file index.js
-    Dev->>WD: Tạo file mới style.css
-    Dev->>Dev: git status (xem thay đổi)
-    Dev->>SA: git add index.js style.css
-    Dev->>Dev: git status (kiểm tra staging)
-    Dev->>Repo: git commit -m "Thêm trang chủ"
-    Note over Repo: ✅ Lưu vĩnh viễn!
-          </div>
+          <svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg" style="max-width:720px;width:100%;height:auto">
+            <defs><marker id="garr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a29bfe"/></marker></defs>
+            <!-- Headers -->
+            <rect x="30" y="10" width="130" height="40" rx="8" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="95" y="35" text-anchor="middle" fill="#a29bfe" font-size="13" font-weight="600">👩‍💻 Developer</text>
+            <rect x="210" y="10" width="130" height="40" rx="8" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="275" y="35" text-anchor="middle" fill="#e74c3c" font-size="13" font-weight="600">📁 Working Dir</text>
+            <rect x="400" y="10" width="120" height="40" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="460" y="35" text-anchor="middle" fill="#fdcb6e" font-size="13" font-weight="600">📋 Staging</text>
+            <rect x="580" y="10" width="120" height="40" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="640" y="35" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="600">🗄️ Repository</text>
+            <!-- Lifelines -->
+            <line x1="95" y1="50" x2="95" y2="360" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="275" y1="50" x2="275" y2="360" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="460" y1="50" x2="460" y2="360" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="640" y1="50" x2="640" y2="360" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <!-- Messages -->
+            <line x1="95" y1="80" x2="273" y2="80" stroke="#a29bfe" stroke-width="1.5" marker-end="url(#garr3)"/>
+            <text x="170" y="74" fill="#a29bfe" font-size="11">Sửa file index.js</text>
+            <line x1="95" y1="110" x2="273" y2="110" stroke="#a29bfe" stroke-width="1.5" marker-end="url(#garr3)"/>
+            <text x="170" y="104" fill="#a29bfe" font-size="11">Tạo file mới style.css</text>
+            <line x1="95" y1="150" x2="130" y2="150" stroke="#fdcb6e" stroke-width="1.5"/>
+            <line x1="130" y1="150" x2="130" y2="170" stroke="#fdcb6e" stroke-width="1.5"/>
+            <line x1="130" y1="170" x2="97" y2="170" stroke="#fdcb6e" stroke-width="1.5" marker-end="url(#garr3)"/>
+            <text x="140" y="162" fill="#fdcb6e" font-size="11">git status</text>
+            <line x1="95" y1="200" x2="458" y2="200" stroke="#f39c12" stroke-width="1.5" marker-end="url(#garr3)"/>
+            <text x="260" y="194" fill="#f39c12" font-size="11">git add index.js style.css</text>
+            <line x1="95" y1="240" x2="130" y2="240" stroke="#fdcb6e" stroke-width="1.5"/>
+            <line x1="130" y1="240" x2="130" y2="260" stroke="#fdcb6e" stroke-width="1.5"/>
+            <line x1="130" y1="260" x2="97" y2="260" stroke="#fdcb6e" stroke-width="1.5" marker-end="url(#garr3)"/>
+            <text x="140" y="252" fill="#fdcb6e" font-size="11">git status (check)</text>
+            <line x1="95" y1="290" x2="638" y2="290" stroke="#00cec9" stroke-width="2" marker-end="url(#garr3)"/>
+            <text x="350" y="284" fill="#00cec9" font-size="11" font-weight="600">git commit -m "Thêm trang chủ"</text>
+            <!-- Note -->
+            <rect x="580" y="305" width="130" height="30" rx="6" fill="#00cec928" stroke="#00cec9"/>
+            <text x="645" y="325" text-anchor="middle" fill="#00cec9" font-size="12" font-weight="600">✅ Lưu vĩnh viễn!</text>
+          </svg>
           <p class="caption">Quy trình làm việc: sửa code → add → commit</p>
         </div>
 
@@ -307,10 +383,39 @@ $ git reset --hard HEAD~1</code></pre>
         <p>Branch cho phép bạn <strong>tạo "nhánh" độc lập</strong> để phát triển tính năng mới mà không ảnh hưởng code chính.</p>
 
         <div class="diagram-container">
-          <div class="diagram-img">
-            <img src="https://git-scm.com/book/en/v2/images/advance-master.png" alt="Divergent history - Git branching">
-            <span class="img-source">Nguồn: git-scm.com — Pro Git Book</span>
-          </div>
+          <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <defs>
+              <marker id="garr4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker>
+            </defs>
+            <!-- Main branch -->
+            <line x1="60" y1="80" x2="600" y2="80" stroke="#00cec9" stroke-width="3"/>
+            <circle cx="80" cy="80" r="16" fill="#00cec928" stroke="#00cec9" stroke-width="2"/>
+            <text x="80" y="85" text-anchor="middle" fill="#00cec9" font-size="11" font-weight="700">C1</text>
+            <circle cx="180" cy="80" r="16" fill="#00cec928" stroke="#00cec9" stroke-width="2"/>
+            <text x="180" y="85" text-anchor="middle" fill="#00cec9" font-size="11" font-weight="700">C2</text>
+            <circle cx="280" cy="80" r="16" fill="#00cec928" stroke="#00cec9" stroke-width="2"/>
+            <text x="280" y="85" text-anchor="middle" fill="#00cec9" font-size="11" font-weight="700">C3</text>
+            <circle cx="480" cy="80" r="16" fill="#f39c1228" stroke="#f39c12" stroke-width="2"/>
+            <text x="480" y="85" text-anchor="middle" fill="#fdcb6e" font-size="11" font-weight="700">C6</text>
+            <circle cx="580" cy="80" r="16" fill="#f39c1228" stroke="#f39c12" stroke-width="2"/>
+            <text x="580" y="85" text-anchor="middle" fill="#fdcb6e" font-size="11" font-weight="700">M</text>
+            <text x="580" y="60" text-anchor="middle" fill="#f39c12" font-size="11" font-weight="700">merge ↓</text>
+            <!-- Feature branch -->
+            <line x1="280" y1="80" x2="330" y2="160" stroke="#a29bfe" stroke-width="2"/>
+            <line x1="330" y1="160" x2="530" y2="160" stroke="#a29bfe" stroke-width="3"/>
+            <line x1="530" y1="160" x2="580" y2="80" stroke="#a29bfe" stroke-width="2" stroke-dasharray="5,3"/>
+            <circle cx="350" cy="160" r="16" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="350" y="165" text-anchor="middle" fill="#a29bfe" font-size="11" font-weight="700">C4</text>
+            <circle cx="450" cy="160" r="16" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="450" y="165" text-anchor="middle" fill="#a29bfe" font-size="11" font-weight="700">C5</text>
+            <!-- Labels -->
+            <rect x="440" y="38" width="80" height="22" rx="4" fill="#00cec928" stroke="#00cec9"/>
+            <text x="480" y="54" text-anchor="middle" fill="#00cec9" font-size="11" font-weight="600">main</text>
+            <rect x="400" y="175" width="100" height="22" rx="4" fill="#6c5ce718" stroke="#6c5ce7"/>
+            <text x="450" y="191" text-anchor="middle" fill="#a29bfe" font-size="11" font-weight="600">feature/login</text>
+            <!-- Legend -->
+            <text x="150" y="210" fill="#6b7280" font-size="12">Branches phân nhánh từ C3, phát triển song song, rồi merge lại ở M</text>
+          </svg>
           <p class="caption">Branching — mỗi tính năng được phát triển trên branch riêng, lịch sử phân nhánh rồi merge lại</p>
         </div>
 
@@ -373,19 +478,36 @@ $ git commit -m "Resolve merge conflict ở header"</code></pre>
         <p>GitHub là nền tảng lưu trữ Git repo trên cloud, cho phép cộng tác và chia sẻ code.</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-sequenceDiagram
-    participant Local as 💻 Local Repo<br>(Máy bạn)
-    participant GitHub as ☁️ GitHub<br>(Remote)
-    participant Team as 👥 Đồng đội
-
-    Local->>GitHub: git push (đẩy code lên)
-    GitHub-->>Local: git pull (kéo code về)
-    Team->>GitHub: git push (đẩy code lên)
-    GitHub-->>Team: git pull (kéo code về)
-    Local->>GitHub: git clone (tải repo lần đầu)
-    Note over Local,Team: Mọi người làm việc trên cùng 1 repo qua GitHub
-          </div>
+          <svg viewBox="0 0 660 340" xmlns="http://www.w3.org/2000/svg" style="max-width:660px;width:100%;height:auto">
+            <defs><marker id="garr5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#a29bfe"/></marker><marker id="garr5b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#00cec9"/></marker></defs>
+            <!-- Headers -->
+            <rect x="30" y="10" width="140" height="40" rx="8" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="100" y="28" text-anchor="middle" fill="#a29bfe" font-size="12" font-weight="600">💻 Local Repo</text>
+            <text x="100" y="42" text-anchor="middle" fill="#6b7280" font-size="10">(Máy bạn)</text>
+            <rect x="260" y="10" width="140" height="40" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="330" y="28" text-anchor="middle" fill="#fdcb6e" font-size="12" font-weight="600">☁️ GitHub</text>
+            <text x="330" y="42" text-anchor="middle" fill="#6b7280" font-size="10">(Remote)</text>
+            <rect x="490" y="10" width="140" height="40" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="560" y="35" text-anchor="middle" fill="#00cec9" font-size="12" font-weight="600">👥 Đồng đội</text>
+            <!-- Lifelines -->
+            <line x1="100" y1="50" x2="100" y2="310" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="330" y1="50" x2="330" y2="310" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <line x1="560" y1="50" x2="560" y2="310" stroke="#2d3041" stroke-width="1" stroke-dasharray="4,3"/>
+            <!-- Messages -->
+            <line x1="100" y1="80" x2="328" y2="80" stroke="#a29bfe" stroke-width="1.5" marker-end="url(#garr5)"/>
+            <text x="200" y="74" fill="#a29bfe" font-size="11" font-weight="600">git push</text>
+            <line x1="330" y1="120" x2="102" y2="120" stroke="#00cec9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#garr5b)"/>
+            <text x="200" y="114" fill="#00cec9" font-size="11">git pull</text>
+            <line x1="560" y1="160" x2="332" y2="160" stroke="#a29bfe" stroke-width="1.5" marker-end="url(#garr5)"/>
+            <text x="430" y="154" fill="#a29bfe" font-size="11" font-weight="600">git push</text>
+            <line x1="330" y1="200" x2="558" y2="200" stroke="#00cec9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#garr5b)"/>
+            <text x="430" y="194" fill="#00cec9" font-size="11">git pull</text>
+            <line x1="100" y1="240" x2="328" y2="240" stroke="#f39c12" stroke-width="2" marker-end="url(#garr5)"/>
+            <text x="200" y="234" fill="#fdcb6e" font-size="11" font-weight="600">git clone (lần đầu)</text>
+            <!-- Note -->
+            <rect x="80" y="275" width="500" height="30" rx="6" fill="#f39c1218" stroke="#f39c12"/>
+            <text x="330" y="295" text-anchor="middle" fill="#fdcb6e" font-size="12">Mọi người làm việc trên cùng 1 repo qua GitHub</text>
+          </svg>
           <p class="caption">GitHub — cầu nối giữa các developer</p>
         </div>
 
@@ -527,7 +649,6 @@ $ git push -u origin main</code></pre>
       </div>
     </main>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -42,18 +42,40 @@
         <p>Terminal (Command Line / CLI) là giao diện cho phép bạn giao tiếp với máy tính bằng cách <strong>gõ lệnh</strong> thay vì click chuột.</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph LR
-    subgraph GUI["🖱️ GUI — Giao diện đồ họa"]
-        A[Click thư mục] --> B[Drag & Drop file]
-    end
-    subgraph CLI["⌨️ CLI — Dòng lệnh"]
-        C["$ mkdir project"] --> D["$ cd project"]
-        D --> E["$ code ."]
-    end
-    GUI -.->|Trực quan nhưng chậm| Result((Kết quả))
-    CLI -.->|Nhanh & tự động hóa| Result
-          </div>
+          <svg viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg" style="max-width:720px;width:100%;height:auto">
+            <defs>
+              <marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker>
+              <marker id="arrow1g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#00cec9"/></marker>
+            </defs>
+            <!-- GUI Box -->
+            <rect x="20" y="20" width="300" height="120" rx="12" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="170" y="48" text-anchor="middle" fill="#e74c3c" font-size="15" font-weight="600">🖱️ GUI — Giao diện đồ họa</text>
+            <rect x="40" y="62" width="120" height="36" rx="8" fill="#e74c3c22" stroke="#e74c3c"/>
+            <text x="100" y="85" text-anchor="middle" fill="#e4e6f0" font-size="13">Click thư mục</text>
+            <line x1="160" y1="80" x2="180" y2="80" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arrow1)"/>
+            <rect x="182" y="62" width="120" height="36" rx="8" fill="#e74c3c22" stroke="#e74c3c"/>
+            <text x="242" y="85" text-anchor="middle" fill="#e4e6f0" font-size="13">Drag &amp; Drop</text>
+            <!-- CLI Box -->
+            <rect x="20" y="170" width="300" height="140" rx="12" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="170" y="198" text-anchor="middle" fill="#00cec9" font-size="15" font-weight="600">⌨️ CLI — Dòng lệnh</text>
+            <rect x="40" y="212" width="130" height="36" rx="8" fill="#00cec922" stroke="#00cec9"/>
+            <text x="105" y="235" text-anchor="middle" fill="#e4e6f0" font-size="12" font-family="JetBrains Mono,monospace">$ mkdir project</text>
+            <line x1="170" y1="230" x2="186" y2="230" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arrow1)"/>
+            <rect x="188" y="212" width="120" height="36" rx="8" fill="#00cec922" stroke="#00cec9"/>
+            <text x="248" y="235" text-anchor="middle" fill="#e4e6f0" font-size="12" font-family="JetBrains Mono,monospace">$ cd project</text>
+            <line x1="248" y1="248" x2="248" y2="264" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arrow1)"/>
+            <rect x="188" y="266" width="120" height="36" rx="8" fill="#00cec922" stroke="#00cec9"/>
+            <text x="248" y="289" text-anchor="middle" fill="#e4e6f0" font-size="12" font-family="JetBrains Mono,monospace">$ code .</text>
+            <!-- Result -->
+            <circle cx="560" cy="170" r="50" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="560" y="166" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="600">Kết quả</text>
+            <text x="560" y="184" text-anchor="middle" fill="#a29bfe" font-size="20">🎯</text>
+            <!-- Arrows to Result -->
+            <line x1="320" y1="80" x2="510" y2="155" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#arrow1)"/>
+            <text x="390" y="100" fill="#e74c3c" font-size="11">Trực quan nhưng chậm</text>
+            <line x1="320" y1="260" x2="510" y2="185" stroke="#00cec9" stroke-width="2" marker-end="url(#arrow1g)"/>
+            <text x="380" y="255" fill="#00cec9" font-size="11" font-weight="600">Nhanh &amp; tự động hóa ⚡</text>
+          </svg>
           <p class="caption">GUI vs CLI — hai cách giao tiếp với máy tính</p>
         </div>
 
@@ -81,10 +103,59 @@ graph LR
         <h2 id="filesystem">1.2 Cấu Trúc Hệ Thống File</h2>
 
         <div class="diagram-container">
-          <div class="diagram-img">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Standard-unix-filesystem-hierarchy.svg" alt="Standard Unix Filesystem Hierarchy">
-            <span class="img-source">Nguồn: Wikimedia Commons — Standard Unix Filesystem Hierarchy (CC)</span>
-          </div>
+          <svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <!-- Root -->
+            <rect x="300" y="10" width="80" height="36" rx="8" fill="#f39c1222" stroke="#f39c12" stroke-width="2"/>
+            <text x="340" y="33" text-anchor="middle" fill="#fdcb6e" font-size="14" font-weight="700">/ (root)</text>
+            <!-- Level 1 lines -->
+            <line x1="340" y1="46" x2="80" y2="90" stroke="#2d3041" stroke-width="1.5"/>
+            <line x1="340" y1="46" x2="200" y2="90" stroke="#2d3041" stroke-width="1.5"/>
+            <line x1="340" y1="46" x2="340" y2="90" stroke="#2d3041" stroke-width="1.5"/>
+            <line x1="340" y1="46" x2="480" y2="90" stroke="#2d3041" stroke-width="1.5"/>
+            <line x1="340" y1="46" x2="600" y2="90" stroke="#2d3041" stroke-width="1.5"/>
+            <!-- Level 1 dirs -->
+            <rect x="40" y="90" width="80" height="32" rx="6" fill="#6c5ce718" stroke="#6c5ce7"/>
+            <text x="80" y="111" text-anchor="middle" fill="#a29bfe" font-size="13">/bin</text>
+            <rect x="160" y="90" width="80" height="32" rx="6" fill="#00cec918" stroke="#00cec9"/>
+            <text x="200" y="111" text-anchor="middle" fill="#00cec9" font-size="13">/etc</text>
+            <rect x="300" y="90" width="80" height="32" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="340" y="111" text-anchor="middle" fill="#74b9ff" font-size="13">/home</text>
+            <rect x="440" y="90" width="80" height="32" rx="6" fill="#fdcb6e18" stroke="#fdcb6e"/>
+            <text x="480" y="111" text-anchor="middle" fill="#fdcb6e" font-size="13">/usr</text>
+            <rect x="560" y="90" width="80" height="32" rx="6" fill="#e74c3c18" stroke="#e74c3c"/>
+            <text x="600" y="111" text-anchor="middle" fill="#e74c3c" font-size="13">/tmp</text>
+            <!-- Descriptions -->
+            <text x="80" y="142" text-anchor="middle" fill="#6b7280" font-size="11">Binaries</text>
+            <text x="200" y="142" text-anchor="middle" fill="#6b7280" font-size="11">Config files</text>
+            <text x="340" y="142" text-anchor="middle" fill="#6b7280" font-size="11">User dirs</text>
+            <text x="480" y="142" text-anchor="middle" fill="#6b7280" font-size="11">Programs</text>
+            <text x="600" y="142" text-anchor="middle" fill="#6b7280" font-size="11">Temporary</text>
+            <!-- /home subtree -->
+            <line x1="340" y1="122" x2="340" y2="170" stroke="#2d3041" stroke-width="1.5"/>
+            <rect x="280" y="170" width="120" height="32" rx="6" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="340" y="191" text-anchor="middle" fill="#74b9ff" font-size="13">~/qudomanh</text>
+            <line x1="340" y1="202" x2="220" y2="240" stroke="#2d3041" stroke-width="1.5"/>
+            <line x1="340" y1="202" x2="340" y2="240" stroke="#2d3041" stroke-width="1.5"/>
+            <line x1="340" y1="202" x2="460" y2="240" stroke="#2d3041" stroke-width="1.5"/>
+            <rect x="170" y="240" width="100" height="30" rx="6" fill="#00cec918" stroke="#00cec9"/>
+            <text x="220" y="260" text-anchor="middle" fill="#00cec9" font-size="12">Documents/</text>
+            <rect x="290" y="240" width="100" height="30" rx="6" fill="#6c5ce718" stroke="#6c5ce7"/>
+            <text x="340" y="260" text-anchor="middle" fill="#a29bfe" font-size="12">Desktop/</text>
+            <rect x="410" y="240" width="100" height="30" rx="6" fill="#fdcb6e18" stroke="#fdcb6e"/>
+            <text x="460" y="260" text-anchor="middle" fill="#fdcb6e" font-size="12">project/</text>
+            <!-- project subtree -->
+            <line x1="460" y1="270" x2="400" y2="305" stroke="#2d3041" stroke-width="1.5"/>
+            <line x1="460" y1="270" x2="460" y2="305" stroke="#2d3041" stroke-width="1.5"/>
+            <line x1="460" y1="270" x2="530" y2="305" stroke="#2d3041" stroke-width="1.5"/>
+            <rect x="355" y="305" width="90" height="26" rx="5" fill="#21242f" stroke="#2d3041"/>
+            <text x="400" y="323" text-anchor="middle" fill="#9ca3b8" font-size="11">src/</text>
+            <rect x="420" y="305" width="80" height="26" rx="5" fill="#21242f" stroke="#2d3041"/>
+            <text x="460" y="323" text-anchor="middle" fill="#9ca3b8" font-size="11">.git/</text>
+            <rect x="500" y="305" width="90" height="26" rx="5" fill="#21242f" stroke="#2d3041"/>
+            <text x="545" y="323" text-anchor="middle" fill="#9ca3b8" font-size="11">README.md</text>
+            <!-- Legend -->
+            <text x="20" y="380" fill="#6b7280" font-size="12">📂 Mọi thứ bắt đầu từ / (root). Dùng cd, ls, pwd để di chuyển.</text>
+          </svg>
           <p class="caption">Cấu trúc hệ thống file chuẩn Unix/Linux — mỗi thư mục có vai trò riêng</p>
         </div>
 
@@ -131,19 +202,26 @@ $ cd ~/Documents/project/src  <span class="comment"># Đi theo đường dẫn t
         <h2 id="files">1.4 Tạo, Xóa, Copy, Di Chuyển</h2>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph LR
-    mkdir["mkdir<br>📁 Tạo thư mục"] --> touch["touch<br>📄 Tạo file rỗng"]
-    touch --> cp["cp<br>📋 Copy"]
-    touch --> mv["mv<br>✂️ Di chuyển/<br>Đổi tên"]
-    touch --> rm["rm<br>🗑️ Xóa"]
-    
-    style mkdir fill:#00cec933,stroke:#00cec9
-    style touch fill:#6c5ce733,stroke:#6c5ce7
-    style cp fill:#74b9ff33,stroke:#74b9ff
-    style mv fill:#fdcb6e33,stroke:#fdcb6e
-    style rm fill:#e74c3c33,stroke:#e74c3c
-          </div>
+          <svg viewBox="0 0 680 100" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;width:100%;height:auto">
+            <defs><marker id="arr3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <rect x="10" y="20" width="110" height="50" rx="10" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="65" y="40" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="600">mkdir</text>
+            <text x="65" y="56" text-anchor="middle" fill="#9ca3b8" font-size="11">📁 Tạo thư mục</text>
+            <line x1="120" y1="45" x2="138" y2="45" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arr3)"/>
+            <rect x="140" y="20" width="100" height="50" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="190" y="40" text-anchor="middle" fill="#a29bfe" font-size="13" font-weight="600">touch</text>
+            <text x="190" y="56" text-anchor="middle" fill="#9ca3b8" font-size="11">📄 Tạo file</text>
+            <line x1="240" y1="35" x2="268" y2="35" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arr3)"/>
+            <rect x="270" y="10" width="100" height="40" rx="8" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="320" y="35" text-anchor="middle" fill="#74b9ff" font-size="13">📋 cp (Copy)</text>
+            <line x1="240" y1="45" x2="268" y2="45" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arr3)"/>
+            <rect x="270" y="50" width="140" height="40" rx="8" fill="#fdcb6e18" stroke="#fdcb6e"/>
+            <text x="340" y="75" text-anchor="middle" fill="#fdcb6e" font-size="13">✂️ mv (Di chuyển)</text>
+            <line x1="240" y1="55" x2="438" y2="55" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arr3)"/>
+            <rect x="440" y="20" width="100" height="50" rx="10" fill="#e74c3c18" stroke="#e74c3c" stroke-width="2"/>
+            <text x="490" y="40" text-anchor="middle" fill="#e74c3c" font-size="13" font-weight="600">rm</text>
+            <text x="490" y="56" text-anchor="middle" fill="#9ca3b8" font-size="11">🗑️ Xóa</text>
+          </svg>
         </div>
 
         <pre><code><span class="comment"># Tạo thư mục (kể cả thư mục cha)</span>
@@ -200,16 +278,25 @@ App.js  index.js  components/  utils/  styles/</code></pre>
         <p>Đây là tính năng <strong>cực kỳ mạnh</strong> — nối output lệnh này thành input lệnh kia.</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph LR
-    A["ls src/"] -->|output| B["grep '.js'"]
-    B -->|output| C["wc -l"]
-    C -->|"kết quả: 5"| D((🖥️))
-    
-    style A fill:#6c5ce733,stroke:#6c5ce7
-    style B fill:#00cec933,stroke:#00cec9
-    style C fill:#f39c1233,stroke:#f39c12
-          </div>
+          <svg viewBox="0 0 680 80" xmlns="http://www.w3.org/2000/svg" style="max-width:680px;width:100%;height:auto">
+            <defs><marker id="arr4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <rect x="10" y="15" width="120" height="44" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="70" y="42" text-anchor="middle" fill="#a29bfe" font-size="13" font-family="JetBrains Mono,monospace">ls src/</text>
+            <text x="155" y="42" fill="#9ca3b8" font-size="16">|</text>
+            <line x1="130" y1="37" x2="165" y2="37" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arr4)"/>
+            <rect x="168" y="15" width="130" height="44" rx="10" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="233" y="42" text-anchor="middle" fill="#00cec9" font-size="13" font-family="JetBrains Mono,monospace">grep ".js"</text>
+            <text x="320" y="42" fill="#9ca3b8" font-size="16">|</text>
+            <line x1="298" y1="37" x2="330" y2="37" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arr4)"/>
+            <rect x="333" y="15" width="100" height="44" rx="10" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="383" y="42" text-anchor="middle" fill="#fdcb6e" font-size="13" font-family="JetBrains Mono,monospace">wc -l</text>
+            <line x1="433" y1="37" x2="468" y2="37" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arr4)"/>
+            <circle cx="500" cy="37" r="28" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="500" y="34" text-anchor="middle" fill="#e4e6f0" font-size="18">5</text>
+            <text x="500" y="50" text-anchor="middle" fill="#9ca3b8" font-size="10">🖥️</text>
+            <text x="560" y="30" fill="#6b7280" font-size="11">liệt kê → lọc .js</text>
+            <text x="560" y="48" fill="#6b7280" font-size="11">→ đếm dòng = 5</text>
+          </svg>
           <p class="caption">ls src/ | grep ".js" | wc -l → liệt kê → lọc .js → đếm dòng = 5</p>
         </div>
 
@@ -272,16 +359,27 @@ $ export ANTHROPIC_API_KEY="sk-ant-xxxxx"</code></pre>
         <h2 id="permissions">1.9 Quyền File (Linux/Mac)</h2>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph LR
-    F["-rwxr-xr-x"] --> Owner["Owner<br>rwx = đọc+ghi+chạy"]
-    F --> Group["Group<br>r-x = đọc+chạy"]  
-    F --> Others["Others<br>r-x = đọc+chạy"]
-    
-    style Owner fill:#00cec933,stroke:#00cec9
-    style Group fill:#74b9ff33,stroke:#74b9ff
-    style Others fill:#fdcb6e33,stroke:#fdcb6e
-          </div>
+          <svg viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg" style="max-width:600px;width:100%;height:auto">
+            <defs><marker id="arr5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <rect x="10" y="10" width="110" height="56" rx="10" fill="#21242f" stroke="#6b7280" stroke-width="2"/>
+            <text x="65" y="30" text-anchor="middle" fill="#e4e6f0" font-size="12" font-family="JetBrains Mono,monospace">-rwxr-xr-x</text>
+            <text x="65" y="50" text-anchor="middle" fill="#6b7280" font-size="11">File permissions</text>
+            <line x1="120" y1="28" x2="148" y2="28" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arr5)"/>
+            <rect x="150" y="5" width="130" height="40" rx="8" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="215" y="20" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="600">Owner</text>
+            <text x="215" y="36" text-anchor="middle" fill="#9ca3b8" font-size="11">rwx = đọc+ghi+chạy</text>
+            <line x1="120" y1="38" x2="148" y2="50" stroke="#9ca3b8" stroke-width="1.5" marker-end="url(#arr5)"/>
+            <rect x="150" y="48" width="130" height="30" rx="8" fill="#74b9ff18" stroke="#74b9ff"/>
+            <text x="215" y="68" text-anchor="middle" fill="#74b9ff" font-size="12">Group: r-x</text>
+            <line x1="280" y1="28" x2="310" y2="28" stroke="#9ca3b8" stroke-width="1.5"/>
+            <rect x="310" y="5" width="130" height="40" rx="8" fill="#fdcb6e18" stroke="#fdcb6e"/>
+            <text x="375" y="20" text-anchor="middle" fill="#fdcb6e" font-size="13" font-weight="600">Others</text>
+            <text x="375" y="36" text-anchor="middle" fill="#9ca3b8" font-size="11">r-x = đọc+chạy</text>
+            <!-- Legend -->
+            <text x="470" y="25" fill="#00cec9" font-size="12">r=4 w=2 x=1</text>
+            <text x="470" y="45" fill="#fdcb6e" font-size="12">chmod 755 = rwxr-xr-x</text>
+            <text x="470" y="65" fill="#e74c3c" font-size="12">chmod 600 = rw-------</text>
+          </svg>
         </div>
 
         <table>
@@ -344,7 +442,6 @@ $ chmod 600 .env          <span class="comment"># rw------- (chỉ owner đọc/
       </div>
     </main>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

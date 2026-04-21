@@ -42,19 +42,31 @@
         <p>Markdown là ngôn ngữ đánh dấu (markup language) <strong>siêu nhẹ</strong> — bạn viết text thuần với một vài ký hiệu đặc biệt, và nó sẽ được chuyển thành HTML đẹp mắt. File Markdown có đuôi <code>.md</code>.</p>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph LR
-    subgraph Input["📝 Markdown Source"]
-        A["# Tiêu đề\n**đậm** *nghiêng*\n- danh sách"]
-    end
-    subgraph Process["⚙️ Parser"]
-        B["Markdown Engine"]
-    end
-    subgraph Output["🌐 Rendered"]
-        C["&lt;h1&gt;Tiêu đề&lt;/h1&gt;\n&lt;strong&gt;đậm&lt;/strong&gt;\n&lt;ul&gt;&lt;li&gt;..."]
-    end
-    Input --> Process --> Output
-          </div>
+          <svg viewBox="0 0 650 120" xmlns="http://www.w3.org/2000/svg" style="max-width:650px;width:100%;height:auto">
+            <defs><marker id="m8a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9ca3b8"/></marker></defs>
+            <!-- Source -->
+            <rect x="10" y="10" width="180" height="100" rx="12" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="100" y="32" text-anchor="middle" fill="#a29bfe" font-size="13" font-weight="700">📝 Markdown Source</text>
+            <text x="100" y="52" text-anchor="middle" fill="#e4e6f0" font-size="11" font-family="JetBrains Mono,monospace"># Tiêu đề</text>
+            <text x="100" y="68" text-anchor="middle" fill="#e4e6f0" font-size="11" font-family="JetBrains Mono,monospace">**đậm** *nghiêng*</text>
+            <text x="100" y="84" text-anchor="middle" fill="#e4e6f0" font-size="11" font-family="JetBrains Mono,monospace">- danh sách</text>
+            <text x="100" y="100" text-anchor="middle" fill="#e4e6f0" font-size="11" font-family="JetBrains Mono,monospace">`code`</text>
+            <!-- Arrow -->
+            <line x1="190" y1="60" x2="228" y2="60" stroke="#9ca3b8" stroke-width="2" marker-end="url(#m8a)"/>
+            <!-- Parser -->
+            <rect x="230" y="25" width="160" height="70" rx="12" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="310" y="55" text-anchor="middle" fill="#fdcb6e" font-size="13" font-weight="700">⚙️ Parser</text>
+            <text x="310" y="75" text-anchor="middle" fill="#6b7280" font-size="10">Markdown Engine</text>
+            <!-- Arrow -->
+            <line x1="390" y1="60" x2="428" y2="60" stroke="#9ca3b8" stroke-width="2" marker-end="url(#m8a)"/>
+            <!-- Output -->
+            <rect x="430" y="10" width="210" height="100" rx="12" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="535" y="32" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="700">🌐 Rendered HTML</text>
+            <text x="535" y="52" text-anchor="middle" fill="#e4e6f0" font-size="11" font-family="JetBrains Mono,monospace">&lt;h1&gt;Tiêu đề&lt;/h1&gt;</text>
+            <text x="535" y="68" text-anchor="middle" fill="#e4e6f0" font-size="11" font-family="JetBrains Mono,monospace">&lt;strong&gt;đậm&lt;/strong&gt;</text>
+            <text x="535" y="84" text-anchor="middle" fill="#e4e6f0" font-size="11" font-family="JetBrains Mono,monospace">&lt;ul&gt;&lt;li&gt;...&lt;/li&gt;&lt;/ul&gt;</text>
+            <text x="535" y="100" text-anchor="middle" fill="#e4e6f0" font-size="11" font-family="JetBrains Mono,monospace">&lt;code&gt;code&lt;/code&gt;</text>
+          </svg>
           <p class="caption">Markdown source → Parser → HTML rendered</p>
         </div>
 
@@ -77,29 +89,43 @@ graph LR
         </table>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph TD
-    CC["🤖 Claude Code"] --> CLAUDE["📄 CLAUDE.md<br>Quy tắc dự án"]
-    CC --> SLASH["📂 .claude/commands/<br>Slash Commands"]
-    CC --> SKILL["📂 .claude/skills/<br>SKILL.md"]
-    CC --> AGENTS["📂 .claude/agents/<br>Subagents"]
-    CC --> README["📄 README.md<br>Tài liệu dự án"]
-    CC --> GH["🐙 GitHub<br>Issues & PRs"]
-
-    CLAUDE -.->|Markdown| MD((📝))
-    SLASH -.->|Markdown| MD
-    SKILL -.->|Markdown| MD
-    AGENTS -.->|Markdown| MD
-    README -.->|Markdown| MD
-    GH -.->|Markdown| MD
-
-    style CC fill:#6c5ce733,stroke:#6c5ce7
-    style MD fill:#00cec933,stroke:#00cec9
-    style CLAUDE fill:#f39c1233,stroke:#f39c12
-    style SLASH fill:#f39c1233,stroke:#f39c12
-    style SKILL fill:#f39c1233,stroke:#f39c12
-    style AGENTS fill:#f39c1233,stroke:#f39c12
-          </div>
+          <svg viewBox="0 0 650 310" xmlns="http://www.w3.org/2000/svg" style="max-width:650px;width:100%;height:auto">
+            <!-- Center -->
+            <rect x="240" y="5" width="170" height="42" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="325" y="31" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="700">🤖 Claude Code</text>
+            <!-- Branches -->
+            <line x1="270" y1="47" x2="100" y2="75" stroke="#f39c12" stroke-width="1"/>
+            <line x1="295" y1="47" x2="250" y2="75" stroke="#f39c12" stroke-width="1"/>
+            <line x1="350" y1="47" x2="400" y2="75" stroke="#f39c12" stroke-width="1"/>
+            <line x1="380" y1="47" x2="550" y2="75" stroke="#f39c12" stroke-width="1"/>
+            <line x1="250" y1="47" x2="100" y2="170" stroke="#9ca3b8" stroke-width="1"/>
+            <line x1="400" y1="47" x2="550" y2="170" stroke="#9ca3b8" stroke-width="1"/>
+            <!-- Row 1: config files -->
+            <rect x="20" y="75" width="160" height="40" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="100" y="100" text-anchor="middle" fill="#fdcb6e" font-size="12">📄 CLAUDE.md</text>
+            <rect x="195" y="75" width="160" height="40" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="275" y="100" text-anchor="middle" fill="#fdcb6e" font-size="12">📂 Slash Commands</text>
+            <rect x="370" y="75" width="120" height="40" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="430" y="100" text-anchor="middle" fill="#fdcb6e" font-size="12">📂 SKILL.md</text>
+            <rect x="505" y="75" width="130" height="40" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="2"/>
+            <text x="570" y="100" text-anchor="middle" fill="#fdcb6e" font-size="12">📂 Subagents</text>
+            <!-- Row 2 -->
+            <rect x="20" y="170" width="160" height="40" rx="8" fill="#9ca3b818" stroke="#9ca3b8" stroke-width="1.5"/>
+            <text x="100" y="195" text-anchor="middle" fill="#9ca3b8" font-size="12">📄 README.md</text>
+            <rect x="505" y="170" width="130" height="40" rx="8" fill="#9ca3b818" stroke="#9ca3b8" stroke-width="1.5"/>
+            <text x="570" y="195" text-anchor="middle" fill="#9ca3b8" font-size="12">🐙 GitHub PRs</text>
+            <!-- All point to Markdown -->
+            <line x1="100" y1="115" x2="290" y2="260" stroke="#00cec9" stroke-width="1" stroke-dasharray="4,2"/>
+            <line x1="275" y1="115" x2="310" y2="260" stroke="#00cec9" stroke-width="1" stroke-dasharray="4,2"/>
+            <line x1="430" y1="115" x2="330" y2="260" stroke="#00cec9" stroke-width="1" stroke-dasharray="4,2"/>
+            <line x1="570" y1="115" x2="345" y2="260" stroke="#00cec9" stroke-width="1" stroke-dasharray="4,2"/>
+            <line x1="100" y1="210" x2="305" y2="260" stroke="#00cec9" stroke-width="1" stroke-dasharray="4,2"/>
+            <line x1="570" y1="210" x2="340" y2="260" stroke="#00cec9" stroke-width="1" stroke-dasharray="4,2"/>
+            <!-- Markdown circle -->
+            <circle cx="325" cy="275" r="25" fill="#00cec930" stroke="#00cec9" stroke-width="2"/>
+            <text x="325" y="280" text-anchor="middle" fill="#00cec9" font-size="14">📝</text>
+            <text x="325" y="300" text-anchor="middle" fill="#00cec9" font-size="10">All Markdown</text>
+          </svg>
           <p class="caption">Markdown là ngôn ngữ trung tâm của hệ sinh thái Claude Code</p>
         </div>
 
@@ -752,36 +778,58 @@ model Product {
         </table>
 
         <div class="diagram-container">
-          <div class="mermaid">
-graph TD
-    MD["📝 Markdown Skills"] --> H["Headings<br># ## ###"]
-    MD --> F["Formatting<br>**bold** *italic* `code`"]
-    MD --> L["Lists<br>- unordered<br>1. ordered<br>- [x] tasks"]
-    MD --> C["Code Blocks<br>```language```"]
-    MD --> T["Tables<br>| col | col |"]
-    MD --> B["Blockquotes<br>> callouts"]
-    MD --> LK["Links & Images<br>[text](url)"]
-
-    H --> USE["🤖 Dùng trong Claude Code"]
-    F --> USE
-    L --> USE
-    C --> USE
-    T --> USE
-    B --> USE
-    LK --> USE
-
-    USE --> CLAUDE_FILE["📄 CLAUDE.md"]
-    USE --> SLASH_CMD["📂 Slash Commands"]
-    USE --> SKILL_FILE["📂 SKILL.md"]
-    USE --> README_FILE["📄 README.md"]
-
-    style MD fill:#6c5ce733,stroke:#6c5ce7
-    style USE fill:#00cec933,stroke:#00cec9
-    style CLAUDE_FILE fill:#f39c1233,stroke:#f39c12
-    style SLASH_CMD fill:#f39c1233,stroke:#f39c12
-    style SKILL_FILE fill:#f39c1233,stroke:#f39c12
-    style README_FILE fill:#f39c1233,stroke:#f39c12
-          </div>
+          <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;width:100%;height:auto">
+            <!-- Title -->
+            <rect x="250" y="5" width="200" height="40" rx="10" fill="#6c5ce718" stroke="#6c5ce7" stroke-width="2"/>
+            <text x="350" y="30" text-anchor="middle" fill="#a29bfe" font-size="14" font-weight="700">📝 Markdown Skills</text>
+            <!-- Skills row -->
+            <line x1="280" y1="45" x2="60" y2="65" stroke="#6c5ce7" stroke-width="1"/>
+            <line x1="310" y1="45" x2="170" y2="65" stroke="#6c5ce7" stroke-width="1"/>
+            <line x1="330" y1="45" x2="280" y2="65" stroke="#6c5ce7" stroke-width="1"/>
+            <line x1="350" y1="45" x2="390" y2="65" stroke="#6c5ce7" stroke-width="1"/>
+            <line x1="380" y1="45" x2="500" y2="65" stroke="#6c5ce7" stroke-width="1"/>
+            <line x1="400" y1="45" x2="590" y2="65" stroke="#6c5ce7" stroke-width="1"/>
+            <line x1="420" y1="45" x2="680" y2="65" stroke="#6c5ce7" stroke-width="1"/>
+            <!-- Skill boxes -->
+            <rect x="10" y="65" width="100" height="50" rx="8" fill="#21242f" stroke="#2d3041" stroke-width="1.5"/>
+            <text x="60" y="85" text-anchor="middle" fill="#e4e6f0" font-size="11">Headings</text>
+            <text x="60" y="100" text-anchor="middle" fill="#6b7280" font-size="10"># ## ###</text>
+            <rect x="120" y="65" width="100" height="50" rx="8" fill="#21242f" stroke="#2d3041" stroke-width="1.5"/>
+            <text x="170" y="85" text-anchor="middle" fill="#e4e6f0" font-size="11">Formatting</text>
+            <text x="170" y="100" text-anchor="middle" fill="#6b7280" font-size="9">**bold** *italic*</text>
+            <rect x="230" y="65" width="100" height="50" rx="8" fill="#21242f" stroke="#2d3041" stroke-width="1.5"/>
+            <text x="280" y="85" text-anchor="middle" fill="#e4e6f0" font-size="11">Lists</text>
+            <text x="280" y="100" text-anchor="middle" fill="#6b7280" font-size="9">- [ ] tasks</text>
+            <rect x="340" y="65" width="100" height="50" rx="8" fill="#21242f" stroke="#2d3041" stroke-width="1.5"/>
+            <text x="390" y="85" text-anchor="middle" fill="#e4e6f0" font-size="11">Code Blocks</text>
+            <text x="390" y="100" text-anchor="middle" fill="#6b7280" font-size="9">```lang```</text>
+            <rect x="450" y="65" width="100" height="50" rx="8" fill="#21242f" stroke="#2d3041" stroke-width="1.5"/>
+            <text x="500" y="85" text-anchor="middle" fill="#e4e6f0" font-size="11">Tables</text>
+            <text x="500" y="100" text-anchor="middle" fill="#6b7280" font-size="9">| col | col |</text>
+            <rect x="560" y="65" width="70" height="50" rx="8" fill="#21242f" stroke="#2d3041" stroke-width="1.5"/>
+            <text x="595" y="85" text-anchor="middle" fill="#e4e6f0" font-size="10">Quotes</text>
+            <text x="595" y="100" text-anchor="middle" fill="#6b7280" font-size="9">> note</text>
+            <rect x="640" y="65" width="55" height="50" rx="8" fill="#21242f" stroke="#2d3041" stroke-width="1.5"/>
+            <text x="667" y="85" text-anchor="middle" fill="#e4e6f0" font-size="10">Links</text>
+            <text x="667" y="100" text-anchor="middle" fill="#6b7280" font-size="8">[](url)</text>
+            <!-- Arrow to center -->
+            <line x1="350" y1="115" x2="350" y2="155" stroke="#00cec9" stroke-width="2"/>
+            <rect x="240" y="158" width="220" height="40" rx="10" fill="#00cec918" stroke="#00cec9" stroke-width="2"/>
+            <text x="350" y="183" text-anchor="middle" fill="#00cec9" font-size="13" font-weight="600">🤖 Dùng trong Claude Code</text>
+            <!-- Output files -->
+            <line x1="280" y1="198" x2="120" y2="225" stroke="#f39c12" stroke-width="1"/>
+            <line x1="320" y1="198" x2="290" y2="225" stroke="#f39c12" stroke-width="1"/>
+            <line x1="380" y1="198" x2="460" y2="225" stroke="#f39c12" stroke-width="1"/>
+            <line x1="420" y1="198" x2="600" y2="225" stroke="#f39c12" stroke-width="1"/>
+            <rect x="40" y="225" width="160" height="35" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="1.5"/>
+            <text x="120" y="247" text-anchor="middle" fill="#fdcb6e" font-size="12">📄 CLAUDE.md</text>
+            <rect x="210" y="225" width="160" height="35" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="1.5"/>
+            <text x="290" y="247" text-anchor="middle" fill="#fdcb6e" font-size="12">📂 Slash Commands</text>
+            <rect x="380" y="225" width="160" height="35" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="1.5"/>
+            <text x="460" y="247" text-anchor="middle" fill="#fdcb6e" font-size="12">📂 SKILL.md</text>
+            <rect x="550" y="225" width="130" height="35" rx="8" fill="#f39c1218" stroke="#f39c12" stroke-width="1.5"/>
+            <text x="615" y="247" text-anchor="middle" fill="#fdcb6e" font-size="12">📄 README.md</text>
+          </svg>
           <p class="caption">Tổng quan: Kỹ năng Markdown cần thiết → Ứng dụng trong Claude Code</p>
         </div>
 
@@ -798,7 +846,6 @@ graph TD
       </div>
     </main>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
